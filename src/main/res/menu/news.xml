@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/news_action_refresh"
+          android:icon="@drawable/ic_action_refresh"
+          android:title="Refresh"
+          android:showAsAction="always"
+          android:actionViewClass="com.yugy.cnbeta.ui.view.RefreshActionItem"
+        />
+
+    <item android:icon="@drawable/ic_action_share"
+          android:id="@+id/news_action_share"
+          android:title="Share"
+          android:showAsAction="always"
+          android:actionProviderClass="android.widget.ShareActionProvider"
+        />
+
+</menu>

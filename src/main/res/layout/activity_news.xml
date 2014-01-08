@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:background="#FFF"
     android:id="@+id/news_container"
+    android:padding="16dp"
     android:layout_height="wrap_content">
 
 </LinearLayout>

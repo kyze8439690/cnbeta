@@ -30,6 +30,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.yugy.cnbeta.ui.activity.MainActivity" />
         </activity>
+        <activity android:name=".ui.activity.PicActivity"
+                  android:theme="@style/PicTheme"
+                  android:parentActivityName=".ui.activity.NewsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.yugy.cnbeta.ui.activity.NewsActivity" />
+        </activity>
+        <activity android:name=".ui.activity.CommentActivity"
+                  android:parentActivityName=".ui.activity.NewsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.yugy.cnbeta.ui.activity.NewsActivity" />
+        </activity>
     </application>
 
 </manifest>

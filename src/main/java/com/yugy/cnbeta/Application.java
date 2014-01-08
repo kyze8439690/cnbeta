@@ -24,7 +24,8 @@ public class Application extends android.app.Application{
         mContext = getApplicationContext();
         super.onCreate();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ic_action_logo)
+                .showImageOnLoading(R.drawable.ic_image_loading)
+                .showImageOnFail(R.drawable.ic_image_fail)
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .displayer(new FadeInBitmapDisplayer(600))

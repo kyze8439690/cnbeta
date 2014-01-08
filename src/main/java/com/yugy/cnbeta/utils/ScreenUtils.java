@@ -1,7 +1,9 @@
 package com.yugy.cnbeta.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
 
@@ -17,10 +19,18 @@ public class ScreenUtils {
     }
 
     public static int getDisplayHeight(Context context) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        @SuppressWarnings("deprecation")
-        int displayHeight = wm.getDefaultDisplay().getHeight();
+        wm.getDefaultDisplay().getMetrics(displayMetrics);
+        int displayHeight = displayMetrics.heightPixels;
         return displayHeight;
     }
 
+    public static int getDisplayWidth(Context context) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(displayMetrics);
+        int displayWidth = displayMetrics.widthPixels;
+        return displayWidth;
+    }
 }

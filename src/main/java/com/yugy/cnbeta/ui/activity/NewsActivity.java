@@ -9,9 +9,12 @@ import android.text.util.Linkify;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
@@ -24,16 +27,17 @@ import com.yugy.cnbeta.model.NewsListModel;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
-import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackLayout;
 import com.yugy.cnbeta.ui.view.RefreshActionItem;
-import com.yugy.cnbeta.utils.DebugUtils;
+import com.yugy.cnbeta.ui.view.SelectorImageView;
 import com.yugy.cnbeta.utils.MessageUtils;
-import com.yugy.cnbeta.utils.ScreenUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import static android.view.View.inflate;
 import static com.yugy.cnbeta.ui.view.RefreshActionItem.RefreshActionListener;
 
 /**
@@ -44,13 +48,18 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     private NewsListModel mData;
 
     private LinearLayout mContainer;
+    private ImageView mHeaderImage;
     private TextView mTitle;
     private TextView mCommentCount;
     private TextView mTime;
+    private View mCommentFooter;
+    private Button mFooterButton;
     private RefreshActionItem mRefreshActionItem;
     private ShareActionProvider mShareActionProvider;
-    private int mContentPadding;
-    private int mContentMargin;
+
+    private int mImageMarginBottom;
+    private LayoutParams mImageLayoutParams;
+    private ArrayList<String> mImgUrls = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +75,33 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(true);
 
-        mContentPadding = (int) getResources().getDimension(R.dimen.news_content_padding);
-        mContentMargin = (int) getResources().getDimension(R.dimen.news_content_margin);
+        mImageMarginBottom = (int) getResources().getDimension(R.dimen.news_image_margin_bottom);
+        mImageLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        mImageLayoutParams.setMargins(0, 0, 0, mImageMarginBottom);
 
         mContainer = (LinearLayout) findViewById(R.id.news_container);
+        mHeaderImage = (ImageView) findViewById(R.id.news_header_image);
         mTitle = (TextView) findViewById(R.id.news_header_title);
         mCommentCount = (TextView) findViewById(R.id.news_header_comment_count);
         mTime = (TextView) findViewById(R.id.news_header_time);
+        mCommentFooter = inflate(this, R.layout.view_comment_footer, null);
+        mFooterButton = (Button) mCommentFooter.findViewById(R.id.comment_footer_button);
 
         mData = getIntent().getParcelableExtra("data");
 
+        if(mData.hasHeaderPic){
+            ImageLoader.getInstance().displayImage(mData.theme, mHeaderImage);
+        }
         mTitle.setText(mData.title);
         mCommentCount.setText(mData.commentCount);
         mTime.setText(mData.time);
+        mFooterButton.setText("查看评论(" + mData.commentCount + ")");
+        mFooterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         TextView summary = getNewTextView();
         summary.setText(mData.summary);
@@ -93,6 +116,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                 @Override
                 public void onResponse(JSONArray jsonArray) {
                     mContainer.removeAllViews();
+                    mImgUrls.clear();
                     try {
                         for (int i = 0; i < jsonArray.length(); i++){
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -101,11 +125,27 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                                 textView.setText(Html.fromHtml(jsonObject.getString("value")));
                                 mContainer.addView(textView);
                             }else if(jsonObject.getString("type").equals("img")){
-                                ImageView imageView = getNewImageView();
-                                ImageLoader.getInstance().displayImage(jsonObject.getString("value"), imageView);
+                                SelectorImageView imageView = getNewImageView();
+                                final String imgUrl = jsonObject.getString("value");
+                                if(mImgUrls.size() == 0){
+                                    ImageLoader.getInstance().displayImage(imgUrl, mHeaderImage);
+                                }
+                                mImgUrls.add(imgUrl);
+                                imageView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(NewsActivity.this, PicActivity.class);
+                                        intent.putExtra("list", mImgUrls);
+                                        intent.putExtra("current", mImgUrls.indexOf(imgUrl));
+                                        intent.putExtra("title", mData.title);
+                                        startActivity(intent);
+                                    }
+                                });
+                                ImageLoader.getInstance().displayImage(imgUrl, imageView);
                                 mContainer.addView(imageView);
                             }
                         }
+                        mContainer.addView(mCommentFooter);
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
@@ -132,20 +172,16 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     private TextView getNewTextView(){
         TextView textView = new TextView(this);
         textView.setAutoLinkMask(Linkify.ALL);
-        textView.setPadding(mContentPadding, mContentPadding, mContentPadding, mContentMargin);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
         textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         textView.setLineSpacing(0, 1.4f);
         return textView;
     }
 
-    private ImageView getNewImageView(){
-        ImageView imageView = new ImageView(this);
+    private SelectorImageView getNewImageView(){
+        SelectorImageView imageView = new SelectorImageView(this);
         imageView.setAdjustViewBounds(true);
-        ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        int marginRight = ScreenUtils.dp(this, 50);
-        layoutParams.setMargins(mContentPadding, mContentMargin, marginRight, mContentMargin);
-        imageView.setLayoutParams(layoutParams);
+        imageView.setLayoutParams(mImageLayoutParams);
         return imageView;
     }
 

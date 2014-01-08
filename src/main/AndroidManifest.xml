@@ -38,6 +38,9 @@
                 android:value="com.yugy.cnbeta.ui.activity.NewsActivity" />
         </activity>
         <activity android:name=".ui.activity.CommentActivity"
+                  android:theme="@style/CommentTheme"
+                  android:icon="@drawable/ic_action_logo"
+                  android:label=""
                   android:parentActivityName=".ui.activity.NewsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

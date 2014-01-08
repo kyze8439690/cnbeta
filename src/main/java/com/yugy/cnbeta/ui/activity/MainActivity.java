@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements OnRefreshListener, Adapter
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        mTabHeight = ScreenUtils.dp(this, 48);
+        mTabHeight = ScreenUtils.dp(this, 44);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
         mDrawer = (ListView) findViewById(R.id.main_left_drawer);

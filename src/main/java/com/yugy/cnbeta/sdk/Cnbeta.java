@@ -46,6 +46,16 @@ public class Cnbeta {
         ));
     }
 
+    public static void getNewsComment(Context context, String articleId,
+                                      Response.Listener<JSONArray> listener,
+                                      Response.ErrorListener errorListener){
+        RequestManager.getInstance().addRequest(context, new JsonArrayRequest(
+                API_URL + API_COMMENT + "?article=" + articleId,
+                listener,
+                errorListener
+        ));
+    }
+
     public static void getNewsContent(Context context, String articleId,
                                       final Response.Listener<JSONArray> listener,
                                       Response.ErrorListener errorListener){

@@ -48,7 +48,7 @@ public class NewestNewsListAdapter extends BaseAdapter{
         if(item == null){
             item = new NewsListItem(mContext);
         }
-        item.parse(mModels.get(position));
+        item.parse(getItem(position));
         if(position == getCount() - 1){
             //loadmore
             mNewsFragment.loadNextPage();

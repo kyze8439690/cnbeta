@@ -89,9 +89,6 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
 
         mData = getIntent().getParcelableExtra("data");
 
-        if(mData.hasHeaderPic){
-            ImageLoader.getInstance().displayImage(mData.theme, mHeaderImage);
-        }
         mTitle.setText(mData.title);
         mCommentCount.setText(mData.commentCount);
         mTime.setText(mData.time);
@@ -99,7 +96,9 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         mFooterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(NewsActivity.this, CommentActivity.class);
+                intent.putExtra("id", mData.id);
+                startActivity(intent);
             }
         });
 

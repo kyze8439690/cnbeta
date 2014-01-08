@@ -22,7 +22,6 @@ public class NewsListModel implements Parcelable{
     public String commentCount;
     public Spanned summary;
     public String theme;
-    public boolean hasHeaderPic;
     public boolean readed;
 
     /**
@@ -39,7 +38,6 @@ public class NewsListModel implements Parcelable{
         commentCount = json.getString("cmtnum");
         summary = Html.fromHtml(json.getString("summary"));
         theme = json.getString("theme");
-        hasHeaderPic = !json.getString("theme").equals(json.getString("topicLogo"));
         readed = false;
     }
 
@@ -59,7 +57,6 @@ public class NewsListModel implements Parcelable{
                 theme
         });
         dest.writeBooleanArray(new boolean[]{
-                hasHeaderPic,
                 readed
         });
     }
@@ -73,10 +70,9 @@ public class NewsListModel implements Parcelable{
         commentCount = strings[3];
         summary = Html.fromHtml(strings[4]);
         theme = strings[5];
-        boolean[] booleans = new boolean[2];
+        boolean[] booleans = new boolean[1];
         in.readBooleanArray(booleans);
-        hasHeaderPic = booleans[0];
-        readed = booleans[1];
+        readed = booleans[0];
     }
 
     public static final Creator<NewsListModel> CREATOR = new Creator<NewsListModel>() {

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="16dp">
+
+    <TextView
+        android:id="@+id/commentlist_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="name"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/commentlist_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="content"
+        android:textSize="16sp"
+        android:layout_toRightOf="@id/commentlist_item_name"
+        android:layout_marginLeft="8dp"
+        />
+
+    <TextView
+        android:id="@+id/commentlist_item_support"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="12sp"
+        android:layout_below="@id/commentlist_item_content"
+        android:layout_marginTop="8dp"
+        android:layout_alignLeft="@id/commentlist_item_content"
+        />
+
+    <TextView
+        android:id="@+id/commentlist_item_against"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="12sp"
+        android:layout_below="@id/commentlist_item_content"
+        android:layout_toRightOf="@id/commentlist_item_support"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        />
+
+    <TextView
+        android:id="@+id/commentlist_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time"
+        android:layout_below="@id/commentlist_item_content"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentRight="true"
+        android:textSize="12sp"
+        />
+
+</RelativeLayout>

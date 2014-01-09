@@ -29,9 +29,9 @@ android {
     signingConfigs {
         cnbeta {
             storeFile file('cnbeta.jks')
-            storePassword System.console().readLine("\n\$ Enter keystore password: ")
+            storePassword "hui8439690"
             keyAlias "kyze8439690"
-            keyPassword System.console().readLine("\n\$ Enter key password: ")
+            keyPassword "hui8439690"
         }
     }
 

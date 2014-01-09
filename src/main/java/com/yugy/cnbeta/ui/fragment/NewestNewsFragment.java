@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -33,17 +32,20 @@ import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
+import static android.view.View.OVER_SCROLL_NEVER;
+import static android.widget.AdapterView.OnItemLongClickListener;
+
 /**
  * Created by yugy on 14-1-6.
  */
-public class NewestNewsFragment extends ListFragment implements OnRefreshListener, AdapterView.OnItemLongClickListener{
+public class NewestNewsFragment extends ListFragment implements OnRefreshListener, OnItemLongClickListener{
 
     private static final int ACTION_NONE = 0;
     private static final int ACTION_REFRESH = 1;
     private static final int ACTION_GET_NEXT_PAGE = 2;
 
     private int mCurrentAction = ACTION_NONE;
-    private String mFromArtleId;
+    private String mFromArticleId;
 
     private PullToRefreshLayout mPullToRefreshLayout;
     private NewestNewsListAdapter mAdapter;
@@ -69,13 +71,13 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
         getListView().setOnScrollListener(pauseOnScrollListener);
         getListView().setOnItemLongClickListener(this);
         getListView().setBackgroundColor(Color.WHITE);
-        getListView().setOverScrollMode(View.OVER_SCROLL_NEVER);
+        getListView().setOverScrollMode(OVER_SCROLL_NEVER);
         getListView().setPadding(0, ScreenUtils.dp(getActivity(), 48), 0, 0);
         getListView().setClipToPadding(false);
         getListView().setDividerHeight(1);
 
         mCurrentAction = ACTION_REFRESH;
-        mFromArtleId = "0";
+        mFromArticleId = "0";
         mPullToRefreshLayout.setRefreshing(true);
         getData();
     }
@@ -100,12 +102,13 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
     @Override
     public void onRefreshStarted(View view) {
         mCurrentAction = ACTION_REFRESH;
-        mFromArtleId = "0";
+        mFromArticleId = "0";
         getData();
     }
 
     private void getData(){
-        Cnbeta.getNewsList(getActivity(), mFromArtleId,
+        setEmptyText("正在加载...");
+        Cnbeta.getNewsList(getActivity(), mFromArticleId,
             new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray jsonArray) {
@@ -124,7 +127,6 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
                             mAdapter.getModels().addAll(models);
                             mAdapter.notifyDataSetChanged();
                         }
-                        AppMsg.makeText(getActivity(), "刷新成功", AppMsg.STYLE_INFO).show();
                     } catch (JSONException e) {
                         AppMsg.makeText(getActivity(), "数据解析失败", AppMsg.STYLE_ALERT).show();
                         e.printStackTrace();
@@ -142,6 +144,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
                     mCurrentAction = ACTION_NONE;
                     mPullToRefreshLayout.setRefreshComplete();
                     AppMsg.makeText(getActivity(), "刷新失败", AppMsg.STYLE_ALERT).show();
+                    setEmptyText("刷新失败，请尝试重新打开cnβ");
                     volleyError.printStackTrace();
                 }
             }
@@ -156,7 +159,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
             model.parse(jsonArray.getJSONObject(i));
             models.add(model);
             if(i == jsonArray.length() - 1){
-                mFromArtleId = model.id;
+                mFromArticleId = model.id;
             }
         }
         return models;

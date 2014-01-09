@@ -12,31 +12,20 @@
         android:background="#123456"/>
 
     <TextView
-        android:id="@+id/news_header_comment_count"
+        android:id="@+id/news_header_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/news_header_image"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="0"
-        android:textSize="12sp"
-        android:textColor="#CCC"
-        android:drawableLeft="@drawable/ic_hot_count"
-        android:drawablePadding="5dp"
-        android:gravity="center_vertical"
-        />
-
-    <TextView
-        android:id="@+id/news_header_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/news_header_comment_count"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:textSize="12sp"
-        android:textColor="#CCC"
-        android:text="发表于 2014-01-07 17:05:52"
+        android:maxWidth="240dp"
+        android:textColor="#FFF"
+        android:shadowColor="#7f000000"
+        android:shadowRadius="1.5"
+        android:shadowDx="3"
+        android:shadowDy="3"
         />
 
     <TextView
@@ -44,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="马云：我从来没有想过自己会这么成功"
-        android:layout_above="@+id/news_header_comment_count"
+        android:layout_above="@+id/news_header_time"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:textColor="#FFF"
@@ -53,9 +42,27 @@
         android:gravity="left"
         android:shadowColor="#7f000000"
         android:shadowRadius="1.5"
-        android:shadowDx="6"
-        android:shadowDy="6"
+        android:shadowDx="3"
+        android:shadowDy="3"
         />
 
+    <TextView
+        android:id="@+id/news_header_comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/news_header_time"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:text="0"
+        android:textSize="12sp"
+        android:textColor="#FFF"
+        android:drawableLeft="@drawable/ic_comment_count"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:shadowColor="#7f000000"
+        android:shadowRadius="1.5"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        />
 
 </RelativeLayout>

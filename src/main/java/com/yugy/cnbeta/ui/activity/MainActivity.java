@@ -18,23 +18,21 @@ import android.widget.ListView;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.ui.adapter.MainFragmentPagerAdapter;
+import com.yugy.cnbeta.ui.fragment.HotCommentListFragment;
 import com.yugy.cnbeta.ui.fragment.NewestNewsFragment;
+import com.yugy.cnbeta.ui.fragment.TopTenNewsFragment;
 import com.yugy.cnbeta.ui.view.PagerSlidingTabStrip;
+import com.yugy.cnbeta.ui.view.StackPageTransformer;
 import com.yugy.cnbeta.utils.DebugUtils;
 import com.yugy.cnbeta.utils.ScreenUtils;
 
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
-
 import static com.yugy.cnbeta.ui.listener.ListViewScrollObserver.OnListViewScrollListener;
 
-public class MainActivity extends Activity implements OnRefreshListener, AdapterView.OnItemClickListener,
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener,
         OnListViewScrollListener{
 
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawer;
     private PagerSlidingTabStrip mPagerSlidingTabStrip;
     private ViewPager mViewPager;
-    private ActionBarDrawerToggle mActionBarDrawerToggle;
     private Fragment[] mFragments;
 
     private int mTabHeight;
@@ -45,62 +43,37 @@ public class MainActivity extends Activity implements OnRefreshListener, Adapter
         setContentView(R.layout.activity_main);
         getActionBar().setIcon(R.drawable.ic_action_logo);
         getActionBar().setTitle("");
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
 
         mTabHeight = ScreenUtils.dp(this, 44);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
-        mDrawer = (ListView) findViewById(R.id.main_left_drawer);
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, R.drawable.ic_drawer_toggle, R.string.app_name, R.string.app_name);
-        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
-        mDrawer.setAdapter(new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.drawer_array)));
-        mDrawer.setOnItemClickListener(this);
-
         mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setPageTransformer(true, new StackPageTransformer());
         mFragments = new Fragment[]{
                 new NewestNewsFragment(),
-                new Fragment(),
-                new Fragment()
+                new HotCommentListFragment(),
+                new TopTenNewsFragment()
         };
         mViewPager.setAdapter(new MainFragmentPagerAdapter(this, mFragments));
         mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.main_tabs);
         mPagerSlidingTabStrip.setViewPager(mViewPager);
+        mPagerSlidingTabStrip.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if (mPagerSlidingTabStrip.getTranslationY() != 0) {
+                    mPagerSlidingTabStrip.animate().translationY(0).start();
+                }
+            }
+        });
         ((NewestNewsFragment) mFragments[0]).setOnScrollUpAndDownListener(this);
-    }
-
-    @Override
-    public void onRefreshStarted(View view) {
-
+        ((HotCommentListFragment) mFragments[1]).setOnScrollUpAndDownListener(this);
+        ((TopTenNewsFragment) mFragments[2]).setOnScrollUpAndDownListener(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+//        getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(mActionBarDrawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mActionBarDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mActionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override

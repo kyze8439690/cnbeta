@@ -3,11 +3,9 @@ package com.yugy.cnbeta.sdk;
 import android.content.Context;
 
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.utils.DebugUtils;
@@ -18,8 +16,6 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.safety.Cleaner;
-import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 import java.io.UnsupportedEncodingException;
@@ -32,7 +28,7 @@ public class Cnbeta {
     private static final String API_URL         = "http://api.cnbeta.com/capi/phone";
     private static final String API_NEWSLIST = "/newslist";
     private static final String API_COMMENT     = "/comment";
-    private static final String API_HOMECOMMENT = "/homecomment";
+    private static final String API_HOTCOMMENT = "/homecomment";
     private static final String API_TOP10       = "/top10";
     private static final String API_NEWSCONTENT = "/newscontent";
 
@@ -41,6 +37,25 @@ public class Cnbeta {
                             Response.ErrorListener errorListener){
         RequestManager.getInstance().addRequest(context, new JsonArrayRequest(
                 API_URL + API_NEWSLIST + "?fromArticleId=" + fromArticleId + "&limit=40",
+                listener,
+                errorListener
+        ));
+    }
+
+    public static void getHotComment(Context context, String fromHMCommentId,
+                                     Response.Listener<JSONArray> listener,
+                                     Response.ErrorListener errorListener){
+        RequestManager.getInstance().addRequest(context, new JsonArrayRequest(
+                API_URL + API_HOTCOMMENT + "?fromHMCommentId=" + fromHMCommentId + "&limit=40",
+                listener,
+                errorListener
+        ));
+    }
+
+    public static void getTopTenList(Context context, Response.Listener<JSONArray> listener,
+                                     Response.ErrorListener errorListener){
+        RequestManager.getInstance().addRequest(context, new JsonArrayRequest(
+                API_URL + API_TOP10,
                 listener,
                 errorListener
         ));

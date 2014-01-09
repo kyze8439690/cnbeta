@@ -23,12 +23,23 @@ android {
         minSdkVersion 14
         targetSdkVersion 19
         versionCode 1
-        versionName "1.0"
+        versionName "v1.0"
     }
+
+    signingConfigs {
+        cnbeta {
+            storeFile file('cnbeta.jks')
+            storePassword System.console().readLine("\n\$ Enter keystore password: ")
+            keyAlias "kyze8439690"
+            keyPassword System.console().readLine("\n\$ Enter key password: ")
+        }
+    }
+
     buildTypes {
         release {
             runProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.cnbeta
         }
     }
 }

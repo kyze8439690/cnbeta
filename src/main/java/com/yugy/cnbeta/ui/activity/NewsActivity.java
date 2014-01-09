@@ -23,7 +23,9 @@ import com.android.volley.VolleyError;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yugy.cnbeta.R;
+import com.yugy.cnbeta.model.HotCommentModel;
 import com.yugy.cnbeta.model.NewsListModel;
+import com.yugy.cnbeta.model.TopTenNewsModel;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
@@ -45,7 +47,9 @@ import static com.yugy.cnbeta.ui.view.RefreshActionItem.RefreshActionListener;
  */
 public class NewsActivity extends SwipeBackActivity implements RefreshActionListener{
 
-    private NewsListModel mData;
+    private String mId;
+    private String mTitleString;
+    private String mCommentCountString;
 
     private LinearLayout mContainer;
     private ImageView mHeaderImage;
@@ -87,30 +91,47 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         mCommentFooter = inflate(this, R.layout.view_comment_footer, null);
         mFooterButton = (Button) mCommentFooter.findViewById(R.id.comment_footer_button);
 
-        mData = getIntent().getParcelableExtra("data");
+        if(getIntent().hasExtra("top10")){
+            TopTenNewsModel data = getIntent().getParcelableExtra("data");
+            mId = data.id;
+            mTitleString = data.title;
+            mCommentCountString = data.commentCount;
+            mTime.setText(data.readCount + "次阅读");
+        }else if(getIntent().hasExtra("hotComment")){
+            HotCommentModel data = getIntent().getParcelableExtra("data");
+            mId = data.articleId;
+            mTitleString = data.articleTitle;
+            mCommentCountString = data.commentCount;
+            mTime.setText("“" + data.comment + "”");
+        }else{
+            NewsListModel data = getIntent().getParcelableExtra("data");
+            mId = data.id;
+            mTitleString = data.title;
+            mCommentCountString = data.commentCount;
 
-        mTitle.setText(mData.title);
-        mCommentCount.setText(mData.commentCount);
-        mTime.setText(mData.time);
-        mFooterButton.setText("查看评论(" + mData.commentCount + ")");
+            mTime.setText(data.time);
+            TextView summary = getNewTextView();
+            summary.setText(data.summary);
+            mContainer.addView(summary);
+        }
+
+        mTitle.setText(mTitleString);
+        mCommentCount.setText(mCommentCountString);
+        mFooterButton.setText("查看评论(" + mCommentCountString + ")");
         mFooterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewsActivity.this, CommentActivity.class);
-                intent.putExtra("id", mData.id);
+                intent.putExtra("id", mId);
                 startActivity(intent);
             }
         });
-
-        TextView summary = getNewTextView();
-        summary.setText(mData.summary);
-        mContainer.addView(summary);
 
         getArticleData();
     }
 
     private void getArticleData(){
-        Cnbeta.getNewsContent(this, mData.id,
+        Cnbeta.getNewsContent(this, mId,
             new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray jsonArray) {
@@ -136,7 +157,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                                         Intent intent = new Intent(NewsActivity.this, PicActivity.class);
                                         intent.putExtra("list", mImgUrls);
                                         intent.putExtra("current", mImgUrls.indexOf(imgUrl));
-                                        intent.putExtra("title", mData.title);
+                                        intent.putExtra("title", mTitleString);
                                         startActivity(intent);
                                     }
                                 });
@@ -191,10 +212,10 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         MenuItem shareItem = menu.findItem(R.id.news_action_share);
         mShareActionProvider = (ShareActionProvider) shareItem.getActionProvider();
         StringBuilder shareText = new StringBuilder("《");
-        shareText.append(mData.title);
+        shareText.append(mTitleString);
         shareText.append("》 ");
         shareText.append("http://www.cnbeta.com/articles/");
-        shareText.append(mData.id);
+        shareText.append(mId);
         shareText.append(".htm");
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());

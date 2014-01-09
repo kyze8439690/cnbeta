@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="8dp">
+
+    <TextView
+        android:id="@+id/hotcomment_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="“无聊将成为一种逐年蔓延并日益加重的社会疾病 这句话说的真是很准很准啊”"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/hotcomment_comment"
+        android:layout_below="@id/hotcomment_comment"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:background="#77CCCCCC">
+
+        <TextView
+            android:id="@+id/hotcomment_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="《半个世纪前预测的2014》"/>
+
+        <TextView
+            android:id="@+id/hotcomment_comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hotcomment_title"
+            android:text="14"
+            android:textSize="12sp"
+            android:textColor="#777"
+            android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/ic_comment_count"
+            android:drawablePadding="5dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

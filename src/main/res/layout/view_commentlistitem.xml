@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="name"
+        android:maxWidth="80dp"
         android:textSize="16sp"
         android:textStyle="bold"/>
 
@@ -32,6 +33,7 @@
         android:layout_below="@id/commentlist_item_content"
         android:layout_marginTop="8dp"
         android:layout_alignLeft="@id/commentlist_item_content"
+        android:textColor="#666"
         />
 
     <TextView
@@ -44,6 +46,7 @@
         android:layout_toRightOf="@id/commentlist_item_support"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:textColor="#666"
         />
 
     <TextView
@@ -55,6 +58,7 @@
         android:layout_marginTop="8dp"
         android:layout_alignParentRight="true"
         android:textSize="12sp"
+        android:textColor="#666"
         />
 
 </RelativeLayout>

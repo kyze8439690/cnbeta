@@ -8,7 +8,7 @@ import com.yugy.cnbeta.utils.ScreenUtils;
 /**
  * Created by yugy on 14-1-8.
  */
-public class PicViewPagerChangeListener implements ViewPager.OnPageChangeListener {
+public class PicViewPagerChangeListener extends ViewPager.SimpleOnPageChangeListener {
 
     private SwipeBackActivity mActivity;
     private int mSize;
@@ -21,11 +21,6 @@ public class PicViewPagerChangeListener implements ViewPager.OnPageChangeListene
     }
 
     @Override
-    public void onPageScrolled(int i, float v, int i2) {
-
-    }
-
-    @Override
     public void onPageSelected(int i) {
         if(i == 0){
             mActivity.getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(mActivity) / 2);
@@ -33,10 +28,5 @@ public class PicViewPagerChangeListener implements ViewPager.OnPageChangeListene
             mActivity.getSwipeBackLayout().setEdgeSize(ScreenUtils.dp(mActivity, 20));
         }
         mActivity.getActionBar().setTitle("(" + (i + 1) + "/" + mSize + ") " + mTitle);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-
     }
 }

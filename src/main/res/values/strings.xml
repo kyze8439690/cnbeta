@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CnBeta</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">cnβ</string>
+    <string name="action_settings">设置</string>
 
     <string-array name="drawer_array">
         <item>最新资讯</item>
-        <item>Top10</item>
         <item>精彩评论</item>
+        <item>Top10</item>
     </string-array>
 
     <string-array name="comment_array">

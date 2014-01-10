@@ -73,6 +73,7 @@ public class SwipeBackActivityHelper {
      * This call has no effect on non-translucent activities or on activities
      * with the {@link android.R.attr#windowIsFloating} attribute.
      */
+    @SuppressWarnings("NullArgumentToVariableArgMethod")
     public void convertActivityFromTranslucent() {
         try {
             Method method = Activity.class.getDeclaredMethod("convertFromTranslucent", null);

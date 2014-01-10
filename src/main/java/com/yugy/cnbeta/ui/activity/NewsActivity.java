@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
+import com.yugy.cnbeta.ui.view.FadingActionBarHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 import com.yugy.cnbeta.R;
@@ -31,6 +31,7 @@ import com.yugy.cnbeta.model.TopTenNewsModel;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
+import com.yugy.cnbeta.ui.view.KenBurnsView;
 import com.yugy.cnbeta.ui.view.RefreshActionItem;
 import com.yugy.cnbeta.ui.view.SelectorImageView;
 import com.yugy.cnbeta.utils.MessageUtils;
@@ -54,7 +55,8 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     private String mCommentCountString;
 
     private LinearLayout mContainer;
-    private ImageView mHeaderImage;
+//    private ImageView mHeaderImage;
+    private KenBurnsView mHeaderImage;
     private TextView mTitle;
     private TextView mCommentCount;
     private TextView mTime;
@@ -72,7 +74,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         super.onCreate(savedInstanceState);
         MobclickAgent.onError(this);
         FadingActionBarHelper helper = new FadingActionBarHelper()
-                .actionBarBackground(R.drawable.ab_solid_bg)
+                .actionBarBackground(R.drawable.ab_transparent_bg)
                 .headerLayout(R.layout.view_news_header)
                 .contentLayout(R.layout.activity_news);
         setContentView(helper.createView(this));
@@ -86,7 +88,8 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         mImageLayoutParams.setMargins(0, 0, 0, mImageMarginBottom);
 
         mContainer = (LinearLayout) findViewById(R.id.news_container);
-        mHeaderImage = (ImageView) findViewById(R.id.news_header_image);
+//        mHeaderImage = (ImageView) findViewById(R.id.news_header_image);
+        mHeaderImage = (KenBurnsView) findViewById(R.id.news_header_image);
         mTitle = (TextView) findViewById(R.id.news_header_title);
         mCommentCount = (TextView) findViewById(R.id.news_header_comment_count);
         mTime = (TextView) findViewById(R.id.news_header_time);
@@ -151,7 +154,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                                 SelectorImageView imageView = getNewImageView();
                                 final String imgUrl = jsonObject.getString("value");
                                 if(mImgUrls.size() == 0){
-                                    ImageLoader.getInstance().displayImage(imgUrl, mHeaderImage);
+//                                    ImageLoader.getInstance().displayImage(imgUrl, mHeaderImage);
                                 }
                                 mImgUrls.add(imgUrl);
                                 imageView.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +171,9 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                                 ImageLoader.getInstance().displayImage(imgUrl, imageView);
                                 mContainer.addView(imageView);
                             }
+                        }
+                        if(mImgUrls.size() > 0){
+                            mHeaderImage.setResourceIds(mImgUrls.toArray(new String[mImgUrls.size()]));
                         }
                         mContainer.addView(mCommentFooter);
                     }catch (JSONException e){

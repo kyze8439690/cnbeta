@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
@@ -25,7 +24,7 @@ public class KenBurnsView extends FrameLayout {
     private final Handler mHandler;
     private String[] mImageUrls;
     private ImageView[] mImageViews;
-    private int mActiveImageIndex = -1;
+    private int mActiveImageIndex = 0;
 
     private final Random random = new Random();
     private int mSwapMs = 10000;
@@ -64,11 +63,6 @@ public class KenBurnsView extends FrameLayout {
 
     private void swapImage() {
         DebugUtils.log("KenBurnsView: swapImage active=" + mActiveImageIndex);
-        if(mActiveImageIndex == -1) {
-            mActiveImageIndex = 0;
-            animate(mImageViews[mActiveImageIndex]);
-            return;
-        }
 
         int inactiveIndex = mActiveImageIndex;
         mActiveImageIndex = (1 + mActiveImageIndex) % mImageViews.length;

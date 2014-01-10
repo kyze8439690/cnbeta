@@ -13,6 +13,7 @@ import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
 import com.yugy.cnbeta.ui.fragment.CommentFragment;
+import com.yugy.cnbeta.utils.ScreenUtils;
 
 /**
  * Created by yugy on 14-1-8.
@@ -26,6 +27,7 @@ public class CommentActivity extends SwipeBackActivity{
         super.onCreate(savedInstanceState);
         MobclickAgent.onError(this);
         setContentView(R.layout.activity_comment);
+        getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 3);
 
         getActionBar().setDisplayShowHomeEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);

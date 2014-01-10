@@ -97,6 +97,7 @@ public class MainActivity extends Activity implements OnListViewScrollListener{
         switch (item.getItemId()){
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                overridePendingTransition(R.anim.activity_in, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -8,17 +8,21 @@ import android.support.v4.app.TaskStackBuilder;
 import android.view.MenuItem;
 
 import com.umeng.analytics.MobclickAgent;
+import com.yugy.cnbeta.R;
+import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
 import com.yugy.cnbeta.ui.fragment.SettingsFragment;
+import com.yugy.cnbeta.utils.ScreenUtils;
 
 /**
  * Created by yugy on 14-1-9.
  */
-public class SettingsActivity extends PreferenceActivity{
+public class SettingsActivity extends SwipeBackActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MobclickAgent.onError(this);
+        getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 3);
 
         getActionBar().setDisplayShowHomeEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -52,5 +56,11 @@ public class SettingsActivity extends PreferenceActivity{
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.activity_out);
     }
 }

@@ -17,14 +17,14 @@
         android:layout_alignBottom="@id/news_header_image"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="80dp"
         android:textSize="12sp"
-        android:maxWidth="240dp"
         android:textColor="#FFF"
         android:shadowColor="#7f000000"
         android:shadowRadius="1.5"
         android:shadowDx="3"
         android:shadowDy="3"
+        android:maxHeight="70dp"
         />
 
     <TextView

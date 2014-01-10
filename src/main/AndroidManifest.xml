@@ -45,22 +45,26 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.yugy.cnbeta.ui.activity.MainActivity" />
         </activity>
-        <activity android:name=".ui.activity.PicActivity"
-                  android:theme="@style/PicTheme"
-                  android:parentActivityName=".ui.activity.NewsActivity">
+        <activity
+            android:name=".ui.activity.PicActivity"
+            android:theme="@style/PicTheme"
+            android:parentActivityName=".ui.activity.NewsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.yugy.cnbeta.ui.activity.NewsActivity" />
         </activity>
-        <activity android:name=".ui.activity.CommentActivity"
-                  android:theme="@style/CommentTheme"
-                  android:label=""
-                  android:parentActivityName=".ui.activity.NewsActivity">
+        <activity
+            android:name=".ui.activity.CommentActivity"
+            android:theme="@style/CommentTheme"
+            android:label=""
+            android:parentActivityName=".ui.activity.NewsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.yugy.cnbeta.ui.activity.NewsActivity" />
         </activity>
-        <activity android:name=".ui.activity.SettingsActivity"
+        <activity
+            android:name=".ui.activity.SettingsActivity"
+            android:theme="@style/SettingsTheme"
             android:label="@string/action_settings"
             android:parentActivityName=".ui.activity.MainActivity">
             <meta-data

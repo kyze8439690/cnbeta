@@ -35,6 +35,7 @@ import com.yugy.cnbeta.ui.view.KenBurnsView;
 import com.yugy.cnbeta.ui.view.RefreshActionItem;
 import com.yugy.cnbeta.ui.view.SelectorImageView;
 import com.yugy.cnbeta.utils.MessageUtils;
+import com.yugy.cnbeta.utils.ScreenUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,6 +80,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                 .contentLayout(R.layout.activity_news);
         setContentView(helper.createView(this));
         helper.initActionBar(this);
+        getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 3);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(true);

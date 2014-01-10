@@ -69,8 +69,11 @@ public class HotCommentListFragment extends ListFragment{
         mListViewScrollObserver.setOnScrollUpAndDownListener(listener);
     }
 
-    public void getData(){
+    public void setPullToRefreshing(){
         mPullToRefreshLayout.setRefreshing(true);
+    }
+
+    public void getData(){
         setEmptyText("正在加载...");
         Cnbeta.getHotComment(getActivity(), mFromCommentId,
             new Response.Listener<JSONArray>() {

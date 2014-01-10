@@ -50,6 +50,7 @@ public class HotCommentListAdapter extends BaseAdapter{
         item.parse(mModels.get(position));
         if(position == getCount() - 1){
             //loadmore
+            mHotCommentListFragment.setPullToRefreshing();
             mHotCommentListFragment.getData();
         }
         return item;

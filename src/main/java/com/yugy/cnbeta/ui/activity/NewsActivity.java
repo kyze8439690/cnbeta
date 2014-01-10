@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.HotCommentModel;
 import com.yugy.cnbeta.model.NewsListModel;
@@ -68,7 +69,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        MobclickAgent.onError(this);
         FadingActionBarHelper helper = new FadingActionBarHelper()
                 .actionBarBackground(R.drawable.ab_solid_bg)
                 .headerLayout(R.layout.view_news_header)
@@ -256,5 +257,17 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     protected void onDestroy() {
         RequestManager.getInstance().cancelRequests(this);
         super.onDestroy();
+    }
+
+    @Override
+     protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

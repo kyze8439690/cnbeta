@@ -40,7 +40,7 @@ public class HotCommentListItem extends RelativeLayout{
 
     public void parse(HotCommentModel model){
         mComment.setText("“" + model.comment + "”");
-        mTitle.setText("《" + model.articleTitle + "》");
+        mTitle.setText(model.articleTitle);
         mCommentCount.setText(model.commentCount);
     }
 }

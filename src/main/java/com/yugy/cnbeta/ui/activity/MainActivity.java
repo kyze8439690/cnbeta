@@ -2,6 +2,7 @@ package com.yugy.cnbeta.ui.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -15,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.ui.adapter.MainFragmentPagerAdapter;
@@ -28,8 +31,7 @@ import com.yugy.cnbeta.utils.ScreenUtils;
 
 import static com.yugy.cnbeta.ui.listener.ListViewScrollObserver.OnListViewScrollListener;
 
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener,
-        OnListViewScrollListener{
+public class MainActivity extends Activity implements OnListViewScrollListener{
 
     private PagerSlidingTabStrip mPagerSlidingTabStrip;
     private ViewPager mViewPager;
@@ -40,6 +42,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MobclickAgent.onError(this);
+        UmengUpdateAgent.update(this);
         setContentView(R.layout.activity_main);
         getActionBar().setIcon(R.drawable.ic_action_logo);
         getActionBar().setTitle("");
@@ -71,14 +75,32 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

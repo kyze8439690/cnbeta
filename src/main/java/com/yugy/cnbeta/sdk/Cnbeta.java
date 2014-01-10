@@ -1,6 +1,7 @@
 package com.yugy.cnbeta.sdk;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -8,6 +9,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.yugy.cnbeta.network.RequestManager;
+import com.yugy.cnbeta.ui.fragment.SettingsFragment;
 import com.yugy.cnbeta.utils.DebugUtils;
 
 import org.json.JSONArray;
@@ -35,8 +37,10 @@ public class Cnbeta {
     public static void getNewsList(Context context, String fromArticleId,
                             Response.Listener<JSONArray> listener,
                             Response.ErrorListener errorListener){
+        String limit = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(SettingsFragment.KEY_PREF_REFRESH_AMOUNT, "40");
         RequestManager.getInstance().addRequest(context, new JsonArrayRequest(
-                API_URL + API_NEWSLIST + "?fromArticleId=" + fromArticleId + "&limit=40",
+                API_URL + API_NEWSLIST + "?fromArticleId=" + fromArticleId + "&limit=" + limit,
                 listener,
                 errorListener
         ));
@@ -45,8 +49,10 @@ public class Cnbeta {
     public static void getHotComment(Context context, String fromHMCommentId,
                                      Response.Listener<JSONArray> listener,
                                      Response.ErrorListener errorListener){
+        String limit = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(SettingsFragment.KEY_PREF_REFRESH_AMOUNT, "40");
         RequestManager.getInstance().addRequest(context, new JsonArrayRequest(
-                API_URL + API_HOTCOMMENT + "?fromHMCommentId=" + fromHMCommentId + "&limit=40",
+                API_URL + API_HOTCOMMENT + "?fromHMCommentId=" + fromHMCommentId + "&limit=" + limit,
                 listener,
                 errorListener
         ));

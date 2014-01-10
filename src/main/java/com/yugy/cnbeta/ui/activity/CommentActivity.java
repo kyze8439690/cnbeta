@@ -8,6 +8,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
@@ -23,6 +24,7 @@ public class CommentActivity extends SwipeBackActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MobclickAgent.onError(this);
         setContentView(R.layout.activity_comment);
 
         getActionBar().setDisplayShowHomeEnabled(true);
@@ -44,6 +46,18 @@ public class CommentActivity extends SwipeBackActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

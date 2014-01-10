@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="通用"
+        >
+
+        <ListPreference
+            android:key="pref_refresh_amount"
+            android:title="刷新数量"
+            android:summary="设置每次列表刷新获取的最新资讯/精彩评论数"
+            android:entries="@array/pref_refresh_amount_entry"
+            android:entryValues="@array/pref_refresh_amount_entry"
+            android:defaultValue="40"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="更多"
+        >
+
+        <Preference android:title="给我发邮件">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="mailto:me@yanghui.name"
+                />
+
+        </Preference>
+
+        <Preference
+            android:title="手动检查更新"
+            android:key="pref_check_update"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

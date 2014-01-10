@@ -9,10 +9,16 @@
           android:actionViewClass="com.yugy.cnbeta.ui.view.RefreshActionItem"
         />
 
+    <item android:id="@+id/news_action_website"
+          android:icon="@drawable/ic_action_web_site"
+          android:title="使用浏览器打开"
+          android:showAsAction="always"
+        />
+
     <item android:icon="@drawable/ic_action_share"
           android:id="@+id/news_action_share"
           android:title="Share"
-          android:showAsAction="always"
+          android:showAsAction="ifRoom"
           android:actionProviderClass="android.widget.ShareActionProvider"
         />
 

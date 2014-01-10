@@ -1,6 +1,7 @@
 package com.yugy.cnbeta.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -243,8 +244,14 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                     NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
+            case R.id.news_action_website:
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://m.cnbeta.com/view_" + mId + ".htm"));
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

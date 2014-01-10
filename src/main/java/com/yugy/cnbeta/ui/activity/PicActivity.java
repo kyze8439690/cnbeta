@@ -76,4 +76,10 @@ public class PicActivity extends SwipeBackActivity{
         super.onPause();
         MobclickAgent.onPause(this);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.activity_out);
+    }
 }

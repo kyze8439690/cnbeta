@@ -126,6 +126,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                 Intent intent = new Intent(NewsActivity.this, CommentActivity.class);
                 intent.putExtra("id", mId);
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_in, 0);
             }
         });
 
@@ -161,6 +162,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                                         intent.putExtra("current", mImgUrls.indexOf(imgUrl));
                                         intent.putExtra("title", mTitleString);
                                         startActivity(intent);
+                                        overridePendingTransition(R.anim.activity_in, 0);
                                     }
                                 });
                                 ImageLoader.getInstance().displayImage(imgUrl, imageView);
@@ -179,7 +181,9 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                 public void onErrorResponse(VolleyError volleyError) {
                     volleyError.printStackTrace();
                     MessageUtils.toast(NewsActivity.this, "获取数据失败");
-                    mRefreshActionItem.setRefreshing(false);
+                    if(mRefreshActionItem != null){
+                        mRefreshActionItem.setRefreshing(false);
+                    }
                 }
             }
         );
@@ -276,5 +280,11 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.activity_out);
     }
 }

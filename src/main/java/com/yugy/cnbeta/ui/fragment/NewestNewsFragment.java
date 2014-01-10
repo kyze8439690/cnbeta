@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
+import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.NewsListModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.NewsActivity;
@@ -91,6 +92,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
         Intent intent = new Intent(getActivity(), NewsActivity.class);
         intent.putExtra("data", mAdapter.getModels().get(position));
         startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.activity_in, 0);
     }
 
     @Override

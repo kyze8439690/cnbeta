@@ -66,7 +66,7 @@ public class CommentFragment extends ListFragment implements RefreshActionListen
                 public void onResponse(JSONArray jsonArray) {
                     DebugUtils.log(jsonArray);
                     if(jsonArray.length() == 0){
-                        AppMsg.makeText(getActivity(), "目前无法读取评论", AppMsg.STYLE_INFO).show();
+                        AppMsg.makeText(getActivity(), "目前还没有评论", AppMsg.STYLE_INFO).show();
                     }
                     try {
                         mCommentListAdapter.getModels().clear();

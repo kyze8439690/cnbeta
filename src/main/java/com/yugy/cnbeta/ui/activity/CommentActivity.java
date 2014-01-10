@@ -66,4 +66,9 @@ public class CommentActivity extends SwipeBackActivity{
         super.onDestroy();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.activity_out);
+    }
 }

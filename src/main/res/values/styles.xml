@@ -17,7 +17,7 @@
     <style name="PicTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:actionBarStyle">@style/actionBarStyle</item>
+        <item name="android:actionBarStyle">@style/halfTransparentActionBarStyle</item>
     </style>
 
     <style name="CommentTheme" parent="android:Theme.Holo.Light.DarkActionBar">
@@ -37,6 +37,10 @@
 
     <style name="actionBarStyle" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/ab_solid_bg</item>
+    </style>
+
+    <style name="halfTransparentActionBarStyle" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/ab_transparent_bg</item>
     </style>
 
     <style name="transparentActionBarStyle" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">

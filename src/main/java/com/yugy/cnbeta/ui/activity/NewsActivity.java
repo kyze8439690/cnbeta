@@ -80,7 +80,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                 .contentLayout(R.layout.activity_news);
         setContentView(helper.createView(this));
         helper.initActionBar(this);
-        getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 3);
+        getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 4);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(true);

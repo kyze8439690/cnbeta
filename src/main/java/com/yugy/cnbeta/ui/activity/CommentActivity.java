@@ -27,7 +27,7 @@ public class CommentActivity extends SwipeBackActivity{
         super.onCreate(savedInstanceState);
         MobclickAgent.onError(this);
         setContentView(R.layout.activity_comment);
-        getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 3);
+        getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 4);
 
         getActionBar().setDisplayShowHomeEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);

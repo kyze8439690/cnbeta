@@ -18,11 +18,11 @@
         android:layout_alignLeft="@id/hotcomment_title"
         android:layout_below="@id/hotcomment_title"
         android:layout_marginTop="8dp"
-        android:padding="8dp"
-        android:background="#77CCCCCC"
+        android:padding="16dp"
+        android:background="@drawable/bg_comment_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:text="“ 无聊将成为一种逐年蔓延并日益加重的社会疾病 这句话说的真是很准很准啊 ”"/>
 
     <TextView
@@ -34,7 +34,7 @@
         android:textSize="12sp"
         android:textColor="#777"
         android:layout_marginTop="8dp"
-        android:drawableLeft="@drawable/ic_comment_count"
-        android:drawablePadding="5dp"/>
+        android:drawableLeft="@drawable/ic_comment_dark"
+        android:drawablePadding="2dp"/>
 
 </RelativeLayout>

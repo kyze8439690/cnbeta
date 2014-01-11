@@ -25,6 +25,7 @@ public class KenBurnsView extends FrameLayout {
     private String[] mImageUrls;
     private ImageView[] mImageViews;
     private int mActiveImageIndex = 0;
+    private int mActiveUrlIndex = 0;
 
     private final Random random = new Random();
     private int mSwapMs = 10000;
@@ -66,10 +67,13 @@ public class KenBurnsView extends FrameLayout {
 
         int inactiveIndex = mActiveImageIndex;
         mActiveImageIndex = (1 + mActiveImageIndex) % mImageViews.length;
+        mActiveUrlIndex = (1 + mActiveUrlIndex) % mImageUrls.length;
         DebugUtils.log("KenBurnsView: new active=" + mActiveImageIndex);
 
         final ImageView activeImageView = mImageViews[mActiveImageIndex];
         activeImageView.setAlpha(0.0f);
+        ImageLoader.getInstance().displayImage(mImageUrls[mActiveUrlIndex], activeImageView);
+
         ImageView inactiveImageView = mImageViews[inactiveIndex];
 
         animate(activeImageView);
@@ -122,14 +126,17 @@ public class KenBurnsView extends FrameLayout {
     }
 
     private void fillImageViews() {
-        mImageViews = new ImageView[mImageUrls.length];
+        if(mImageUrls.length > 2){
+            mImageViews = new ImageView[2];
+        }else{
+            mImageViews = new ImageView[mImageUrls.length];
+        }
         for (int i = 0; i < mImageViews.length; i++) {
             ImageView imageView = new ImageView(getContext());
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             addView(imageView);
             mImageViews[i] = imageView;
-            ImageLoader.getInstance().displayImage(mImageUrls[i], mImageViews[i]);
         }
         startKenBurnsAnimation();
     }

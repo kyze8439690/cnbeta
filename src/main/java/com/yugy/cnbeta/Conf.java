@@ -5,6 +5,6 @@ package com.yugy.cnbeta;
  */
 public class Conf {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static final String LOG_TAG = "Cnbeta";
 }

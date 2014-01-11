@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.HotCommentModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.NewsActivity;
@@ -142,5 +143,6 @@ public class HotCommentListFragment extends ListFragment{
         intent.putExtra("data", mAdapter.getModels().get(position));
         intent.putExtra("hotComment", true);
         startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.activity_in, 0);
     }
 }

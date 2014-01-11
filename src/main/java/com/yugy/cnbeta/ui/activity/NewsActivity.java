@@ -56,7 +56,6 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     private String mCommentCountString;
 
     private LinearLayout mContainer;
-//    private ImageView mHeaderImage;
     private KenBurnsView mHeaderImage;
     private TextView mTitle;
     private TextView mCommentCount;
@@ -90,7 +89,6 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         mImageLayoutParams.setMargins(0, 0, 0, mImageMarginBottom);
 
         mContainer = (LinearLayout) findViewById(R.id.news_container);
-//        mHeaderImage = (ImageView) findViewById(R.id.news_header_image);
         mHeaderImage = (KenBurnsView) findViewById(R.id.news_header_image);
         mTitle = (TextView) findViewById(R.id.news_header_title);
         mCommentCount = (TextView) findViewById(R.id.news_header_comment_count);
@@ -155,9 +153,6 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                             }else if(jsonObject.getString("type").equals("img")){
                                 SelectorImageView imageView = getNewImageView();
                                 final String imgUrl = jsonObject.getString("value");
-                                if(mImgUrls.size() == 0){
-//                                    ImageLoader.getInstance().displayImage(imgUrl, mHeaderImage);
-                                }
                                 mImgUrls.add(imgUrl);
                                 imageView.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -259,7 +254,11 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
             case R.id.news_action_website:
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("http://m.cnbeta.com/view_" + mId + ".htm"));
-                startActivity(intent);
+                if(intent.resolveActivity(getPackageManager()) != null){
+                    startActivity(intent);
+                }else{
+                    MessageUtils.toast(this, "没有安装浏览器");
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

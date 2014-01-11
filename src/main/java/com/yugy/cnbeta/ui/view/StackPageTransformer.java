@@ -25,7 +25,7 @@ public class StackPageTransformer implements ViewPager.PageTransformer {
             view.setAlpha(1 - position);
 
             // Counteract the default slide transition
-            view.setTranslationX(pageWidth * -position);
+            view.setTranslationX(0.8f * pageWidth * -position);
 
         } else { // (1,+Infinity]
             // This page is way off-screen to the right.

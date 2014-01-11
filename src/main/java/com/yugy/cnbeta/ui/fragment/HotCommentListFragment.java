@@ -3,6 +3,7 @@ package com.yugy.cnbeta.ui.fragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,20 +80,7 @@ public class HotCommentListFragment extends ListFragment{
             new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray jsonArray) {
-                    try {
-                        ArrayList<HotCommentModel> models = getModels(jsonArray);
-                        if(mAdapter.getModels().size() == 0){
-                            mAdapter.getModels().addAll(models);
-                            setListAdapter(mAdapter);
-                        }else{
-                            mAdapter.getModels().addAll(models);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    } catch (JSONException e) {
-                        AppMsg.makeText(getActivity(), "数据解析失败", AppMsg.STYLE_ALERT).show();
-                        e.printStackTrace();
-                    }
-                    mPullToRefreshLayout.setRefreshComplete();
+                    new ParseTask().execute(jsonArray);
                 }
             },
             new Response.ErrorListener() {
@@ -118,6 +106,34 @@ public class HotCommentListFragment extends ListFragment{
             }
         }
         return models;
+    }
+
+    private class ParseTask extends AsyncTask<JSONArray, Void, ArrayList<HotCommentModel>>{
+
+        @Override
+        protected ArrayList<HotCommentModel> doInBackground(JSONArray... params) {
+            try {
+                return getModels(params[0]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HotCommentModel> hotCommentModels) {
+            if(hotCommentModels == null){
+                AppMsg.makeText(getActivity(), "数据解析失败", AppMsg.STYLE_ALERT).show();
+            }else if(mAdapter.getModels().size() == 0){
+                mAdapter.getModels().addAll(hotCommentModels);
+                setListAdapter(mAdapter);
+            }else{
+                mAdapter.getModels().addAll(hotCommentModels);
+                mAdapter.notifyDataSetChanged();
+            }
+            mPullToRefreshLayout.setRefreshComplete();
+            super.onPostExecute(hotCommentModels);
+        }
     }
 
     @Override

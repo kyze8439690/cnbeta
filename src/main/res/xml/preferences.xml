@@ -21,14 +21,10 @@
         android:title="更多"
         >
 
-        <Preference android:title="给我发邮件">
-
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="mailto:me@yanghui.name"
-                />
-
-        </Preference>
+        <Preference
+            android:title="给我发邮件"
+            android:summary="me@yanghui.name"
+            android:key="pref_send_email"/>
 
         <Preference
             android:title="手动检查更新"

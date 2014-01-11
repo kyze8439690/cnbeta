@@ -3,6 +3,7 @@ package com.yugy.cnbeta.ui.fragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -70,14 +71,7 @@ public class TopTenNewsFragment extends ListFragment{
             new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray jsonArray) {
-                    try{
-                        ArrayList<TopTenNewsModel> models = getModels(jsonArray);
-                        mAdapter = new TopTenNewsListAdapter(getActivity(), models);
-                        setListAdapter(mAdapter);
-                    }catch (JSONException e){
-                        AppMsg.makeText(getActivity(), "数据解析失败", AppMsg.STYLE_ALERT).show();
-                        e.printStackTrace();
-                    }
+                    new ParseTask().execute(jsonArray);
                 }
             },
             new Response.ErrorListener() {
@@ -89,6 +83,30 @@ public class TopTenNewsFragment extends ListFragment{
                 }
             }
         );
+    }
+
+    private class ParseTask extends AsyncTask<JSONArray, Void, ArrayList<TopTenNewsModel>>{
+
+        @Override
+        protected ArrayList<TopTenNewsModel> doInBackground(JSONArray... params) {
+            try {
+                return getModels(params[0]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<TopTenNewsModel> topTenNewsModels) {
+            if(topTenNewsModels == null){
+                AppMsg.makeText(getActivity(), "数据解析失败", AppMsg.STYLE_ALERT).show();
+            }else{
+                mAdapter = new TopTenNewsListAdapter(getActivity(), topTenNewsModels);
+                setListAdapter(mAdapter);
+            }
+            super.onPostExecute(topTenNewsModels);
+        }
     }
 
     private ArrayList<TopTenNewsModel> getModels(JSONArray jsonArray) throws JSONException {

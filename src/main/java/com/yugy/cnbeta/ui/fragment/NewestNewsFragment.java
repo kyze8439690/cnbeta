@@ -3,6 +3,7 @@ package com.yugy.cnbeta.ui.fragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,29 +116,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
                 @Override
                 public void onResponse(JSONArray jsonArray) {
 //                        DebugUtils.log(jsonArray);
-                    try {
-                        ArrayList<NewsListModel> models = getModels(jsonArray);
-                        if(mCurrentAction == ACTION_REFRESH){
-                            if(mAdapter == null){
-                                mAdapter = new NewestNewsListAdapter(NewestNewsFragment.this, models);
-                                setListAdapter(mAdapter);
-                            }else{
-                                mAdapter.setModels(models);
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        }else if(mCurrentAction == ACTION_GET_NEXT_PAGE){
-                            mAdapter.getModels().addAll(models);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    } catch (JSONException e) {
-                        AppMsg.makeText(getActivity(), "数据解析失败", AppMsg.STYLE_ALERT).show();
-                        e.printStackTrace();
-                    } catch (ParseException e) {
-                        AppMsg.makeText(getActivity(), "时间解析失败", AppMsg.STYLE_ALERT).show();
-                        e.printStackTrace();
-                    }
-                    mCurrentAction = ACTION_NONE;
-                    mPullToRefreshLayout.setRefreshComplete();
+                    new ParseTask().execute(jsonArray);
                 }
             },
             new Response.ErrorListener() {
@@ -153,6 +132,42 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
         );
     }
 
+    private class ParseTask extends AsyncTask<JSONArray, Void, ArrayList<NewsListModel>>{
+
+        @Override
+        protected ArrayList<NewsListModel> doInBackground(JSONArray... params) {
+            try {
+                return getModels(params[0]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<NewsListModel> newsListModels) {
+            if(newsListModels == null){
+                AppMsg.makeText(getActivity(), "数据解析失败", AppMsg.STYLE_ALERT).show();
+            }else if(mCurrentAction == ACTION_REFRESH){
+                if(mAdapter == null){
+                    mAdapter = new NewestNewsListAdapter(NewestNewsFragment.this, newsListModels);
+                    setListAdapter(mAdapter);
+                }else{
+                    mAdapter.setModels(newsListModels);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }else if(mCurrentAction == ACTION_GET_NEXT_PAGE){
+                mAdapter.getModels().addAll(newsListModels);
+                mAdapter.notifyDataSetChanged();
+            }
+            mCurrentAction = ACTION_NONE;
+            mPullToRefreshLayout.setRefreshComplete();
+            super.onPostExecute(newsListModels);
+        }
+    }
 
     private ArrayList<NewsListModel> getModels(JSONArray jsonArray) throws JSONException, ParseException {
         ArrayList<NewsListModel> models = new ArrayList<NewsListModel>();

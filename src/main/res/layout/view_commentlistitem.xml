@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:padding="16dp">
+              android:padding="8dp">
 
     <TextView
         android:id="@+id/commentlist_item_name"
@@ -12,16 +12,23 @@
         android:text="name"
         android:maxWidth="80dp"
         android:textSize="16sp"
+        android:layout_marginLeft="8dp"
         android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/commentlist_item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_comment_frame_horizental"
+        android:layout_toRightOf="@id/commentlist_item_name"
         android:text="content"
         android:textSize="16sp"
-        android:layout_toRightOf="@id/commentlist_item_name"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         />
 
     <TextView
@@ -33,6 +40,7 @@
         android:layout_below="@id/commentlist_item_content"
         android:layout_marginTop="8dp"
         android:layout_alignLeft="@id/commentlist_item_content"
+        android:layout_marginLeft="8dp"
         android:textColor="#666"
         />
 
@@ -56,7 +64,7 @@
         android:text="time"
         android:layout_below="@id/commentlist_item_content"
         android:layout_marginTop="8dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignRight="@id/commentlist_item_content"
         android:textSize="12sp"
         android:textColor="#666"
         />

@@ -5,13 +5,15 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
+
 /**
  * @author Cyril Mottier with modifications from Manuel Peinado
  */
 public class NotifyingScrollView extends ScrollView {
     // Edge-effects don't mix well with the translucent action bar in Android 2.X
     private boolean mDisableEdgeEffects = true;
-
     /**
      * @author Cyril Mottier
      */

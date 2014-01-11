@@ -29,6 +29,10 @@ import com.yugy.cnbeta.R;
  */
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 
+    public void setOnTabClickListener(OnTabClickListener onTabClickListener) {
+        mOnTabClickListener = onTabClickListener;
+    }
+
     public interface IconTabProvider {
         public int getPageIconResId(int position);
     }
@@ -187,6 +191,12 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     }
 
+    public static interface OnTabClickListener{
+        public void onClick(int position);
+    }
+
+    private OnTabClickListener mOnTabClickListener;
+
     private void addTextTab(final int position, String title) {
 
         TextView tab = new TextView(getContext());
@@ -198,6 +208,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         tab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mOnTabClickListener != null){
+                    mOnTabClickListener.onClick(position);
+                }
                 pager.setCurrentItem(position);
             }
         });

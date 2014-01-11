@@ -2,6 +2,7 @@ package com.yugy.cnbeta.ui.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -66,6 +67,14 @@ public class MainActivity extends Activity implements OnListViewScrollListener{
             public void onPageSelected(int position) {
                 if (mPagerSlidingTabStrip.getTranslationY() != 0) {
                     mPagerSlidingTabStrip.animate().translationY(0).start();
+                }
+            }
+        });
+        mPagerSlidingTabStrip.setOnTabClickListener(new PagerSlidingTabStrip.OnTabClickListener() {
+            @Override
+            public void onClick(int position) {
+                if(position == mViewPager.getCurrentItem()){
+                    ((ListFragment) mFragments[position]).getListView().smoothScrollToPositionFromTop(0, 0);
                 }
             }
         });

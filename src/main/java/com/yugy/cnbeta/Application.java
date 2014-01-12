@@ -26,13 +26,12 @@ public class Application extends android.app.Application{
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.ic_image_loading)
                 .showImageOnFail(R.drawable.ic_image_fail)
-                .cacheInMemory(true)
+                .cacheInMemory(false)
                 .cacheOnDisc(true)
                 .displayer(new FadeInBitmapDisplayer(600))
                 .build();
         File cacheDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath());
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-                .denyCacheImageMultipleSizesInMemory()
                 .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
                 .defaultDisplayImageOptions(options)
                 .discCache(new UnlimitedDiscCache(cacheDir))

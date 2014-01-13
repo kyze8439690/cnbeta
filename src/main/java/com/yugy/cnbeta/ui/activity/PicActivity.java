@@ -1,5 +1,6 @@
 package com.yugy.cnbeta.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -16,6 +17,8 @@ import com.yugy.cnbeta.utils.ScreenUtils;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by yugy on 14-1-8.
  */
@@ -28,7 +31,7 @@ public class PicActivity extends SwipeBackActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobclickAgent.onError(this);
+        ActivityBase.onCreate(this);
         setContentView(R.layout.activity_pic);
 
         getActionBar().setDisplayShowHomeEnabled(true);
@@ -66,15 +69,26 @@ public class PicActivity extends SwipeBackActivity{
     }
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        ActivityBase.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+        ActivityBase.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        ActivityBase.onDestroy(this);
+        super.onDestroy();
     }
 
     @Override

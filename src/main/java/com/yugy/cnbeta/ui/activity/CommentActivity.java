@@ -1,6 +1,7 @@
 package com.yugy.cnbeta.ui.activity;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -15,6 +16,8 @@ import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
 import com.yugy.cnbeta.ui.fragment.CommentFragment;
 import com.yugy.cnbeta.utils.ScreenUtils;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by yugy on 14-1-8.
  */
@@ -25,7 +28,7 @@ public class CommentActivity extends SwipeBackActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobclickAgent.onError(this);
+        ActivityBase.onCreate(this);
         setContentView(R.layout.activity_comment);
         getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 4);
 
@@ -53,20 +56,26 @@ public class CommentActivity extends SwipeBackActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        ActivityBase.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+        ActivityBase.onPause(this);
     }
 
     @Override
     protected void onDestroy() {
-        RequestManager.getInstance().cancelRequests(this);
+        ActivityBase.onDestroy(this);
         super.onDestroy();
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
+
 
     @Override
     public void finish() {

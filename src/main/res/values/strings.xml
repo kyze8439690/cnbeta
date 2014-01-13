@@ -21,4 +21,16 @@
         <item>60</item>
     </string-array>
 
+    <string-array name="pref_font_entry">
+        <item>Roboto</item>
+        <item>Roboto Condensed</item>
+        <item>Roboto Slab</item>
+    </string-array>
+
+    <string-array name="pref_font_values">
+        <item>default</item>
+        <item>condensed</item>
+        <item>slab</item>
+    </string-array>
+
 </resources>

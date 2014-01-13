@@ -1,5 +1,6 @@
 package com.yugy.cnbeta.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static android.view.View.inflate;
 import static com.yugy.cnbeta.ui.view.RefreshActionItem.RefreshActionListener;
 
@@ -72,7 +75,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobclickAgent.onError(this);
+        ActivityBase.onCreate(this);
         FadingActionBarHelper helper = new FadingActionBarHelper()
                 .actionBarBackground(R.drawable.ab_transparent_bg)
                 .headerLayout(R.layout.view_news_header)
@@ -134,6 +137,11 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         });
 
         getArticleData();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 
     private void getArticleData(){
@@ -199,11 +207,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     }
 
     private TextView getNewTextView(){
-        TextView textView = new TextView(this);
-        textView.setAutoLinkMask(Linkify.ALL);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
-        textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        textView.setLineSpacing(0, 1.4f);
+        TextView textView = (TextView) getLayoutInflater().inflate(R.layout.view_news_text, null);
         return textView;
     }
 
@@ -272,21 +276,21 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     }
 
     @Override
-    protected void onDestroy() {
-        RequestManager.getInstance().cancelRequests(this);
-        super.onDestroy();
-    }
-
-    @Override
-     protected void onResume() {
+    protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        ActivityBase.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+        ActivityBase.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        ActivityBase.onDestroy(this);
+        super.onDestroy();
     }
 
     @Override

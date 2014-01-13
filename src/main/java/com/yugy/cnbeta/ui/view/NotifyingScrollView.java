@@ -5,9 +5,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
-
 /**
  * @author Cyril Mottier with modifications from Manuel Peinado
  */

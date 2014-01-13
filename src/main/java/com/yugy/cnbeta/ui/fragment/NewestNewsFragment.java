@@ -13,8 +13,6 @@ import android.widget.ListView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.NewsListModel;
 import com.yugy.cnbeta.sdk.Cnbeta;

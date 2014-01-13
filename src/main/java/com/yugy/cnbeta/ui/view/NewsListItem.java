@@ -2,15 +2,10 @@ package com.yugy.cnbeta.ui.view;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.NewsListModel;
 

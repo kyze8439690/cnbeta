@@ -43,7 +43,7 @@ android {
         }
 
         debug {
-            runProguard false
+            runProguard true
             proguardFiles 'proguard-rules.txt'
         }
     }

@@ -7,14 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
-import android.text.util.Linkify;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ShareActionProvider;
@@ -22,9 +18,6 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.yugy.cnbeta.ui.view.FadingActionBarHelper;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.umeng.analytics.MobclickAgent;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.HotCommentModel;
 import com.yugy.cnbeta.model.NewsListModel;
@@ -32,6 +25,7 @@ import com.yugy.cnbeta.model.TopTenNewsModel;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
+import com.yugy.cnbeta.ui.view.FadingActionBarHelper;
 import com.yugy.cnbeta.ui.view.KenBurnsView;
 import com.yugy.cnbeta.ui.view.RefreshActionItem;
 import com.yugy.cnbeta.ui.view.SelectorImageView;
@@ -159,7 +153,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                                 textView.setText(Html.fromHtml(jsonObject.getString("value")));
                                 mContainer.addView(textView);
                             }else if(jsonObject.getString("type").equals("img")){
-                                SelectorImageView imageView = getNewImageView();
+                                final SelectorImageView imageView = getNewImageView();
                                 final String imgUrl = jsonObject.getString("value");
                                 mImgUrls.add(imgUrl);
                                 imageView.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +167,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                                         overridePendingTransition(R.anim.activity_in, 0);
                                     }
                                 });
-                                ImageLoader.getInstance().displayImage(imgUrl, imageView);
+                                RequestManager.getInstance().displayImage(imgUrl, imageView);
                                 mContainer.addView(imageView);
                             }
                         }

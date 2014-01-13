@@ -21,7 +21,7 @@ public class PicViewPager extends ViewPager {
     }
 
     private void init(){
-        setPageTransformer(true, new DepthPageTransformer());
+        setPageTransformer(true, new StackPageTransformer());
     }
 
     @Override

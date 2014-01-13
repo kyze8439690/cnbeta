@@ -4,6 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
+                android:background="@drawable/card_bg"
     >
 
     <TextView
@@ -11,26 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="title"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:textColor="#036"
-        />
-    
-    <ImageView
-        android:id="@+id/newslist_item_theme"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/newslist_item_title"
-        android:layout_marginTop="8dp"
         />
 
     <TextView
         android:id="@+id/newslist_item_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/newslist_item_theme"
-        android:layout_toRightOf="@id/newslist_item_theme"
-        android:layout_marginLeft="8dp"
-        android:maxLines="3"
+        android:layout_below="@id/newslist_item_title"
+        android:layout_marginTop="8dp"
+        android:maxLines="4"
         android:ellipsize="end"
         android:text="summary"
         />

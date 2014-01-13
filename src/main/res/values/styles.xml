@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@drawable/bg_activity</item>
         <item name="android:actionBarStyle">@style/actionBarStyle</item>
         <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
     </style>
@@ -55,7 +54,7 @@
         <item name="ptrProgressBarColor">#EEE</item>
 
         <!-- Style of the Progress Bar. Values are either: inside or outside -->
-        <item name="ptrProgressBarStyle">inside</item>
+        <item name="ptrProgressBarStyle">outside</item>
 
         <!-- The strings to be displayed at the various states -->
         <item name="ptrPullText">向下滑动即可刷新</item>

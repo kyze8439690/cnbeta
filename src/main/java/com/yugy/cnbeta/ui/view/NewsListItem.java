@@ -34,7 +34,6 @@ public class NewsListItem extends RelativeLayout{
     }
 
     private TextView mTitle;
-    private ImageView mTheme;
     private TextView mSummary;
     private TextView mCommentCount;
     private TextView mTime;
@@ -43,7 +42,6 @@ public class NewsListItem extends RelativeLayout{
     private void init(){
         inflate(getContext(), R.layout.view_newslistitem, this);
         mTitle = (TextView) findViewById(R.id.newslist_item_title);
-        mTheme = (ImageView) findViewById(R.id.newslist_item_theme);
         mSummary = (TextView) findViewById(R.id.newslist_item_summary);
         mCommentCount = (TextView) findViewById(R.id.newslist_item_comment_count);
         mTime = (TextView) findViewById(R.id.newslist_item_time);
@@ -51,7 +49,6 @@ public class NewsListItem extends RelativeLayout{
 
     public void parse(NewsListModel data){
         mTitle.setText(data.title);
-        ImageLoader.getInstance().displayImage(data.theme, mTheme);
         mSummary.setText(data.summary);
         mCommentCount.setText(data.commentCount);
         mTime.setText(data.time);
@@ -70,7 +67,7 @@ public class NewsListItem extends RelativeLayout{
             expandAnimator.start();
         }else{
             ObjectAnimator shrinkAnimator = ObjectAnimator.ofInt(mSummary,
-                    "maxLines", 3);
+                    "maxLines", 4);
             shrinkAnimator.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
             shrinkAnimator.start();
         }

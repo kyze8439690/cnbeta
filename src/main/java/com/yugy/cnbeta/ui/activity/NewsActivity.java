@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,7 +83,8 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         getActionBar().setDisplayShowHomeEnabled(true);
 
         mImageMarginBottom = (int) getResources().getDimension(R.dimen.news_image_margin_bottom);
-        mImageLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        mImageLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        mImageLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
         mImageLayoutParams.setMargins(0, 0, 0, mImageMarginBottom);
 
         mContainer = (LinearLayout) findViewById(R.id.news_container);

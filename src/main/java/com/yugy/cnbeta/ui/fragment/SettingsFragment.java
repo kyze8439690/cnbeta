@@ -12,14 +12,16 @@ import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
 import com.umeng.update.UpdateStatus;
 import com.yugy.cnbeta.R;
+import com.yugy.cnbeta.ui.activity.MainActivity;
 import com.yugy.cnbeta.ui.view.AppMsg;
 
+import static android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import static android.preference.Preference.OnPreferenceClickListener;
 
 /**
  * Created by yugy on 14-1-9.
  */
-public class SettingsFragment extends PreferenceFragment implements OnPreferenceClickListener{
+public class SettingsFragment extends PreferenceFragment implements OnPreferenceClickListener, OnSharedPreferenceChangeListener{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
     public static final String KEY_PREF_REFRESH_AMOUNT = "pref_refresh_amount";
     public static final String KEY_PREF_CHECK_UPDATE = "pref_check_update";
     public static final String KEY_PREF_SEND_EMAIL = "pref_send_email";
+    public static final String KEY_PREF_FONT = "pref_font";
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
@@ -65,5 +68,24 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
         }else{
             return false;
         }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(KEY_PREF_FONT)){
+            getActivity().setResult(MainActivity.RESULT_SETTING_FONT_CHANGED);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 }

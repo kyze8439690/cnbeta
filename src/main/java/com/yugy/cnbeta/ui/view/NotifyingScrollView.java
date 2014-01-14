@@ -11,7 +11,6 @@ import android.widget.ScrollView;
 public class NotifyingScrollView extends ScrollView {
     // Edge-effects don't mix well with the translucent action bar in Android 2.X
     private boolean mDisableEdgeEffects = true;
-
     /**
      * @author Cyril Mottier
      */

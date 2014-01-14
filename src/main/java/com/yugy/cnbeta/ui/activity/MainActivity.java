@@ -2,6 +2,8 @@ package com.yugy.cnbeta.ui.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ListFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -29,9 +31,14 @@ import com.yugy.cnbeta.ui.view.StackPageTransformer;
 import com.yugy.cnbeta.utils.DebugUtils;
 import com.yugy.cnbeta.utils.ScreenUtils;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static com.yugy.cnbeta.ui.listener.ListViewScrollObserver.OnListViewScrollListener;
 
 public class MainActivity extends Activity implements OnListViewScrollListener{
+
+    private static final int REQUEST_SETTINGS = 0;
+    public static final int RESULT_SETTING_FONT_CHANGED = 1;
 
     private PagerSlidingTabStrip mPagerSlidingTabStrip;
     private ViewPager mViewPager;
@@ -42,7 +49,7 @@ public class MainActivity extends Activity implements OnListViewScrollListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobclickAgent.onError(this);
+        ActivityBase.onCreate(this);
         UmengUpdateAgent.update(this);
         setContentView(R.layout.activity_main);
         getActionBar().setIcon(R.drawable.ic_action_logo);
@@ -69,22 +76,46 @@ public class MainActivity extends Activity implements OnListViewScrollListener{
                 }
             }
         });
+        mPagerSlidingTabStrip.setOnTabClickListener(new PagerSlidingTabStrip.OnTabClickListener() {
+            @Override
+            public void onClick(int position) {
+                if(position == mViewPager.getCurrentItem()){
+                    ((ListFragment) mFragments[position]).getListView().smoothScrollToPositionFromTop(0, 0);
+                }
+            }
+        });
         ((NewestNewsFragment) mFragments[0]).setOnScrollUpAndDownListener(this);
         ((HotCommentListFragment) mFragments[1]).setOnScrollUpAndDownListener(this);
         ((TopTenNewsFragment) mFragments[2]).setOnScrollUpAndDownListener(this);
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_SETTINGS && resultCode == RESULT_SETTING_FONT_CHANGED){
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        ActivityBase.onCreate(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+        ActivityBase.onPause(this);
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,7 +127,7 @@ public class MainActivity extends Activity implements OnListViewScrollListener{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+                startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_SETTINGS);
                 overridePendingTransition(R.anim.activity_in, 0);
                 return true;
             default:
@@ -126,7 +157,7 @@ public class MainActivity extends Activity implements OnListViewScrollListener{
 
     @Override
     protected void onDestroy() {
-        RequestManager.getInstance().cancelRequests(this);
+        ActivityBase.onDestroy(this);
         super.onDestroy();
     }
 }

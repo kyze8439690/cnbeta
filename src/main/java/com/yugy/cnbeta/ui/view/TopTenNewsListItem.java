@@ -43,6 +43,6 @@ public class TopTenNewsListItem extends RelativeLayout{
     public void parse(TopTenNewsModel model){
         mTitle.setText(model.title);
         mReadCount.setText(model.readCount + "次阅读");
-        mCommentCount.setText(model.commentCount + "次评论");
+        mCommentCount.setText(model.commentCount + "");
     }
 }

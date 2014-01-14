@@ -7,6 +7,15 @@
         >
 
         <ListPreference
+            android:key="pref_font"
+            android:title="字体"
+            android:summary="设置非中文字体"
+            android:entries="@array/pref_font_entry"
+            android:entryValues="@array/pref_font_values"
+            android:defaultValue="slab"
+            />
+
+        <ListPreference
             android:key="pref_refresh_amount"
             android:title="刷新数量"
             android:summary="设置每次列表刷新获取的最新资讯/精彩评论数"

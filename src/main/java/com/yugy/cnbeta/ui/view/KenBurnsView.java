@@ -11,7 +11,7 @@ import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.utils.DebugUtils;
 
 import java.util.Random;
@@ -72,7 +72,7 @@ public class KenBurnsView extends FrameLayout {
 
         final ImageView activeImageView = mImageViews[mActiveImageIndex];
         activeImageView.setAlpha(0.0f);
-        ImageLoader.getInstance().displayImage(mImageUrls[mActiveUrlIndex], activeImageView);
+        RequestManager.getInstance().displayImage(mImageUrls[mActiveUrlIndex], activeImageView);
 
         ImageView inactiveImageView = mImageViews[inactiveIndex];
 

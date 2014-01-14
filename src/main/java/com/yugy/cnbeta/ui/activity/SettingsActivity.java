@@ -1,5 +1,6 @@
 package com.yugy.cnbeta.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -13,6 +14,8 @@ import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
 import com.yugy.cnbeta.ui.fragment.SettingsFragment;
 import com.yugy.cnbeta.utils.ScreenUtils;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by yugy on 14-1-9.
  */
@@ -21,7 +24,7 @@ public class SettingsActivity extends SwipeBackActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobclickAgent.onError(this);
+        ActivityBase.onCreate(this);
         getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 3);
 
         getActionBar().setDisplayShowHomeEnabled(true);
@@ -49,13 +52,25 @@ public class SettingsActivity extends SwipeBackActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        ActivityBase.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+        ActivityBase.onPause(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        ActivityBase.onDestroy(this);
+        super.onDestroy();
     }
 
     @Override

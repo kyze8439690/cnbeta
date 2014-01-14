@@ -3,6 +3,7 @@ package com.yugy.cnbeta.ui.fragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -69,13 +70,20 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
                 .listener(this)
                 .setup(mPullToRefreshLayout);
 
+<<<<<<< HEAD
+=======
+        getListView().setBackgroundResource(R.drawable.bg_activity);
+>>>>>>> master
         getListView().setOnScrollListener(mListViewScrollObserver);
         getListView().setOnItemLongClickListener(this);
-        getListView().setBackgroundColor(Color.WHITE);
         getListView().setOverScrollMode(OVER_SCROLL_NEVER);
-        getListView().setPadding(0, ScreenUtils.dp(getActivity(), 48), 0, 0);
+        getListView().setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        int padding = ScreenUtils.dp(getActivity(), 8);
+        getListView().setPadding(padding, ScreenUtils.dp(getActivity(), 56), padding, padding);
         getListView().setClipToPadding(false);
-        getListView().setDividerHeight(1);
+        getListView().setDivider(new ColorDrawable(Color.TRANSPARENT));
+        getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
+        getListView().setDividerHeight(padding);
 
         mCurrentAction = ACTION_REFRESH;
         mFromArticleId = "0";

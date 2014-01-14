@@ -12,12 +12,11 @@ import android.widget.ListView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.NewsListModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.NewsActivity;
+import com.yugy.cnbeta.ui.adapter.CardsAnimationAdapter;
 import com.yugy.cnbeta.ui.adapter.NewestNewsListAdapter;
 import com.yugy.cnbeta.ui.listener.ListViewScrollObserver;
 import com.yugy.cnbeta.ui.view.AppMsg;
@@ -50,6 +49,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
     private String mFromArticleId;
 
     private PullToRefreshLayout mPullToRefreshLayout;
+    private CardsAnimationAdapter mCardsAnimationAdapter;
     private NewestNewsListAdapter mAdapter;
     private ListViewScrollObserver mListViewScrollObserver;
 
@@ -69,8 +69,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
                 .listener(this)
                 .setup(mPullToRefreshLayout);
 
-        PauseOnScrollListener pauseOnScrollListener = new PauseOnScrollListener(ImageLoader.getInstance(), true, true, mListViewScrollObserver);
-        getListView().setOnScrollListener(pauseOnScrollListener);
+        getListView().setOnScrollListener(mListViewScrollObserver);
         getListView().setOnItemLongClickListener(this);
         getListView().setBackgroundColor(Color.WHITE);
         getListView().setOverScrollMode(OVER_SCROLL_NEVER);
@@ -152,16 +151,18 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
             if(newsListModels == null){
                 AppMsg.makeText(getActivity(), "数据解析失败", AppMsg.STYLE_ALERT).show();
             }else if(mCurrentAction == ACTION_REFRESH){
-                if(mAdapter == null){
+                if(mCardsAnimationAdapter == null){
                     mAdapter = new NewestNewsListAdapter(NewestNewsFragment.this, newsListModels);
-                    setListAdapter(mAdapter);
+                    mCardsAnimationAdapter = new CardsAnimationAdapter(mAdapter);
+                    mCardsAnimationAdapter.setAbsListView(getListView());
+                    setListAdapter(mCardsAnimationAdapter);
                 }else{
                     mAdapter.setModels(newsListModels);
-                    mAdapter.notifyDataSetChanged();
+                    mCardsAnimationAdapter.notifyDataSetChanged();
                 }
             }else if(mCurrentAction == ACTION_GET_NEXT_PAGE){
                 mAdapter.getModels().addAll(newsListModels);
-                mAdapter.notifyDataSetChanged();
+                mCardsAnimationAdapter.notifyDataSetChanged();
             }
             mCurrentAction = ACTION_NONE;
             mPullToRefreshLayout.setRefreshComplete();

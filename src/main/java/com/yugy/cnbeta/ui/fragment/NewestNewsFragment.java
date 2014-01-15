@@ -40,7 +40,7 @@ import static android.widget.AdapterView.OnItemLongClickListener;
 /**
  * Created by yugy on 14-1-6.
  */
-public class NewestNewsFragment extends ListFragment implements OnRefreshListener, OnItemLongClickListener{
+public class NewestNewsFragment extends ListFragment implements OnRefreshListener, OnItemLongClickListener, MainFragmentBase{
 
     private static final int ACTION_NONE = 0;
     private static final int ACTION_REFRESH = 1;
@@ -48,6 +48,8 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
 
     private int mCurrentAction = ACTION_NONE;
     private String mFromArticleId;
+    private boolean mDataLoaded = false;
+    private boolean mLoading = false;
 
     private PullToRefreshLayout mPullToRefreshLayout;
     private CardsAnimationAdapter mCardsAnimationAdapter;
@@ -69,11 +71,6 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
                 .theseChildrenArePullable(getListView(), getListView().getEmptyView())
                 .listener(this)
                 .setup(mPullToRefreshLayout);
-
-<<<<<<< HEAD
-=======
-        getListView().setBackgroundResource(R.drawable.bg_activity);
->>>>>>> master
         getListView().setOnScrollListener(mListViewScrollObserver);
         getListView().setOnItemLongClickListener(this);
         getListView().setOverScrollMode(OVER_SCROLL_NEVER);
@@ -87,8 +84,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
 
         mCurrentAction = ACTION_REFRESH;
         mFromArticleId = "0";
-        mPullToRefreshLayout.setRefreshing(true);
-        getData();
+        loadData();
     }
 
     public void setOnScrollUpAndDownListener(ListViewScrollObserver.OnListViewScrollListener listener){
@@ -139,6 +135,15 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
         );
     }
 
+    @Override
+    public void loadData() {
+        if(!mDataLoaded && !mLoading){
+            mLoading = true;
+            mPullToRefreshLayout.setRefreshing(true);
+            getData();
+        }
+    }
+
     private class ParseTask extends AsyncTask<JSONArray, Void, ArrayList<NewsListModel>>{
 
         @Override
@@ -164,9 +169,11 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
                     mCardsAnimationAdapter = new CardsAnimationAdapter(mAdapter);
                     mCardsAnimationAdapter.setAbsListView(getListView());
                     setListAdapter(mCardsAnimationAdapter);
+                    mDataLoaded = true;
                 }else{
                     mAdapter.setModels(newsListModels);
                     mCardsAnimationAdapter.notifyDataSetChanged();
+                    mDataLoaded = true;
                 }
             }else if(mCurrentAction == ACTION_GET_NEXT_PAGE){
                 mAdapter.getModels().addAll(newsListModels);
@@ -174,6 +181,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
             }
             mCurrentAction = ACTION_NONE;
             mPullToRefreshLayout.setRefreshComplete();
+            mLoading = false;
             super.onPostExecute(newsListModels);
         }
     }

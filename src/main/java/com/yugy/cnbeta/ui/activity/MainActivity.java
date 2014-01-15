@@ -24,6 +24,7 @@ import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.ui.adapter.MainFragmentPagerAdapter;
 import com.yugy.cnbeta.ui.fragment.HotCommentListFragment;
+import com.yugy.cnbeta.ui.fragment.MainFragmentBase;
 import com.yugy.cnbeta.ui.fragment.NewestNewsFragment;
 import com.yugy.cnbeta.ui.fragment.TopTenNewsFragment;
 import com.yugy.cnbeta.ui.view.PagerSlidingTabStrip;
@@ -74,6 +75,7 @@ public class MainActivity extends Activity implements OnListViewScrollListener{
                 if (mPagerSlidingTabStrip.getTranslationY() != 0) {
                     mPagerSlidingTabStrip.animate().translationY(0).start();
                 }
+                ((MainFragmentBase) mFragments[position]).loadData();
             }
         });
         mPagerSlidingTabStrip.setOnTabClickListener(new PagerSlidingTabStrip.OnTabClickListener() {

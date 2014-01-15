@@ -12,7 +12,7 @@ import com.yugy.cnbeta.ui.fragment.NewestNewsFragment;
 /**
  * Created by yugy on 14-1-7.
  */
-public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
+public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     private String[] mTitles;
     private Fragment[] mFragments;

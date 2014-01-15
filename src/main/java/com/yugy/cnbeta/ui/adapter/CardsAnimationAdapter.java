@@ -17,11 +17,10 @@ public class CardsAnimationAdapter extends NotAlphaAnimationAdapter {
 
     private float mRotationX = 8;
 
-    private long mDuration;
+    private long mDuration = 400;
 
     public CardsAnimationAdapter(BaseAdapter baseAdapter) {
         super(baseAdapter);
-        mDuration = Application.getContext().getResources().getInteger(android.R.integer.config_mediumAnimTime);
     }
 
     @Override

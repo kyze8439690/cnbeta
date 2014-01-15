@@ -16,6 +16,7 @@ import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.HotCommentModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.NewsActivity;
+import com.yugy.cnbeta.ui.adapter.CardsAnimationAdapter;
 import com.yugy.cnbeta.ui.adapter.HotCommentListAdapter;
 import com.yugy.cnbeta.ui.listener.ListViewScrollObserver;
 import com.yugy.cnbeta.ui.view.AppMsg;
@@ -34,13 +35,17 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 /**
  * Created by yugy on 14-1-9.
  */
-public class HotCommentListFragment extends ListFragment{
+public class HotCommentListFragment extends ListFragment implements MainFragmentBase{
 
     private String mFromCommentId = "0";
 
     private PullToRefreshLayout mPullToRefreshLayout;
     private ListViewScrollObserver mListViewScrollObserver;
+    private CardsAnimationAdapter mCardsAnimationAdapter;
     private HotCommentListAdapter mAdapter;
+
+    private boolean mDataLoaded = false;
+    private boolean mLoading = false;
 
     public HotCommentListFragment(){
         mListViewScrollObserver = new ListViewScrollObserver();
@@ -57,7 +62,6 @@ public class HotCommentListFragment extends ListFragment{
                 .setup(mPullToRefreshLayout);
 
         getListView().setOnScrollListener(mListViewScrollObserver);
-        getListView().setBackgroundResource(R.drawable.bg_activity);
         getListView().setOverScrollMode(View.OVER_SCROLL_NEVER);
         getListView().setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         int padding = ScreenUtils.dp(getActivity(), 8);
@@ -66,10 +70,6 @@ public class HotCommentListFragment extends ListFragment{
         getListView().setDivider(new ColorDrawable(Color.TRANSPARENT));
         getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         getListView().setDividerHeight(padding);
-
-        mAdapter = new HotCommentListAdapter(this);
-
-        getData();
     }
 
     public void setOnScrollUpAndDownListener(ListViewScrollObserver.OnListViewScrollListener listener){
@@ -114,6 +114,19 @@ public class HotCommentListFragment extends ListFragment{
         return models;
     }
 
+    @Override
+    public void loadData() {
+        if(!mDataLoaded && !mLoading){
+            mLoading = true;
+            mPullToRefreshLayout.setRefreshing(false);
+            mPullToRefreshLayout.setRefreshing(true);
+            mAdapter = new HotCommentListAdapter(this);
+            mCardsAnimationAdapter = new CardsAnimationAdapter(mAdapter);
+            mCardsAnimationAdapter.setAbsListView(getListView());
+            getData();
+        }
+    }
+
     private class ParseTask extends AsyncTask<JSONArray, Void, ArrayList<HotCommentModel>>{
 
         @Override
@@ -132,11 +145,14 @@ public class HotCommentListFragment extends ListFragment{
                 AppMsg.makeText(getActivity(), "数据解析失败", AppMsg.STYLE_ALERT).show();
             }else if(mAdapter.getModels().size() == 0){
                 mAdapter.getModels().addAll(hotCommentModels);
-                setListAdapter(mAdapter);
+                setListAdapter(mCardsAnimationAdapter);
+                mDataLoaded = true;
             }else{
                 mAdapter.getModels().addAll(hotCommentModels);
-                mAdapter.notifyDataSetChanged();
+                mCardsAnimationAdapter.notifyDataSetChanged();
+                mDataLoaded = true;
             }
+            mLoading = false;
             mPullToRefreshLayout.setRefreshComplete();
             super.onPostExecute(hotCommentModels);
         }

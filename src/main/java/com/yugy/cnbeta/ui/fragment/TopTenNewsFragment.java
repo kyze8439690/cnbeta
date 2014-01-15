@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -24,23 +25,36 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+
 import static android.view.View.OVER_SCROLL_NEVER;
 
 /**
  * Created by yugy on 14-1-9.
  */
-public class TopTenNewsFragment extends ListFragment{
+public class TopTenNewsFragment extends ListFragment implements MainFragmentBase{
 
     private ListViewScrollObserver mListViewScrollObserver;
     private TopTenNewsListAdapter mAdapter;
+    private PullToRefreshLayout mPullToRefreshLayout;
+
+    private boolean mDataLoaded = false;
+    private boolean mLoading = false;
 
     public TopTenNewsFragment(){
         mListViewScrollObserver = new ListViewScrollObserver();
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ViewGroup viewGroup = (ViewGroup) view;
+        mPullToRefreshLayout = new PullToRefreshLayout(getActivity());
+        ActionBarPullToRefresh.from(getActivity())
+                .insertLayoutInto(viewGroup)
+                .setup(mPullToRefreshLayout);
 
         getListView().setOnScrollListener(mListViewScrollObserver);
         getListView().setBackgroundColor(Color.WHITE);
@@ -48,8 +62,6 @@ public class TopTenNewsFragment extends ListFragment{
         getListView().setPadding(0, ScreenUtils.dp(getActivity(), 48), 0, 0);
         getListView().setClipToPadding(false);
         getListView().setDividerHeight(1);
-
-        getData();
     }
 
     public void setOnScrollUpAndDownListener(ListViewScrollObserver.OnListViewScrollListener listener){
@@ -85,6 +97,16 @@ public class TopTenNewsFragment extends ListFragment{
         );
     }
 
+    @Override
+    public void loadData() {
+        if(!mDataLoaded && !mLoading){
+            mLoading = true;
+            mPullToRefreshLayout.setRefreshing(false);
+            mPullToRefreshLayout.setRefreshing(true);
+            getData();
+        }
+    }
+
     private class ParseTask extends AsyncTask<JSONArray, Void, ArrayList<TopTenNewsModel>>{
 
         @Override
@@ -104,7 +126,10 @@ public class TopTenNewsFragment extends ListFragment{
             }else{
                 mAdapter = new TopTenNewsListAdapter(getActivity(), topTenNewsModels);
                 setListAdapter(mAdapter);
+                mDataLoaded = true;
             }
+            mLoading = false;
+            mPullToRefreshLayout.setRefreshing(false);
             super.onPostExecute(topTenNewsModels);
         }
     }

@@ -25,4 +25,17 @@
         </LinearLayout>
     </com.yugy.cnbeta.ui.view.NotifyingScrollView>
 
+    <Button
+        android:id="@+id/news_comment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_chat"
+        android:text="0"
+        android:textColor="#FFF"
+        android:drawablePadding="5dp"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        />
+
 </com.yugy.cnbeta.ui.view.RootLayout>

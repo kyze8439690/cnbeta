@@ -42,7 +42,6 @@ import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static android.view.View.inflate;
 import static com.yugy.cnbeta.ui.view.RefreshActionItem.RefreshActionListener;
 
 /**
@@ -59,8 +58,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     private TextView mTitle;
     private TextView mCommentCount;
     private RelativeTimeTextView mTime;
-    private View mCommentFooter;
-    private Button mFooterButton;
+    private Button mCommentButton;
     private RefreshActionItem mRefreshActionItem;
     private ShareActionProvider mShareActionProvider;
 
@@ -93,8 +91,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         mTitle = (TextView) findViewById(R.id.news_header_title);
         mCommentCount = (TextView) findViewById(R.id.news_header_comment_count);
         mTime = (RelativeTimeTextView) findViewById(R.id.news_header_time);
-        mCommentFooter = inflate(this, R.layout.view_comment_footer, null);
-        mFooterButton = (Button) mCommentFooter.findViewById(R.id.comment_footer_button);
+        mCommentButton = (Button) findViewById(R.id.news_comment_button);
 
         if(getIntent().hasExtra("top10")){
             TopTenNewsModel data = getIntent().getParcelableExtra("data");
@@ -122,8 +119,8 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
 
         mTitle.setText(mTitleString);
         mCommentCount.setText(mCommentCountString);
-        mFooterButton.setText("查看评论(" + mCommentCountString + ")");
-        mFooterButton.setOnClickListener(new View.OnClickListener() {
+        mCommentButton.setText(mCommentCountString);
+        mCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewsActivity.this, CommentActivity.class);
@@ -177,7 +174,6 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
                         if(mImgUrls.size() > 0){
                             mHeaderImage.setResourceIds(mImgUrls.toArray(new String[mImgUrls.size()]));
                         }
-                        mContainer.addView(mCommentFooter);
                     }catch (JSONException e){
                         e.printStackTrace();
                     }

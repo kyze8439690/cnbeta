@@ -29,6 +29,7 @@ import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
 import com.yugy.cnbeta.ui.view.FadingActionBarHelper;
 import com.yugy.cnbeta.ui.view.KenBurnsView;
 import com.yugy.cnbeta.ui.view.RefreshActionItem;
+import com.yugy.cnbeta.ui.view.RelativeTimeTextView;
 import com.yugy.cnbeta.ui.view.SelectorImageView;
 import com.yugy.cnbeta.utils.MessageUtils;
 import com.yugy.cnbeta.utils.ScreenUtils;
@@ -57,7 +58,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
     private KenBurnsView mHeaderImage;
     private TextView mTitle;
     private TextView mCommentCount;
-    private TextView mTime;
+    private RelativeTimeTextView mTime;
     private View mCommentFooter;
     private Button mFooterButton;
     private RefreshActionItem mRefreshActionItem;
@@ -91,7 +92,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         mHeaderImage = (KenBurnsView) findViewById(R.id.news_header_image);
         mTitle = (TextView) findViewById(R.id.news_header_title);
         mCommentCount = (TextView) findViewById(R.id.news_header_comment_count);
-        mTime = (TextView) findViewById(R.id.news_header_time);
+        mTime = (RelativeTimeTextView) findViewById(R.id.news_header_time);
         mCommentFooter = inflate(this, R.layout.view_comment_footer, null);
         mFooterButton = (Button) mCommentFooter.findViewById(R.id.comment_footer_button);
 
@@ -113,7 +114,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
             mTitleString = data.title;
             mCommentCountString = data.commentCount;
 
-            mTime.setText(data.time);
+            mTime.setReferenceTime(data.time);
             TextView summary = getNewTextView();
             summary.setText(data.summary);
             mContainer.addView(summary);

@@ -10,7 +10,7 @@
         android:layout_height="250dp"
         android:background="#123456"/>
 
-    <TextView
+    <com.yugy.cnbeta.ui.view.RelativeTimeTextView
         android:id="@+id/news_header_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -3,6 +3,7 @@
 
     <string name="app_name">cnβ</string>
     <string name="action_settings">设置</string>
+    <string name="just_now">刚刚</string>
 
     <string-array name="drawer_array">
         <item>最新资讯</item>

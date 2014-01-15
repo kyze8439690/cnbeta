@@ -31,7 +31,7 @@ public class CommentListItem extends RelativeLayout{
     private TextView mContent;
     private TextView mSupport;
     private TextView mAgainst;
-    private TextView mTime;
+    private RelativeTimeTextView mTime;
 
     private void init(){
         inflate(getContext(), R.layout.view_commentlistitem, this);
@@ -39,7 +39,7 @@ public class CommentListItem extends RelativeLayout{
         mContent = (TextView) findViewById(R.id.commentlist_item_content);
         mSupport = (TextView) findViewById(R.id.commentlist_item_support);
         mAgainst = (TextView) findViewById(R.id.commentlist_item_against);
-        mTime = (TextView) findViewById(R.id.commentlist_item_time);
+        mTime = (RelativeTimeTextView) findViewById(R.id.commentlist_item_time);
     }
 
     public void parse(NewsCommentModel model){
@@ -47,6 +47,6 @@ public class CommentListItem extends RelativeLayout{
         mContent.setText(model.comment);
         mSupport.setText("支持(" + model.supportCount + ")");
         mAgainst.setText("反对(" + model.againstCount + ")");
-        mTime.setText(model.time);
+        mTime.setReferenceTime(model.time);
     }
 }

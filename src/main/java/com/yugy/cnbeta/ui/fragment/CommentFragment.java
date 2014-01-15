@@ -25,6 +25,8 @@ import com.yugy.cnbeta.utils.DebugUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.ParseException;
+
 import static android.app.ActionBar.OnNavigationListener;
 import static com.yugy.cnbeta.ui.view.RefreshActionItem.RefreshActionListener;
 
@@ -80,6 +82,9 @@ public class CommentFragment extends ListFragment implements RefreshActionListen
                     } catch (JSONException e) {
                         e.printStackTrace();
                         AppMsg.makeText(getActivity(), "评论数据解析失败", AppMsg.STYLE_ALERT).show();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        AppMsg.makeText(getActivity(), "评论时间解析失败", AppMsg.STYLE_ALERT).show();
                     }
                     mRefreshActionItem.setRefreshing(false);
                 }

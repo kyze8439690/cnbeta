@@ -57,7 +57,7 @@
         android:textColor="#666"
         />
 
-    <TextView
+    <com.yugy.cnbeta.ui.view.RelativeTimeTextView
         android:id="@+id/commentlist_item_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

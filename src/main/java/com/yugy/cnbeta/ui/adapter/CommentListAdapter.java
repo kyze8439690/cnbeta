@@ -43,13 +43,7 @@ public class CommentListAdapter extends BaseAdapter{
                     Collections.sort(mModels, new Comparator<NewsCommentModel>() {
                         @Override
                         public int compare(NewsCommentModel lhs, NewsCommentModel rhs) {
-                            try {
-                                return sSimpleDateFormat.parse(lhs.time).compareTo(sSimpleDateFormat.parse(rhs.time));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                                MessageUtils.toast(mContext, "排序失败 %>_<%");
-                                return 0;
-                            }
+                            return new Long(lhs.time).compareTo(rhs.time);
                         }
                     });
                     break;

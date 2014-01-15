@@ -31,7 +31,7 @@ public class NewsListItem extends RelativeLayout{
     private TextView mTitle;
     private TextView mSummary;
     private TextView mCommentCount;
-    private TextView mTime;
+    private RelativeTimeTextView mTime;
     private boolean mShrinked = true;
 
     private void init(){
@@ -39,14 +39,14 @@ public class NewsListItem extends RelativeLayout{
         mTitle = (TextView) findViewById(R.id.newslist_item_title);
         mSummary = (TextView) findViewById(R.id.newslist_item_summary);
         mCommentCount = (TextView) findViewById(R.id.newslist_item_comment_count);
-        mTime = (TextView) findViewById(R.id.newslist_item_time);
+        mTime = (RelativeTimeTextView) findViewById(R.id.newslist_item_time);
     }
 
     public void parse(NewsListModel data){
         mTitle.setText(data.title);
         mSummary.setText(data.summary);
         mCommentCount.setText(data.commentCount);
-        mTime.setText(data.time);
+        mTime.setReferenceTime(data.time);
         if(!mShrinked){
             mSummary.setMaxLines(3);
             mShrinked = false;

@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class NewsListModel implements Parcelable{
     public String title;
-    public String time;
+    public long time;
     public String id;
     public String commentCount;
     public Spanned summary;
@@ -33,7 +33,7 @@ public class NewsListModel implements Parcelable{
 
     public void parse(JSONObject json) throws JSONException, ParseException {
         title = json.getString("title");
-        time = "发表于 " + json.getString("pubtime");
+        time = sSimpleDateFormat.parse(json.getString("pubtime")).getTime();
         id = json.getString("ArticleID");
         commentCount = json.getString("cmtnum");
         summary = Html.fromHtml(json.getString("summary"));
@@ -50,7 +50,6 @@ public class NewsListModel implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray(new String[]{
                 title,
-                time,
                 id,
                 commentCount,
                 summary.toString(),
@@ -59,20 +58,21 @@ public class NewsListModel implements Parcelable{
         dest.writeBooleanArray(new boolean[]{
                 readed
         });
+        dest.writeLong(time);
     }
 
     private NewsListModel(Parcel in){
-        String[] strings = new String[6];
+        String[] strings = new String[5];
         in.readStringArray(strings);
         title = strings[0];
-        time = strings[1];
-        id = strings[2];
-        commentCount = strings[3];
-        summary = Html.fromHtml(strings[4]);
-        theme = strings[5];
+        id = strings[1];
+        commentCount = strings[2];
+        summary = Html.fromHtml(strings[3]);
+        theme = strings[4];
         boolean[] booleans = new boolean[1];
         in.readBooleanArray(booleans);
         readed = booleans[0];
+        time = in.readLong();
     }
 
     public static final Creator<NewsListModel> CREATOR = new Creator<NewsListModel>() {

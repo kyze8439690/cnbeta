@@ -7,5 +7,6 @@
     android:autoLink="all"
     android:linksClickable="true"
     android:textSize="17sp"
+    android:textIsSelectable="true"
     android:lineSpacingMultiplier="1.4"
     />

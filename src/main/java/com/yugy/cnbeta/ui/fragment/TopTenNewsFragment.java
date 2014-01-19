@@ -18,6 +18,7 @@ import com.yugy.cnbeta.ui.activity.NewsActivity;
 import com.yugy.cnbeta.ui.adapter.TopTenNewsListAdapter;
 import com.yugy.cnbeta.ui.listener.ListViewScrollObserver;
 import com.yugy.cnbeta.ui.view.AppMsg;
+import com.yugy.cnbeta.utils.DebugUtils;
 import com.yugy.cnbeta.utils.ScreenUtils;
 
 import org.json.JSONArray;
@@ -33,7 +34,7 @@ import static android.view.View.OVER_SCROLL_NEVER;
 /**
  * Created by yugy on 14-1-9.
  */
-public class TopTenNewsFragment extends ListFragment implements MainFragmentBase{
+public class TopTenNewsFragment extends ListFragment implements MainNewsFragmentBase {
 
     private ListViewScrollObserver mListViewScrollObserver;
     private TopTenNewsListAdapter mAdapter;
@@ -48,6 +49,7 @@ public class TopTenNewsFragment extends ListFragment implements MainFragmentBase
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        DebugUtils.log("TopTenNewsFragment onViewCreated");
         super.onViewCreated(view, savedInstanceState);
 
         ViewGroup viewGroup = (ViewGroup) view;
@@ -59,9 +61,9 @@ public class TopTenNewsFragment extends ListFragment implements MainFragmentBase
         getListView().setOnScrollListener(mListViewScrollObserver);
         getListView().setBackgroundColor(Color.WHITE);
         getListView().setOverScrollMode(OVER_SCROLL_NEVER);
-        getListView().setPadding(0, ScreenUtils.dp(getActivity(), 48), 0, 0);
         getListView().setClipToPadding(false);
         getListView().setDividerHeight(1);
+        loadData();
     }
 
     public void setOnScrollUpAndDownListener(ListViewScrollObserver.OnListViewScrollListener listener){
@@ -99,6 +101,7 @@ public class TopTenNewsFragment extends ListFragment implements MainFragmentBase
 
     @Override
     public void loadData() {
+        DebugUtils.log("TopTenNewsFragment loadData");
         if(!mDataLoaded && !mLoading){
             mLoading = true;
             mPullToRefreshLayout.setRefreshing(false);

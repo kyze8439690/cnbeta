@@ -22,6 +22,7 @@ import com.yugy.cnbeta.ui.adapter.NewestNewsListAdapter;
 import com.yugy.cnbeta.ui.listener.ListViewScrollObserver;
 import com.yugy.cnbeta.ui.view.AppMsg;
 import com.yugy.cnbeta.ui.view.NewsListItem;
+import com.yugy.cnbeta.utils.DebugUtils;
 import com.yugy.cnbeta.utils.ScreenUtils;
 
 import org.json.JSONArray;
@@ -40,7 +41,7 @@ import static android.widget.AdapterView.OnItemLongClickListener;
 /**
  * Created by yugy on 14-1-6.
  */
-public class NewestNewsFragment extends ListFragment implements OnRefreshListener, OnItemLongClickListener, MainFragmentBase{
+public class NewestNewsFragment extends ListFragment implements OnRefreshListener, OnItemLongClickListener, MainNewsFragmentBase {
 
     private static final int ACTION_NONE = 0;
     private static final int ACTION_REFRESH = 1;
@@ -54,15 +55,11 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
     private PullToRefreshLayout mPullToRefreshLayout;
     private CardsAnimationAdapter mCardsAnimationAdapter;
     private NewestNewsListAdapter mAdapter;
-    private ListViewScrollObserver mListViewScrollObserver;
-
-    public NewestNewsFragment(){
-        mListViewScrollObserver = new ListViewScrollObserver();
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        DebugUtils.log("NewestNewsFragment onViewCreated");
 
         ViewGroup viewGroup = (ViewGroup) view;
         mPullToRefreshLayout = new PullToRefreshLayout(getActivity());
@@ -71,12 +68,11 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
                 .theseChildrenArePullable(getListView(), getListView().getEmptyView())
                 .listener(this)
                 .setup(mPullToRefreshLayout);
-        getListView().setOnScrollListener(mListViewScrollObserver);
         getListView().setOnItemLongClickListener(this);
         getListView().setOverScrollMode(OVER_SCROLL_NEVER);
         getListView().setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         int padding = ScreenUtils.dp(getActivity(), 8);
-        getListView().setPadding(padding, ScreenUtils.dp(getActivity(), 56), padding, padding);
+        getListView().setPadding(padding, padding, padding, padding);
         getListView().setClipToPadding(false);
         getListView().setDivider(new ColorDrawable(Color.TRANSPARENT));
         getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
@@ -85,10 +81,6 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
         mCurrentAction = ACTION_REFRESH;
         mFromArticleId = "0";
         loadData();
-    }
-
-    public void setOnScrollUpAndDownListener(ListViewScrollObserver.OnListViewScrollListener listener){
-        mListViewScrollObserver.setOnScrollUpAndDownListener(listener);
     }
 
     @Override
@@ -137,6 +129,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
 
     @Override
     public void loadData() {
+        DebugUtils.log("NewestNewsFragment loadData");
         if(!mDataLoaded && !mLoading){
             mLoading = true;
             mPullToRefreshLayout.setRefreshing(true);

@@ -30,7 +30,9 @@ public class SettingsActivity extends SwipeBackActivity{
         getActionBar().setDisplayShowHomeEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        if(savedInstanceState == null){
+            getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        }
     }
 
     @Override

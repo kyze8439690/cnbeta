@@ -71,7 +71,7 @@ public class NewsActivity extends SwipeBackActivity implements RefreshActionList
         super.onCreate(savedInstanceState);
         ActivityBase.onCreate(this);
         FadingActionBarHelper helper = new FadingActionBarHelper()
-                .actionBarBackground(R.drawable.ab_transparent_bg)
+                .actionBarBackground(R.drawable.ab_solid_bg)
                 .headerLayout(R.layout.view_news_header)
                 .contentLayout(R.layout.activity_news);
         setContentView(helper.createView(this));

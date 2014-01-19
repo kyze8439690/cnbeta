@@ -28,17 +28,14 @@
 
         <activity
             android:name=".ui.activity.MainActivity"
-            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.NewsActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/NewsTheme"
             android:icon="@drawable/ic_action_logo"
             android:label=""
@@ -49,7 +46,6 @@
         </activity>
         <activity
             android:name=".ui.activity.PicActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/PicTheme"
             android:parentActivityName=".ui.activity.NewsActivity">
             <meta-data
@@ -58,7 +54,6 @@
         </activity>
         <activity
             android:name=".ui.activity.CommentActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/CommentTheme"
             android:label=""
             android:parentActivityName=".ui.activity.NewsActivity">
@@ -68,7 +63,6 @@
         </activity>
         <activity
             android:name=".ui.activity.SettingsActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/SettingsTheme"
             android:label="@string/action_settings"
             android:parentActivityName=".ui.activity.MainActivity">

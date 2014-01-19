@@ -1,19 +1,24 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="com.yugy.cnbeta.ui.activity.MainActivity">
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_viewpager"
+    <FrameLayout
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ListView
+        android:id="@+id/main_drawer"
+        android:layout_gravity="start"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#FFF"
         />
 
-    <com.yugy.cnbeta.ui.view.PagerSlidingTabStrip
-        android:id="@+id/main_tabs"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#ff10406b"/>
-
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>

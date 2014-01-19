@@ -3,7 +3,7 @@ package com.yugy.cnbeta.ui.fragment;
 /**
  * Created by yugy on 14-1-15.
  */
-public interface MainFragmentBase {
+public interface MainNewsFragmentBase {
 
     public void loadData();
 

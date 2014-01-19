@@ -20,6 +20,7 @@ import com.yugy.cnbeta.ui.adapter.CardsAnimationAdapter;
 import com.yugy.cnbeta.ui.adapter.HotCommentListAdapter;
 import com.yugy.cnbeta.ui.listener.ListViewScrollObserver;
 import com.yugy.cnbeta.ui.view.AppMsg;
+import com.yugy.cnbeta.utils.DebugUtils;
 import com.yugy.cnbeta.utils.ScreenUtils;
 
 import org.json.JSONArray;
@@ -28,14 +29,12 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 /**
  * Created by yugy on 14-1-9.
  */
-public class HotCommentListFragment extends ListFragment implements MainFragmentBase{
+public class HotCommentListFragment extends ListFragment implements MainNewsFragmentBase {
 
     private String mFromCommentId = "0";
 
@@ -53,6 +52,7 @@ public class HotCommentListFragment extends ListFragment implements MainFragment
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        DebugUtils.log("HotCommentListFragment onViewCreated");
         super.onViewCreated(view, savedInstanceState);
 
         ViewGroup viewGroup = (ViewGroup) view;
@@ -65,11 +65,12 @@ public class HotCommentListFragment extends ListFragment implements MainFragment
         getListView().setOverScrollMode(View.OVER_SCROLL_NEVER);
         getListView().setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         int padding = ScreenUtils.dp(getActivity(), 8);
-        getListView().setPadding(padding, ScreenUtils.dp(getActivity(), 56), padding, padding);
+        getListView().setPadding(padding, padding, padding, padding);
         getListView().setClipToPadding(false);
         getListView().setDivider(new ColorDrawable(Color.TRANSPARENT));
         getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         getListView().setDividerHeight(padding);
+        loadData();
     }
 
     public void setOnScrollUpAndDownListener(ListViewScrollObserver.OnListViewScrollListener listener){
@@ -116,6 +117,7 @@ public class HotCommentListFragment extends ListFragment implements MainFragment
 
     @Override
     public void loadData() {
+        DebugUtils.log("HotCommentListFragment loadData");
         if(!mDataLoaded && !mLoading){
             mLoading = true;
             mPullToRefreshLayout.setRefreshing(false);

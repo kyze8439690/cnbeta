@@ -36,16 +36,11 @@ import static android.view.View.OVER_SCROLL_NEVER;
  */
 public class TopTenNewsFragment extends ListFragment implements MainNewsFragmentBase {
 
-    private ListViewScrollObserver mListViewScrollObserver;
     private TopTenNewsListAdapter mAdapter;
     private PullToRefreshLayout mPullToRefreshLayout;
 
     private boolean mDataLoaded = false;
     private boolean mLoading = false;
-
-    public TopTenNewsFragment(){
-        mListViewScrollObserver = new ListViewScrollObserver();
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -58,7 +53,6 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
                 .insertLayoutInto(viewGroup)
                 .setup(mPullToRefreshLayout);
 
-        getListView().setOnScrollListener(mListViewScrollObserver);
         getListView().setBackgroundColor(Color.WHITE);
         getListView().setOverScrollMode(OVER_SCROLL_NEVER);
         getListView().setClipToPadding(false);
@@ -66,15 +60,13 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
         loadData();
     }
 
-    public void setOnScrollUpAndDownListener(ListViewScrollObserver.OnListViewScrollListener listener){
-        mListViewScrollObserver.setOnScrollUpAndDownListener(listener);
-    }
-
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Intent intent = new Intent(getActivity(), NewsActivity.class);
-        intent.putExtra("data", mAdapter.getModels().get(position));
-        intent.putExtra("top10", true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("data", mAdapter.getModels().get(position));
+        bundle.putBoolean("top10", true);
+        intent.putExtra("bundle", bundle);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.activity_in, 0);
     }

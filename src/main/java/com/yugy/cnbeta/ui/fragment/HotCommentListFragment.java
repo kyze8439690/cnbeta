@@ -39,16 +39,11 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
     private String mFromCommentId = "0";
 
     private PullToRefreshLayout mPullToRefreshLayout;
-    private ListViewScrollObserver mListViewScrollObserver;
     private CardsAnimationAdapter mCardsAnimationAdapter;
     private HotCommentListAdapter mAdapter;
 
     private boolean mDataLoaded = false;
     private boolean mLoading = false;
-
-    public HotCommentListFragment(){
-        mListViewScrollObserver = new ListViewScrollObserver();
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -61,7 +56,6 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
                 .insertLayoutInto(viewGroup)
                 .setup(mPullToRefreshLayout);
 
-        getListView().setOnScrollListener(mListViewScrollObserver);
         getListView().setOverScrollMode(View.OVER_SCROLL_NEVER);
         getListView().setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         int padding = ScreenUtils.dp(getActivity(), 8);
@@ -71,10 +65,6 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
         getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         getListView().setDividerHeight(padding);
         loadData();
-    }
-
-    public void setOnScrollUpAndDownListener(ListViewScrollObserver.OnListViewScrollListener listener){
-        mListViewScrollObserver.setOnScrollUpAndDownListener(listener);
     }
 
     public void setPullToRefreshing(){
@@ -163,8 +153,10 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Intent intent = new Intent(getActivity(), NewsActivity.class);
-        intent.putExtra("data", mAdapter.getModels().get(position));
-        intent.putExtra("hotComment", true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("data", mAdapter.getModels().get(position));
+        bundle.putBoolean("hotComment", true);
+        bundle.putBundle("bundle", bundle);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.activity_in, 0);
     }

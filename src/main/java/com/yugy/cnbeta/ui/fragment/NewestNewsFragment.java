@@ -86,7 +86,9 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Intent intent = new Intent(getActivity(), NewsActivity.class);
-        intent.putExtra("data", mAdapter.getModels().get(position));
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("data", mAdapter.getModels().get(position));
+        intent.putExtra("bundle",bundle);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.activity_in, 0);
     }

@@ -15,9 +15,6 @@
  */
 package com.yugy.cnbeta.ui.view;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -33,9 +30,7 @@ import android.widget.ScrollView;
 
 import com.yugy.cnbeta.R;
 
-@SuppressWarnings("unchecked")
 public abstract class FadingActionBarHelperBase {
-    protected static final String TAG = "FadingActionBarHelper";
     private Drawable mActionBarBackgroundDrawable;
     private FrameLayout mHeaderContainer;
     private int mActionBarBackgroundResId;
@@ -47,6 +42,7 @@ public abstract class FadingActionBarHelperBase {
     private View mContentView;
     private LayoutInflater mInflater;
     private boolean mLightActionBar;
+    private boolean mTranparentActionBar = true;
     private boolean mUseParallax = true;
     private int mLastDampedScroll;
     private int mLastHeaderHeight = -1;
@@ -101,6 +97,11 @@ public abstract class FadingActionBarHelperBase {
 
     public final <T extends FadingActionBarHelperBase> T  parallax(boolean value) {
         mUseParallax = value;
+        return (T)this;
+    }
+
+    public final <T extends FadingActionBarHelperBase> T  actionBarTransparent(boolean value) {
+        mTranparentActionBar = value;
         return (T)this;
     }
 
@@ -160,31 +161,15 @@ public abstract class FadingActionBarHelperBase {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
             mActionBarBackgroundDrawable.setCallback(mDrawableCallback);
         }
-        mActionBarBackgroundDrawable.setAlpha(0);
+        if(mTranparentActionBar){
+            mActionBarBackgroundDrawable.setAlpha(0);
+        }
     }
 
     protected abstract int getActionBarHeight();
     protected abstract boolean isActionBarNull();
     protected abstract void setActionBarBackgroundDrawable(Drawable drawable);
 
-    protected <T> T getActionBarWithReflection(Activity activity, String methodName) {
-        try {
-            Method method = activity.getClass().getMethod(methodName);
-            return (T)method.invoke(activity);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (ClassCastException e) {
-           e.printStackTrace();
-        }
-        return null;
-    }
-    
     private Drawable.Callback mDrawableCallback = new Drawable.Callback() {
         @Override
         public void invalidateDrawable(Drawable who) {
@@ -222,8 +207,6 @@ public abstract class FadingActionBarHelperBase {
         }
     };
 
-    private int mLastScrollPosition;
-
     private void onNewScroll(int scrollPosition) {
         if (isActionBarNull()) {
             return;
@@ -237,7 +220,9 @@ public abstract class FadingActionBarHelperBase {
         int headerHeight = currentHeaderHeight - getActionBarHeight();
         float ratio = (float) Math.min(Math.max(scrollPosition, 0), headerHeight) / headerHeight;
         int newAlpha = (int) (ratio * 255);
-        mActionBarBackgroundDrawable.setAlpha(newAlpha);
+        if(mTranparentActionBar){
+            mActionBarBackgroundDrawable.setAlpha(newAlpha);
+        }
 
         addParallaxEffect(scrollPosition);
     }
@@ -249,7 +234,6 @@ public abstract class FadingActionBarHelperBase {
         mHeaderContainer.offsetTopAndBottom(offset);
 
         if (mFirstGlobalLayoutPerformed) {
-            mLastScrollPosition = scrollPosition;
             mLastDampedScroll = dampedScroll;
         }
     }

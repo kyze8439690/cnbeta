@@ -19,12 +19,16 @@ import com.umeng.update.UmengUpdateAgent;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.ui.fragment.HotCommentListFragment;
 import com.yugy.cnbeta.ui.fragment.NewestNewsFragment;
+import com.yugy.cnbeta.ui.fragment.NewsFragment;
+import com.yugy.cnbeta.ui.fragment.OnFragmentItemClickListener;
 import com.yugy.cnbeta.ui.fragment.TopTenNewsFragment;
 import com.yugy.cnbeta.utils.DebugUtils;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener{
+import static android.widget.AdapterView.OnItemClickListener;
+
+public class MainActivity extends Activity implements OnItemClickListener, OnFragmentItemClickListener {
 
     private static final int REQUEST_SETTINGS = 0;
     public static final int RESULT_SETTING_FONT_CHANGED = 1;
@@ -158,6 +162,21 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             mCurrentPosition = position;
             mDrawerLayout.closeDrawer(mListView);
             mListView.setItemChecked(position, true);
+        }
+    }
+
+    @Override
+    public void onClick(Bundle bundle) {
+        if(findViewById(R.id.main_content_container) != null){
+            bundle.putBoolean("transparentActionBar", false);
+            NewsFragment newsFragment = new NewsFragment();
+            newsFragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().replace(R.id.main_content_container, newsFragment).commit();
+        }else{
+            bundle.putBoolean("transparentActionBar", true);
+            Intent intent = new Intent(this, NewsActivity.class);
+            intent.putExtra("bundle", bundle);
+            startActivity(intent);
         }
     }
 }

@@ -70,9 +70,10 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FadingActionBarHelper helper = new FadingActionBarHelper()
                 .actionBarBackground(R.drawable.ab_solid_bg)
+                .actionBarTransparent(getArguments().getBoolean("transparentActionBar", false))
                 .headerLayout(R.layout.view_news_header)
                 .contentLayout(R.layout.fragment_news);
-        View rootView = helper.createView(getActivity());
+        View rootView = helper.createView(inflater);
         helper.initActionBar(getActivity());
 
         int mImageMarginBottom = (int) getResources().getDimension(R.dimen.news_image_margin_bottom);

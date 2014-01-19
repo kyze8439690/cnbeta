@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.TopTenNewsModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
+import com.yugy.cnbeta.ui.activity.MainActivity;
 import com.yugy.cnbeta.ui.activity.NewsActivity;
 import com.yugy.cnbeta.ui.adapter.TopTenNewsListAdapter;
 import com.yugy.cnbeta.ui.listener.ListViewScrollObserver;
@@ -38,6 +39,7 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
 
     private TopTenNewsListAdapter mAdapter;
     private PullToRefreshLayout mPullToRefreshLayout;
+    private OnFragmentItemClickListener mOnFragmentItemClickListener;
 
     private boolean mDataLoaded = false;
     private boolean mLoading = false;
@@ -57,18 +59,18 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
         getListView().setOverScrollMode(OVER_SCROLL_NEVER);
         getListView().setClipToPadding(false);
         getListView().setDividerHeight(1);
+
+        mOnFragmentItemClickListener = (MainActivity) getActivity();
+
         loadData();
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = new Intent(getActivity(), NewsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", mAdapter.getModels().get(position));
         bundle.putBoolean("top10", true);
-        intent.putExtra("bundle", bundle);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.activity_in, 0);
+        mOnFragmentItemClickListener.onClick(bundle);
     }
 
     private void getData(){

@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.HotCommentModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
+import com.yugy.cnbeta.ui.activity.MainActivity;
 import com.yugy.cnbeta.ui.activity.NewsActivity;
 import com.yugy.cnbeta.ui.adapter.CardsAnimationAdapter;
 import com.yugy.cnbeta.ui.adapter.HotCommentListAdapter;
@@ -41,6 +42,7 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
     private PullToRefreshLayout mPullToRefreshLayout;
     private CardsAnimationAdapter mCardsAnimationAdapter;
     private HotCommentListAdapter mAdapter;
+    private OnFragmentItemClickListener mOnFragmentItemClickListener;
 
     private boolean mDataLoaded = false;
     private boolean mLoading = false;
@@ -64,6 +66,9 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
         getListView().setDivider(new ColorDrawable(Color.TRANSPARENT));
         getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         getListView().setDividerHeight(padding);
+
+        mOnFragmentItemClickListener = (MainActivity)getActivity();
+
         loadData();
     }
 
@@ -152,12 +157,9 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = new Intent(getActivity(), NewsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", mAdapter.getModels().get(position));
         bundle.putBoolean("hotComment", true);
-        bundle.putBundle("bundle", bundle);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.activity_in, 0);
+        mOnFragmentItemClickListener.onClick(bundle);
     }
 }

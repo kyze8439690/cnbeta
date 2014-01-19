@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.NewsListModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
+import com.yugy.cnbeta.ui.activity.MainActivity;
 import com.yugy.cnbeta.ui.activity.NewsActivity;
 import com.yugy.cnbeta.ui.adapter.CardsAnimationAdapter;
 import com.yugy.cnbeta.ui.adapter.NewestNewsListAdapter;
@@ -55,6 +56,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
     private PullToRefreshLayout mPullToRefreshLayout;
     private CardsAnimationAdapter mCardsAnimationAdapter;
     private NewestNewsListAdapter mAdapter;
+    private OnFragmentItemClickListener mOnFragmentItemClickListener;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
         getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         getListView().setDividerHeight(padding);
 
+        mOnFragmentItemClickListener = (MainActivity) getActivity();
+
         mCurrentAction = ACTION_REFRESH;
         mFromArticleId = "0";
         loadData();
@@ -85,12 +89,13 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = new Intent(getActivity(), NewsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", mAdapter.getModels().get(position));
-        intent.putExtra("bundle",bundle);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.activity_in, 0);
+        mOnFragmentItemClickListener.onClick(bundle);
+//        Intent intent = new Intent(getActivity(), NewsActivity.class);
+//        intent.putExtra("bundle",bundle);
+//        startActivity(intent);
+//        getActivity().overridePendingTransition(R.anim.activity_in, 0);
     }
 
     @Override

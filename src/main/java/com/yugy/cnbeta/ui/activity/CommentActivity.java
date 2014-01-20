@@ -36,20 +36,9 @@ public class CommentActivity extends SwipeBackActivity{
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         CommentFragment commentFragment = new CommentFragment();
-        Bundle args = new Bundle();
-        args.putString("id", getIntent().getStringExtra("id"));
+        Bundle args = getIntent().getBundleExtra("bundle");
         commentFragment.setArguments(args);
         getFragmentManager().beginTransaction().add(R.id.comment_container, commentFragment).commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

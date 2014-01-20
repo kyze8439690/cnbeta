@@ -6,6 +6,7 @@
         <item name="android:windowBackground">@drawable/bg_activity</item>
         <item name="android:actionBarStyle">@style/actionBarStyle</item>
         <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
     </style>
     
     <style name="NewsTheme" parent="android:Theme.Holo.Light.DarkActionBar">
@@ -23,10 +24,10 @@
     <style name="CommentTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:actionBarStyle">@style/actionBarStyle</item>
-        <item name="android:spinnerDropDownItemStyle">@style/CommentTheme.SpinnerDropDownItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
     </style>
 
-    <style name="CommentTheme.SpinnerDropDownItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+    <style name="SpinnerDropDownItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">@android:color/white</item>
     </style>
 

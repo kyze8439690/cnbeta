@@ -29,6 +29,7 @@ import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.CommentActivity;
 import com.yugy.cnbeta.ui.activity.PicActivity;
+import com.yugy.cnbeta.ui.listener.OnCommentButtonClickListener;
 import com.yugy.cnbeta.ui.view.FadingActionBarHelper;
 import com.yugy.cnbeta.ui.view.KenBurnsView;
 import com.yugy.cnbeta.ui.view.RefreshActionItem;
@@ -65,6 +66,8 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
     private String mTitleString;
     private String mCommentCountString;
     private ArrayList<String> mImgUrls = new ArrayList<String>();
+
+    private OnCommentButtonClickListener mOnCommentButtonClickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,16 +124,17 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
             mContainer.addView(summary);
         }
 
+        mOnCommentButtonClickListener = (OnCommentButtonClickListener) getActivity();
+
         mTitle.setText(mTitleString);
         mCommentCount.setText(mCommentCountString);
         mCommentButton.setText(mCommentCountString);
         mCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CommentActivity.class);
-                intent.putExtra("id", mId);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.activity_in, 0);
+                Bundle args = new Bundle();
+                args.putString("id", mId);
+                mOnCommentButtonClickListener.OnCommentClick(args);
             }
         });
 

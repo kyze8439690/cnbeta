@@ -27,6 +27,7 @@ import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.activity.swipeback.SwipeBackActivity;
 import com.yugy.cnbeta.ui.fragment.NewsFragment;
+import com.yugy.cnbeta.ui.listener.OnCommentButtonClickListener;
 import com.yugy.cnbeta.ui.view.FadingActionBarHelper;
 import com.yugy.cnbeta.ui.view.KenBurnsView;
 import com.yugy.cnbeta.ui.view.RefreshActionItem;
@@ -48,7 +49,7 @@ import static com.yugy.cnbeta.ui.view.RefreshActionItem.RefreshActionListener;
 /**
  * Created by yugy on 14-1-7.
  */
-public class NewsActivity extends SwipeBackActivity{
+public class NewsActivity extends SwipeBackActivity implements OnCommentButtonClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,5 +95,13 @@ public class NewsActivity extends SwipeBackActivity{
     public void finish() {
         super.finish();
         overridePendingTransition(0, R.anim.activity_out);
+    }
+
+    @Override
+    public void OnCommentClick(Bundle bundle) {
+        Intent intent = new Intent(this, CommentActivity.class);
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
+        overridePendingTransition(R.anim.activity_in, 0);
     }
 }

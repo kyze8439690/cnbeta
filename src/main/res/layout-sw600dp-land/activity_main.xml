@@ -22,7 +22,16 @@
             android:layout_width="0dp"
             android:layout_marginLeft="2dp"
             android:background="#FFF"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+        
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="请在左边列表选择一篇新闻浏览"
+                />
+            
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -36,5 +45,12 @@
         android:dividerHeight="0.5dp"
         android:background="#333"
         />
+
+    <FrameLayout
+        android:id="@+id/main_comment_container"
+        android:layout_gravity="end"
+        android:layout_width="400dp"
+        android:background="#FFF"
+        android:layout_height="match_parent"/>
 
 </android.support.v4.widget.DrawerLayout>

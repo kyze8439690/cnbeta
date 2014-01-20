@@ -1,7 +1,6 @@
 package com.yugy.cnbeta.ui.fragment;
 
 import android.app.ListFragment;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -12,14 +11,11 @@ import android.widget.ListView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.HotCommentModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
-import com.yugy.cnbeta.ui.activity.MainActivity;
-import com.yugy.cnbeta.ui.activity.NewsActivity;
 import com.yugy.cnbeta.ui.adapter.CardsAnimationAdapter;
 import com.yugy.cnbeta.ui.adapter.HotCommentListAdapter;
-import com.yugy.cnbeta.ui.listener.ListViewScrollObserver;
+import com.yugy.cnbeta.ui.listener.OnNewsItemClickListener;
 import com.yugy.cnbeta.ui.view.AppMsg;
 import com.yugy.cnbeta.utils.DebugUtils;
 import com.yugy.cnbeta.utils.ScreenUtils;
@@ -42,7 +38,7 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
     private PullToRefreshLayout mPullToRefreshLayout;
     private CardsAnimationAdapter mCardsAnimationAdapter;
     private HotCommentListAdapter mAdapter;
-    private OnFragmentItemClickListener mOnFragmentItemClickListener;
+    private OnNewsItemClickListener mOnNewsItemClickListener;
 
     private boolean mDataLoaded = false;
     private boolean mLoading = false;
@@ -67,7 +63,7 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
         getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         getListView().setDividerHeight(padding);
 
-        mOnFragmentItemClickListener = (OnFragmentItemClickListener)getActivity();
+        mOnNewsItemClickListener = (OnNewsItemClickListener)getActivity();
 
         loadData();
     }
@@ -160,6 +156,6 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", mAdapter.getModels().get(position));
         bundle.putBoolean("hotComment", true);
-        mOnFragmentItemClickListener.onClick(bundle);
+        mOnNewsItemClickListener.onNewsClick(bundle);
     }
 }

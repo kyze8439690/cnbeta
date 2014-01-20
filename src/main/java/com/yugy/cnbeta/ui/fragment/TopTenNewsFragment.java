@@ -1,7 +1,6 @@
 package com.yugy.cnbeta.ui.fragment;
 
 import android.app.ListFragment;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,16 +10,12 @@ import android.widget.ListView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.yugy.cnbeta.R;
 import com.yugy.cnbeta.model.TopTenNewsModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
-import com.yugy.cnbeta.ui.activity.MainActivity;
-import com.yugy.cnbeta.ui.activity.NewsActivity;
 import com.yugy.cnbeta.ui.adapter.TopTenNewsListAdapter;
-import com.yugy.cnbeta.ui.listener.ListViewScrollObserver;
+import com.yugy.cnbeta.ui.listener.OnNewsItemClickListener;
 import com.yugy.cnbeta.ui.view.AppMsg;
 import com.yugy.cnbeta.utils.DebugUtils;
-import com.yugy.cnbeta.utils.ScreenUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +34,7 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
 
     private TopTenNewsListAdapter mAdapter;
     private PullToRefreshLayout mPullToRefreshLayout;
-    private OnFragmentItemClickListener mOnFragmentItemClickListener;
+    private OnNewsItemClickListener mOnNewsItemClickListener;
 
     private boolean mDataLoaded = false;
     private boolean mLoading = false;
@@ -60,7 +55,7 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
         getListView().setClipToPadding(false);
         getListView().setDividerHeight(1);
 
-        mOnFragmentItemClickListener = (OnFragmentItemClickListener) getActivity();
+        mOnNewsItemClickListener = (OnNewsItemClickListener) getActivity();
 
         loadData();
     }
@@ -70,7 +65,7 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", mAdapter.getModels().get(position));
         bundle.putBoolean("top10", true);
-        mOnFragmentItemClickListener.onClick(bundle);
+        mOnNewsItemClickListener.onNewsClick(bundle);
     }
 
     private void getData(){

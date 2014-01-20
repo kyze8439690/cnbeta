@@ -1,12 +1,12 @@
 package com.yugy.cnbeta.ui.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -19,20 +19,20 @@ import android.widget.ListView;
 
 import com.umeng.update.UmengUpdateAgent;
 import com.yugy.cnbeta.R;
+import com.yugy.cnbeta.ui.fragment.CommentFragment;
 import com.yugy.cnbeta.ui.fragment.HotCommentListFragment;
 import com.yugy.cnbeta.ui.fragment.NewestNewsFragment;
 import com.yugy.cnbeta.ui.fragment.NewsFragment;
-import com.yugy.cnbeta.ui.fragment.OnFragmentItemClickListener;
+import com.yugy.cnbeta.ui.listener.OnCommentButtonClickListener;
+import com.yugy.cnbeta.ui.listener.OnNewsItemClickListener;
 import com.yugy.cnbeta.ui.fragment.TopTenNewsFragment;
 import com.yugy.cnbeta.utils.DebugUtils;
-import com.yugy.cnbeta.utils.MessageUtils;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static android.provider.Settings.System;
 import static android.widget.AdapterView.OnItemClickListener;
 
-public class MainActivity extends Activity implements OnItemClickListener, OnFragmentItemClickListener {
+public class MainActivity extends Activity implements OnItemClickListener, OnNewsItemClickListener, OnCommentButtonClickListener {
 
     private static final int REQUEST_SETTINGS = 0;
     public static final int RESULT_SETTING_FONT_CHANGED = 1;
@@ -56,9 +56,38 @@ public class MainActivity extends Activity implements OnItemClickListener, OnFra
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         mListView = (ListView) findViewById(R.id.main_drawer);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer_toggle, R.string.app_name, R.string.app_name);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer_toggle, R.string.app_name, R.string.app_name){
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if(drawerView == mListView){
+                    super.onDrawerSlide(drawerView, slideOffset);
+                }
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                if(drawerView == mListView){
+                    super.onDrawerOpened(drawerView);
+                }else{
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.END);
+                }
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                if(drawerView == mListView){
+                    super.onDrawerClosed(drawerView);
+                }else{
+                    getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+                }
+            }
+        };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow_left, Gravity.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow_right, Gravity.END);
+        mDrawerLayout.setScrimColor(Color.TRANSPARENT);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setTitle("");
@@ -184,7 +213,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnFra
     }
 
     @Override
-    public void onClick(Bundle bundle) {
+    public void onNewsClick(Bundle bundle) {
         if(findViewById(R.id.main_content_container) != null){
             bundle.putBoolean("transparentActionBar", false);
             NewsFragment newsFragment = new NewsFragment();
@@ -198,5 +227,14 @@ public class MainActivity extends Activity implements OnItemClickListener, OnFra
             startActivity(intent);
             overridePendingTransition(R.anim.activity_in, 0);
         }
+    }
+
+    @Override
+    public void OnCommentClick(Bundle bundle) {
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        mDrawerLayout.openDrawer(Gravity.END);
+        CommentFragment commentFragment = new CommentFragment();
+        commentFragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.main_comment_container, commentFragment).commit();
     }
 }

@@ -1,14 +1,11 @@
 package com.yugy.cnbeta.ui.fragment;
 
-import android.app.ActionBar;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
@@ -19,7 +16,6 @@ import com.yugy.cnbeta.model.NewsCommentModel;
 import com.yugy.cnbeta.sdk.Cnbeta;
 import com.yugy.cnbeta.ui.adapter.CommentListAdapter;
 import com.yugy.cnbeta.ui.view.AppMsg;
-import com.yugy.cnbeta.ui.view.RefreshActionItem;
 import com.yugy.cnbeta.utils.DebugUtils;
 
 import org.json.JSONArray;
@@ -28,23 +24,19 @@ import org.json.JSONException;
 import java.text.ParseException;
 
 import static android.app.ActionBar.OnNavigationListener;
-import static com.yugy.cnbeta.ui.view.RefreshActionItem.RefreshActionListener;
 
 /**
  * Created by yugy on 14-1-8.
  */
-public class CommentFragment extends ListFragment implements RefreshActionListener, OnNavigationListener{
+public class CommentFragment extends ListFragment implements OnNavigationListener{
 
-    private RefreshActionItem mRefreshActionItem;
     private String mArticleId;
     private CommentListAdapter mCommentListAdapter;
     private ArrayAdapter<String> mSpinnerAdapter;
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
 
         getListView().setBackgroundColor(Color.WHITE);
         getListView().setDividerHeight(1);
@@ -85,9 +77,9 @@ public class CommentFragment extends ListFragment implements RefreshActionListen
                     } catch (ParseException e) {
                         e.printStackTrace();
                         AppMsg.makeText(getActivity(), "评论时间解析失败", AppMsg.STYLE_ALERT).show();
-                    }
-                    if(mRefreshActionItem != null){
-                        mRefreshActionItem.setRefreshing(false);
+                    } catch (IllegalStateException e){
+                        e.printStackTrace();
+                        //屏幕切换导致actionbar navi mode 已经不存在
                     }
                 }
             },
@@ -95,24 +87,10 @@ public class CommentFragment extends ListFragment implements RefreshActionListen
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     volleyError.printStackTrace();
-                    if(mRefreshActionItem != null){
-                        mRefreshActionItem.setRefreshing(false);
-                    }
                     AppMsg.makeText(getActivity(), "获取评论失败, 请稍后重试", AppMsg.STYLE_ALERT).show();
                 }
             }
         );
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.comment, menu);
-        MenuItem refreshItem = menu.findItem(R.id.comment_action_refresh);
-        mRefreshActionItem = (RefreshActionItem) refreshItem.getActionView();
-        mRefreshActionItem.setMenuItem(refreshItem);
-        mRefreshActionItem.setRefreshActionListener(this);
-        mRefreshActionItem.setRefreshing(true);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -130,12 +108,6 @@ public class CommentFragment extends ListFragment implements RefreshActionListen
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onRefreshButtonClick(RefreshActionItem sender) {
-        mRefreshActionItem.setRefreshing(true);
-        getData();
     }
 
     @Override

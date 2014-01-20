@@ -80,7 +80,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
         getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         getListView().setDividerHeight(padding);
 
-        mOnFragmentItemClickListener = (MainActivity) getActivity();
+        mOnFragmentItemClickListener = (OnFragmentItemClickListener) getActivity();
 
         mCurrentAction = ACTION_REFRESH;
         mFromArticleId = "0";
@@ -92,10 +92,6 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", mAdapter.getModels().get(position));
         mOnFragmentItemClickListener.onClick(bundle);
-//        Intent intent = new Intent(getActivity(), NewsActivity.class);
-//        intent.putExtra("bundle",bundle);
-//        startActivity(intent);
-//        getActivity().overridePendingTransition(R.anim.activity_in, 0);
     }
 
     @Override

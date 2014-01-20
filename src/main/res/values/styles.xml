@@ -52,10 +52,10 @@
         <item name="ptrHeaderTitleTextAppearance">@style/TextAppearance.Custom.PtrHeader.Title</item>
 
         <!-- Color to tint the progress bar -->
-        <item name="ptrProgressBarColor">#77123456</item>
+        <item name="ptrProgressBarColor">#EEEEEE</item>
 
         <!-- Style of the Progress Bar. Values are either: inside or outside -->
-        <item name="ptrProgressBarStyle">outside</item>
+        <item name="ptrProgressBarStyle">inside</item>
 
         <!-- The strings to be displayed at the various states -->
         <item name="ptrPullText">向下滑动即可刷新</item>

@@ -3,8 +3,10 @@ package com.yugy.cnbeta.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -23,9 +25,11 @@ import com.yugy.cnbeta.ui.fragment.NewsFragment;
 import com.yugy.cnbeta.ui.fragment.OnFragmentItemClickListener;
 import com.yugy.cnbeta.ui.fragment.TopTenNewsFragment;
 import com.yugy.cnbeta.utils.DebugUtils;
+import com.yugy.cnbeta.utils.MessageUtils;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.provider.Settings.System;
 import static android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends Activity implements OnItemClickListener, OnFragmentItemClickListener {
@@ -40,7 +44,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnFra
     private HotCommentListFragment mHotCommentListFragment;
     private TopTenNewsFragment mTopTenNewsFragment;
 
-    private int mCurrentPosition = 0;
+    private int mCurrentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +64,16 @@ public class MainActivity extends Activity implements OnItemClickListener, OnFra
         getActionBar().setTitle("");
         getActionBar().setIcon(R.drawable.ic_action_logo);
 
-        mListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.drawer_array)));
+        mListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_checked, getResources().getStringArray(R.array.drawer_array)));
         mListView.setOnItemClickListener(this);
 
         if(savedInstanceState == null){
             mNewestNewsFragment = new NewestNewsFragment();
             getFragmentManager().beginTransaction().add(R.id.main_container, mNewestNewsFragment).commit();
             mListView.setItemChecked(0, true);
+            mCurrentPosition = 0;
+        }else{
+            mCurrentPosition = savedInstanceState.getInt("currentPosition", 0);
         }
     }
 
@@ -114,6 +121,14 @@ public class MainActivity extends Activity implements OnItemClickListener, OnFra
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentPosition", mCurrentPosition);
+    }
+
+
+
+    @Override
     protected void onResume() {
         super.onResume();
         DebugUtils.log("MainActivity onResume");
@@ -144,6 +159,9 @@ public class MainActivity extends Activity implements OnItemClickListener, OnFra
         if(mCurrentPosition != position){
             switch (position){
                 case 0:
+                    if(mNewestNewsFragment == null){
+                        mNewestNewsFragment = new NewestNewsFragment();
+                    }
                     getFragmentManager().beginTransaction().replace(R.id.main_container, mNewestNewsFragment).commit();
                     break;
                 case 1:

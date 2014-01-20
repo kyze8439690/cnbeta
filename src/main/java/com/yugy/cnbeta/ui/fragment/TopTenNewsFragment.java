@@ -60,7 +60,7 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
         getListView().setClipToPadding(false);
         getListView().setDividerHeight(1);
 
-        mOnFragmentItemClickListener = (MainActivity) getActivity();
+        mOnFragmentItemClickListener = (OnFragmentItemClickListener) getActivity();
 
         loadData();
     }

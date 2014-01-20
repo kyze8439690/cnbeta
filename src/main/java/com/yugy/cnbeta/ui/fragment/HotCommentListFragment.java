@@ -67,7 +67,7 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
         getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         getListView().setDividerHeight(padding);
 
-        mOnFragmentItemClickListener = (MainActivity)getActivity();
+        mOnFragmentItemClickListener = (OnFragmentItemClickListener)getActivity();
 
         loadData();
     }

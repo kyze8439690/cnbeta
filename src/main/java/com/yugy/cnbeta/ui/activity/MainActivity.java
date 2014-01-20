@@ -189,12 +189,14 @@ public class MainActivity extends Activity implements OnItemClickListener, OnFra
             bundle.putBoolean("transparentActionBar", false);
             NewsFragment newsFragment = new NewsFragment();
             newsFragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().replace(R.id.main_content_container, newsFragment).commit();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.main_content_container, newsFragment).commit();
         }else{
             bundle.putBoolean("transparentActionBar", true);
             Intent intent = new Intent(this, NewsActivity.class);
             intent.putExtra("bundle", bundle);
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_in, 0);
         }
     }
 }

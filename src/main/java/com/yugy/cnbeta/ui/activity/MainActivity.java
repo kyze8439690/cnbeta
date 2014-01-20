@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnFra
         getActionBar().setTitle("");
         getActionBar().setIcon(R.drawable.ic_action_logo);
 
-        mListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_checked, getResources().getStringArray(R.array.drawer_array)));
+        mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_drawer_list_item, getResources().getStringArray(R.array.drawer_array)));
         mListView.setOnItemClickListener(this);
 
         if(savedInstanceState == null){

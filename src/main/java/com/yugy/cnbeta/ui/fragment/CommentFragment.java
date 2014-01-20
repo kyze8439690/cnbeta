@@ -86,14 +86,18 @@ public class CommentFragment extends ListFragment implements RefreshActionListen
                         e.printStackTrace();
                         AppMsg.makeText(getActivity(), "评论时间解析失败", AppMsg.STYLE_ALERT).show();
                     }
-                    mRefreshActionItem.setRefreshing(false);
+                    if(mRefreshActionItem != null){
+                        mRefreshActionItem.setRefreshing(false);
+                    }
                 }
             },
             new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     volleyError.printStackTrace();
-                    mRefreshActionItem.setRefreshing(false);
+                    if(mRefreshActionItem != null){
+                        mRefreshActionItem.setRefreshing(false);
+                    }
                     AppMsg.makeText(getActivity(), "获取评论失败, 请稍后重试", AppMsg.STYLE_ALERT).show();
                 }
             }

@@ -55,7 +55,6 @@ public class NewsActivity extends SwipeBackActivity{
         super.onCreate(savedInstanceState);
         ActivityBase.onCreate(this);
         setContentView(R.layout.activity_news);
-        getSwipeBackLayout().setEdgeSize(ScreenUtils.getDisplayWidth(this) / 4);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(true);

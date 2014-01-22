@@ -15,6 +15,8 @@
 # 优化
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 
+-libraryjars libs/umeng_sdk.jar
+
 # Parcel
 -keep class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator *;
@@ -46,7 +48,7 @@
 
 # implement OnClick and so on
 -keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
+    public void *(android.view.View);
 }
 
 -keepclassmembers enum * {
@@ -54,8 +56,20 @@
     public static ** valueOf(java.lang.String);
 }
 
+-keepclassmembers class * {
+    public <init>(org.json.JSONObject);
+}
+
+-keep public class com.yugy.cnbeta.R$*{
+    public static final int *;
+}
+
+-keep public class com.umeng.fb.ui.ThreadView {
+}
+
 
 -keep class com.yugy.cnbeta.ui.view.RefreshActionItem {*;}
 -keep class org.jsoup.** {*;}
 -keep class com.umeng.** {*;}
+-keep public class * extends com.umeng.**
 

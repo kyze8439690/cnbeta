@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.android.volley.Response;
@@ -23,16 +25,34 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+
 import static android.app.ActionBar.OnNavigationListener;
 
 /**
  * Created by yugy on 14-1-8.
  */
-public class CommentFragment extends ListFragment implements OnNavigationListener{
+public class CommentFragment extends ListFragment implements OnNavigationListener, OnRefreshListener{
 
     private String mArticleId;
     private CommentListAdapter mCommentListAdapter;
     private ArrayAdapter<String> mSpinnerAdapter;
+    private PullToRefreshLayout mPullToRefreshLayout;
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ViewGroup viewGroup = (ViewGroup) view;
+        mPullToRefreshLayout = new PullToRefreshLayout(getActivity());
+        ActionBarPullToRefresh.from(getActivity())
+                .insertLayoutInto(viewGroup)
+                .listener(this)
+                .theseChildrenArePullable(getListView(), getListView().getEmptyView())
+                .setup(mPullToRefreshLayout);
+        getListView().setOverScrollMode(View.OVER_SCROLL_NEVER);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -54,6 +74,7 @@ public class CommentFragment extends ListFragment implements OnNavigationListene
     }
 
     private void getData(){
+        mPullToRefreshLayout.setRefreshing(true);
         Cnbeta.getNewsComment(getActivity(), mArticleId,
             new Response.Listener<JSONArray>() {
                 @Override
@@ -80,6 +101,10 @@ public class CommentFragment extends ListFragment implements OnNavigationListene
                     } catch (IllegalStateException e){
                         e.printStackTrace();
                         //屏幕切换导致actionbar navi mode 已经不存在
+                    } finally {
+                        if(mPullToRefreshLayout != null){
+                            mPullToRefreshLayout.setRefreshComplete();
+                        }
                     }
                 }
             },
@@ -88,6 +113,9 @@ public class CommentFragment extends ListFragment implements OnNavigationListene
                 public void onErrorResponse(VolleyError volleyError) {
                     volleyError.printStackTrace();
                     AppMsg.makeText(getActivity(), "获取评论失败, 请稍后重试", AppMsg.STYLE_ALERT).show();
+                    if(mPullToRefreshLayout != null){
+                        mPullToRefreshLayout.setRefreshComplete();
+                    }
                 }
             }
         );
@@ -122,5 +150,10 @@ public class CommentFragment extends ListFragment implements OnNavigationListene
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void onRefreshStarted(View view) {
+        getData();
     }
 }

@@ -26,12 +26,17 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
+import uk.co.senab.actionbarpulltorefresh.library.Options;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.HeaderViewListener;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 /**
  * Created by yugy on 14-1-9.
  */
-public class HotCommentListFragment extends ListFragment implements MainNewsFragmentBase {
+public class HotCommentListFragment extends ListFragment implements MainNewsFragmentBase, OnRefreshListener {
 
     private String mFromCommentId = "0";
 
@@ -52,6 +57,8 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
         mPullToRefreshLayout = new PullToRefreshLayout(getActivity());
         ActionBarPullToRefresh.from(getActivity())
                 .insertLayoutInto(viewGroup)
+                .listener(this)
+                .theseChildrenArePullable(getListView(), getListView().getEmptyView())
                 .setup(mPullToRefreshLayout);
 
         getListView().setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -118,6 +125,12 @@ public class HotCommentListFragment extends ListFragment implements MainNewsFrag
             mCardsAnimationAdapter.setAbsListView(getListView());
             getData();
         }
+    }
+
+    @Override
+    public void onRefreshStarted(View view) {
+        mDataLoaded = false;
+        loadData();
     }
 
     private class ParseTask extends AsyncTask<JSONArray, Void, ArrayList<HotCommentModel>>{

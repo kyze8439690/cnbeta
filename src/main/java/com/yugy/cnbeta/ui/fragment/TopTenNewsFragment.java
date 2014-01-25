@@ -24,13 +24,14 @@ import java.util.ArrayList;
 
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 import static android.view.View.OVER_SCROLL_NEVER;
 
 /**
  * Created by yugy on 14-1-9.
  */
-public class TopTenNewsFragment extends ListFragment implements MainNewsFragmentBase {
+public class TopTenNewsFragment extends ListFragment implements MainNewsFragmentBase, OnRefreshListener {
 
     private TopTenNewsListAdapter mAdapter;
     private PullToRefreshLayout mPullToRefreshLayout;
@@ -48,6 +49,8 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
         mPullToRefreshLayout = new PullToRefreshLayout(getActivity());
         ActionBarPullToRefresh.from(getActivity())
                 .insertLayoutInto(viewGroup)
+                .listener(this)
+                .theseChildrenArePullable(getListView(), getListView().getEmptyView())
                 .setup(mPullToRefreshLayout);
 
         getListView().setBackgroundColor(Color.WHITE);
@@ -97,6 +100,12 @@ public class TopTenNewsFragment extends ListFragment implements MainNewsFragment
             mPullToRefreshLayout.setRefreshing(true);
             getData();
         }
+    }
+
+    @Override
+    public void onRefreshStarted(View view) {
+        mDataLoaded = false;
+        loadData();
     }
 
     private class ParseTask extends AsyncTask<JSONArray, Void, ArrayList<TopTenNewsModel>>{

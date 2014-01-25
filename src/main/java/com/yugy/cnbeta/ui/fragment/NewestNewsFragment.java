@@ -66,6 +66,7 @@ public class NewestNewsFragment extends ListFragment implements OnRefreshListene
                 .theseChildrenArePullable(getListView(), getListView().getEmptyView())
                 .listener(this)
                 .setup(mPullToRefreshLayout);
+
         getListView().setOnItemLongClickListener(this);
         getListView().setOverScrollMode(OVER_SCROLL_NEVER);
         getListView().setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);

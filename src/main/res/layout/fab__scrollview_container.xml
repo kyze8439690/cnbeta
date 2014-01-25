@@ -5,25 +5,32 @@
 
     <include layout="@layout/fab__header_container" />
 
-    <com.yugy.cnbeta.ui.view.NotifyingScrollView
-        android:id="@+id/fab__scroll_view"
-        android:overScrollMode="never"
+    <uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
+        android:id="@+id/fab_ptr_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/fab__container"
+        <com.yugy.cnbeta.ui.view.NotifyingScrollView
+            android:id="@+id/fab__scroll_view"
+            android:overScrollMode="never"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent" >
 
-            <FrameLayout
-                android:id="@+id/fab__content_top_margin"
+            <LinearLayout
+                android:id="@+id/fab__container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent" />
-        </LinearLayout>
-    </com.yugy.cnbeta.ui.view.NotifyingScrollView>
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:id="@+id/fab__content_top_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
+        </com.yugy.cnbeta.ui.view.NotifyingScrollView>
+
+    </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
 
     <Button
         android:id="@+id/news_comment_button"

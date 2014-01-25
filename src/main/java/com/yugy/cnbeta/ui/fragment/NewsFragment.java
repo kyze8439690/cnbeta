@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -27,12 +26,10 @@ import com.yugy.cnbeta.model.NewsListModel;
 import com.yugy.cnbeta.model.TopTenNewsModel;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.sdk.Cnbeta;
-import com.yugy.cnbeta.ui.activity.CommentActivity;
 import com.yugy.cnbeta.ui.activity.PicActivity;
 import com.yugy.cnbeta.ui.listener.OnCommentButtonClickListener;
 import com.yugy.cnbeta.ui.view.FadingActionBarHelper;
 import com.yugy.cnbeta.ui.view.KenBurnsView;
-import com.yugy.cnbeta.ui.view.RefreshActionItem;
 import com.yugy.cnbeta.ui.view.RelativeTimeTextView;
 import com.yugy.cnbeta.ui.view.SelectorImageView;
 import com.yugy.cnbeta.utils.MessageUtils;
@@ -43,14 +40,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+
 import static android.view.View.inflate;
 import static android.widget.LinearLayout.LayoutParams;
-import static com.yugy.cnbeta.ui.view.RefreshActionItem.RefreshActionListener;
 
 /**
  * Created by yugy on 14-1-20.
  */
-public class NewsFragment extends Fragment implements RefreshActionListener{
+public class NewsFragment extends Fragment implements OnRefreshListener{
 
     private LayoutParams mImageLayoutParams;
     private LinearLayout mContainer;
@@ -59,8 +59,7 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
     private TextView mCommentCount;
     private RelativeTimeTextView mTime;
     private Button mCommentButton;
-    private RefreshActionItem mRefreshActionItem;
-    private ShareActionProvider mShareActionProvider;
+    private PullToRefreshLayout mPullToRefreshLayout;
 
     private String mId;
     private String mTitleString;
@@ -71,11 +70,12 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FadingActionBarHelper helper = new FadingActionBarHelper()
-                .actionBarBackground(R.drawable.ab_solid_bg)
-                .actionBarTransparent(getArguments().getBoolean("transparentActionBar", false))
-                .headerLayout(R.layout.view_news_header)
-                .contentLayout(R.layout.fragment_news);
+        boolean isTransparentActionbar = getArguments().getBoolean("transparentActionBar", false);
+        FadingActionBarHelper helper = new FadingActionBarHelper();
+        helper.actionBarBackground(R.drawable.ab_solid_bg);
+        helper.actionBarTransparent(isTransparentActionbar);
+        helper.headerLayout(R.layout.view_news_header);
+        helper.contentLayout(R.layout.fragment_news);
         View rootView = helper.createView(inflater);
         helper.initActionBar(getActivity());
 
@@ -85,11 +85,17 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
         mImageLayoutParams.setMargins(0, 0, 0, mImageMarginBottom);
 
         mContainer = (LinearLayout) rootView.findViewById(R.id.news_container);
+        mPullToRefreshLayout = (PullToRefreshLayout) rootView.findViewById(R.id.fab_ptr_layout);
         mHeaderImage = (KenBurnsView) rootView.findViewById(R.id.news_header_image);
         mTitle = (TextView) rootView.findViewById(R.id.news_header_title);
         mCommentCount = (TextView) rootView.findViewById(R.id.news_header_comment_count);
         mTime = (RelativeTimeTextView) rootView.findViewById(R.id.news_header_time);
         mCommentButton = (Button) rootView.findViewById(R.id.news_comment_button);
+
+        ActionBarPullToRefresh.from(getActivity())
+                .allChildrenArePullable()
+                .listener(this)
+                .setup(mPullToRefreshLayout);
 
         setHasOptionsMenu(true);
 
@@ -142,6 +148,7 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
     }
 
     private void getArticleData(){
+        mPullToRefreshLayout.setRefreshing(true);
         Cnbeta.getNewsContent(getActivity(), mId,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -180,7 +187,9 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        mRefreshActionItem.setRefreshing(false);
+                        if (mPullToRefreshLayout != null) {
+                            mPullToRefreshLayout.setRefreshComplete();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -188,42 +197,17 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
                     public void onErrorResponse(VolleyError volleyError) {
                         volleyError.printStackTrace();
                         MessageUtils.toast(getActivity(), "获取数据失败");
-                        if (mRefreshActionItem != null) {
-                            mRefreshActionItem.setRefreshing(false);
+                        if (mPullToRefreshLayout != null) {
+                            mPullToRefreshLayout.setRefreshComplete();
                         }
                     }
                 }
         );
     }
 
-    private void setShareIntent(Intent shareIntent){
-        if(mShareActionProvider != null){
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.news, menu);
-
-        MenuItem shareItem = menu.findItem(R.id.news_action_share);
-        mShareActionProvider = (ShareActionProvider) shareItem.getActionProvider();
-        StringBuilder shareText = new StringBuilder("《");
-        shareText.append(mTitleString);
-        shareText.append("》 ");
-        shareText.append("http://www.cnbeta.com/articles/");
-        shareText.append(mId);
-        shareText.append(".htm");
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());
-        shareIntent.setType("text/plain");
-        setShareIntent(shareIntent);
-
-        MenuItem refreshItem = menu.findItem(R.id.news_action_refresh);
-        mRefreshActionItem = (RefreshActionItem) refreshItem.getActionView();
-        mRefreshActionItem.setMenuItem(refreshItem);
-        mRefreshActionItem.setRefreshActionListener(this);
-        mRefreshActionItem.setRefreshing(true);
     }
 
     @Override
@@ -247,6 +231,18 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
                     MessageUtils.toast(getActivity(), "没有安装浏览器");
                 }
                 return true;
+            case R.id.news_action_share:
+                StringBuilder shareText = new StringBuilder("《");
+                shareText.append(mTitleString);
+                shareText.append("》 ");
+                shareText.append("http://www.cnbeta.com/articles/");
+                shareText.append(mId);
+                shareText.append(".htm");
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());
+                shareIntent.setType("text/plain");
+                startActivity(shareIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -265,8 +261,7 @@ public class NewsFragment extends Fragment implements RefreshActionListener{
     }
 
     @Override
-    public void onRefreshButtonClick(RefreshActionItem sender) {
-        mRefreshActionItem.setRefreshing(true);
+    public void onRefreshStarted(View view) {
         getArticleData();
     }
 }

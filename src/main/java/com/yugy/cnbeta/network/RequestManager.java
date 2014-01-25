@@ -19,6 +19,8 @@ import com.android.volley.toolbox.Volley;
 import com.yugy.cnbeta.Application;
 import com.yugy.cnbeta.R;
 
+import java.io.File;
+
 /**
  * Created by yugy on 14-1-6.
  */
@@ -32,7 +34,13 @@ public class RequestManager {
     private DiskBasedCache sDiskBasedCache;
 
     private RequestManager(){
-        sDiskBasedCache = new DiskBasedCache(Application.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+        File dir;
+        if(Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED){
+            dir = Application.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        }else{
+            dir = Application.getContext().getCacheDir();
+        }
+        sDiskBasedCache = new DiskBasedCache(dir);
         sRequestQueue = new RequestQueue(sDiskBasedCache, new BasicNetwork(new HurlStack()));
         sRequestQueue.start();
         MEM_CACHE_SIZE = 1024 * 1024 *

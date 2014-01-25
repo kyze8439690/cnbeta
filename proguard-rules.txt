@@ -1,5 +1,6 @@
 -optimizationpasses 5
 
+-dontobfuscate
 
 # 混淆时不会产生形形色色的类名
 -dontusemixedcaseclassnames
@@ -13,9 +14,11 @@
 -verbose
 
 # 优化
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+#-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable
 
 -libraryjars libs/umeng_sdk.jar
+-libraryjars libs/volley.jar
 
 # Parcel
 -keep class * implements android.os.Parcelable {
@@ -67,8 +70,6 @@
 -keep public class com.umeng.fb.ui.ThreadView {
 }
 
-
--keep class com.yugy.cnbeta.ui.view.RefreshActionItem {*;}
 -keep class org.jsoup.** {*;}
 -keep class com.umeng.** {*;}
 -keep public class * extends com.umeng.**

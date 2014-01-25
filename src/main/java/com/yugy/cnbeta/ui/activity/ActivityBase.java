@@ -11,6 +11,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.yugy.cnbeta.network.RequestManager;
 import com.yugy.cnbeta.ui.fragment.SettingsFragment;
 import com.yugy.cnbeta.utils.MessageUtils;
+import com.yugy.cnbeta.utils.ScreenUtils;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -25,7 +26,7 @@ public class ActivityBase {
     public static void onCreate(Activity activity){
         try {
             if(Settings.System.getInt(activity.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION) == 1){
-                if(!isTablet(activity)){
+                if(!ScreenUtils.isTablet(activity)){
                     activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }
             }
@@ -41,11 +42,6 @@ public class ActivityBase {
             CalligraphyConfig.initDefault("RobotoSlab-Regular.ttf");
         }
         MobclickAgent.onError(activity);
-    }
-
-    public static boolean isTablet(Context context){
-        return(context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     public static void onResume(Activity activity){

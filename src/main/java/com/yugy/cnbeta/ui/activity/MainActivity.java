@@ -215,13 +215,11 @@ public class MainActivity extends Activity implements OnItemClickListener, OnNew
     @Override
     public void onNewsClick(Bundle bundle) {
         if(findViewById(R.id.main_content_container) != null){
-            bundle.putBoolean("transparentActionBar", false);
             NewsFragment newsFragment = new NewsFragment();
             newsFragment.setArguments(bundle);
             getFragmentManager().beginTransaction()
                     .replace(R.id.main_content_container, newsFragment).commit();
         }else{
-            bundle.putBoolean("transparentActionBar", true);
             Intent intent = new Intent(this, NewsActivity.class);
             intent.putExtra("bundle", bundle);
             startActivity(intent);

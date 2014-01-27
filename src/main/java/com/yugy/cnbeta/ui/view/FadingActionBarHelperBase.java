@@ -42,7 +42,7 @@ public abstract class FadingActionBarHelperBase {
     private View mContentView;
     private LayoutInflater mInflater;
     private boolean mLightActionBar;
-    private boolean mTranparentActionBar = true;
+    private boolean mTransparentActionBar = true;
     private boolean mUseParallax = true;
     private int mLastDampedScroll;
     private int mLastHeaderHeight = -1;
@@ -101,7 +101,7 @@ public abstract class FadingActionBarHelperBase {
     }
 
     public final <T extends FadingActionBarHelperBase> T  actionBarTransparent(boolean value) {
-        mTranparentActionBar = value;
+        mTransparentActionBar = value;
         return (T)this;
     }
 
@@ -161,7 +161,7 @@ public abstract class FadingActionBarHelperBase {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
             mActionBarBackgroundDrawable.setCallback(mDrawableCallback);
         }
-        if(mTranparentActionBar){
+        if(mTransparentActionBar){
             mActionBarBackgroundDrawable.setAlpha(0);
         }
     }
@@ -220,7 +220,7 @@ public abstract class FadingActionBarHelperBase {
         int headerHeight = currentHeaderHeight - getActionBarHeight();
         float ratio = (float) Math.min(Math.max(scrollPosition, 0), headerHeight) / headerHeight;
         int newAlpha = (int) (ratio * 255);
-        if(mTranparentActionBar){
+        if(mTransparentActionBar){
             mActionBarBackgroundDrawable.setAlpha(newAlpha);
         }
 

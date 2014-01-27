@@ -70,7 +70,7 @@ public class NewsFragment extends Fragment implements OnRefreshListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        boolean isTransparentActionbar = getArguments().getBoolean("transparentActionBar", false);
+        boolean isTransparentActionbar = getActivity().findViewById(R.id.main_content_container) == null;
         FadingActionBarHelper helper = new FadingActionBarHelper();
         helper.actionBarBackground(R.drawable.ab_solid_bg);
         helper.actionBarTransparent(isTransparentActionbar);

@@ -51,6 +51,7 @@ public class CommentFragment extends ListFragment implements OnNavigationListene
                 .listener(this)
                 .theseChildrenArePullable(getListView(), getListView().getEmptyView())
                 .setup(mPullToRefreshLayout);
+        setHasOptionsMenu(true);
         getListView().setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 

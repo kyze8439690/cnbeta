@@ -13,8 +13,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -28,6 +30,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -38,10 +41,15 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import me.yugy.cnbeta.R;
+import me.yugy.cnbeta.utils.FileUtils;
 import me.yugy.cnbeta.widget.CircularProgressDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -163,14 +171,15 @@ public class ImageActivity extends ActionBarActivity{
     }
 
     private boolean mIsShareLoading = false;
+    private boolean mIsCopyWorking = false;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.action_share:
+            case R.id.action_share:{
                 mIsShareLoading = true;
                 final ProgressDialog dialog = new ProgressDialog(this);
                 dialog.setIndeterminate(true);
@@ -183,11 +192,11 @@ public class ImageActivity extends ActionBarActivity{
                 });
                 dialog.setMessage("Loading...");
                 dialog.show();
-                ImageLoader.getInstance().loadImage(mImageDetail.imageUrl, new SimpleImageLoadingListener(){
+                ImageLoader.getInstance().loadImage(mImageDetail.imageUrl, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         super.onLoadingComplete(imageUri, view, loadedImage);
-                        if(mIsShareLoading) {
+                        if (mIsShareLoading) {
                             Intent shareIntent = new Intent();
                             shareIntent.setAction(Intent.ACTION_SEND);
                             shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(ImageLoader.getInstance().getDiskCache().get(imageUri)));
@@ -198,6 +207,42 @@ public class ImageActivity extends ActionBarActivity{
                         }
                     }
                 });
+                return true;
+            }
+            case R.id.action_download:
+                mIsCopyWorking = true;
+                final ProgressDialog dialog = new ProgressDialog(this);
+                dialog.setIndeterminate(true);
+                dialog.setIndeterminateDrawable(new CircularProgressDrawable.Builder(this).color(Color.WHITE).build());
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        mIsCopyWorking = false;
+                    }
+                });
+                dialog.setMessage("Loading...");
+                dialog.show();
+                ImageLoader.getInstance().loadImage(mImageDetail.imageUrl, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        super.onLoadingComplete(imageUri, view, loadedImage);
+                        if (mIsCopyWorking) {
+                            File from = ImageLoader.getInstance().getDiskCache().get(imageUri);
+                            String path = "/cnβ/" + from.getName() + ".jpg";
+                            File to = new File(Environment.getExternalStorageDirectory(), path);
+                            try {
+                                FileUtils.copy(from, to);
+                                MediaStore.Images.Media.insertImage(getContentResolver(), to.getAbsolutePath(), to.getName(), "");
+                                Toast.makeText(ImageActivity.this, "文件已保存到: " + to.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Toast.makeText(ImageActivity.this, "IO错误", Toast.LENGTH_SHORT).show();
+                            }
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -303,6 +303,8 @@ public class ArticleFragment extends Fragment {
                                 imageDetail.top = screenLocation[1];
                                 imageDetail.width = v.getWidth();
                                 imageDetail.height = v.getHeight();
+                                imageDetail.title = mNews.titleShow;
+                                imageDetail.newsUrl = "http://www.cnbeta.com/articles/" + mNews.sid + ".htm";
                                 ImageActivity.launch(v.getContext(), imageDetail);
                             }
                         });
@@ -344,9 +346,10 @@ public class ArticleFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                Intent intent = new Intent(getActivity(), ShareActivity.class);
-                intent.putExtra("url", "http://www.cnbeta.com/articles/" + mNews.sid + ".htm");
-                startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, mNews.titleShow + " " + "http://www.cnbeta.com/articles/" + mNews.sid + ".htm");
+                startActivity(Intent.createChooser(intent, getString(R.string.share)));
                 return true;
             case R.id.action_view_in_browser:
                 String url = "http://www.cnbeta.com/articles/" + mNews.sid + ".htm";

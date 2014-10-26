@@ -1,18 +1,25 @@
 package me.yugy.cnbeta.ui;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -35,12 +42,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import me.yugy.cnbeta.R;
+import me.yugy.cnbeta.widget.CircularProgressDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by yugy on 14/10/25.
  */
-public class ImageActivity extends Activity{
+public class ImageActivity extends ActionBarActivity{
 
     public static void launch(Context context, ImageDetail imageDetail){
         Intent intent = new Intent(context, ImageActivity.class);
@@ -73,6 +81,8 @@ public class ImageActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         ButterKnife.inject(this);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mImageDetail = getIntent().getParcelableExtra("image_detail");
         ImageLoader.getInstance().displayImage(mImageDetail.imageUrl, mImage, sOptions, new SimpleImageLoadingListener(){
@@ -147,6 +157,53 @@ public class ImageActivity extends Activity{
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.image, menu);
+        return true;
+    }
+
+    private boolean mIsShareLoading = false;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_share:
+                mIsShareLoading = true;
+                final ProgressDialog dialog = new ProgressDialog(this);
+                dialog.setIndeterminate(true);
+                dialog.setIndeterminateDrawable(new CircularProgressDrawable.Builder(this).color(Color.WHITE).build());
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        mIsShareLoading = false;
+                    }
+                });
+                dialog.setMessage("Loading...");
+                dialog.show();
+                ImageLoader.getInstance().loadImage(mImageDetail.imageUrl, new SimpleImageLoadingListener(){
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        super.onLoadingComplete(imageUri, view, loadedImage);
+                        if(mIsShareLoading) {
+                            Intent shareIntent = new Intent();
+                            shareIntent.setAction(Intent.ACTION_SEND);
+                            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(ImageLoader.getInstance().getDiskCache().get(imageUri)));
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, mImageDetail.title + " " + mImageDetail.newsUrl);
+                            shareIntent.setType("*/*");
+                            startActivity(Intent.createChooser(shareIntent, getText(R.string.share)));
+                            dialog.dismiss();
+                        }
+                    }
+                });
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void finish() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
@@ -179,6 +236,8 @@ public class ImageActivity extends Activity{
         public int width;
         public int height;
         public String imageUrl;
+        public String title;
+        public String newsUrl;
 
         @Override
         public int describeContents() {
@@ -192,6 +251,8 @@ public class ImageActivity extends Activity{
             dest.writeInt(this.width);
             dest.writeInt(this.height);
             dest.writeString(this.imageUrl);
+            dest.writeString(this.title);
+            dest.writeString(this.newsUrl);
         }
 
         public ImageDetail() {
@@ -203,6 +264,8 @@ public class ImageActivity extends Activity{
             this.width = in.readInt();
             this.height = in.readInt();
             this.imageUrl = in.readString();
+            this.title = in.readString();
+            this.newsUrl = in.readString();
         }
 
         public static final Parcelable.Creator<ImageDetail> CREATOR = new Parcelable.Creator<ImageDetail>() {

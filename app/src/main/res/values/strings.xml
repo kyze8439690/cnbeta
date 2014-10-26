@@ -11,6 +11,8 @@
     <string name="last_update_prefix">上次刷新：%s</string>
     <string name="refresh">Refresh</string>
     <string name="comment_title">查看评论</string>
+    <string name="download">下载</string>
+    <string name="share">分享</string>
 
     <string-array name="toolbar_spinner_entries">
         <item>全部资讯"</item>

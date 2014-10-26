@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="32dp">
+
+    <TextView
+        android:id="@+id/comment_first_letter"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="匿"
+        android:textColor="#AAA"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:background="@drawable/comment_head_background"
+        />
+
+    <TextView
+        android:id="@+id/comment_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/comment_first_letter"
+        android:text="Jennifer Smith"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="16dp"
+        />
+
+    <TextView
+        android:id="@+id/comment_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/comment_name"
+        android:layout_below="@id/comment_name"
+        android:text="to Alex, Scott, Jennifer"
+        android:textColor="#ffbbbbbb"
+        android:layout_marginTop="8dp"/>
+    
+    <TextView
+        android:id="@+id/comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/comment_name"
+        android:layout_below="@id/comment_location"
+        android:layout_marginTop="16dp"
+        android:text="Aw wang. Wish I could, but am outta town this weekend."
+        android:textSize="16sp"
+        android:layout_marginRight="48dp"
+        />
+
+    <me.yugy.cnbeta.widget.RelativeTimeTextView
+        android:id="@+id/comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="1 min"
+        android:layout_alignBottom="@id/comment_name"
+        android:textColor="#ffbbbbbb"
+        android:textSize="12sp"
+        />
+    
+</RelativeLayout>

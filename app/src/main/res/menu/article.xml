@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity" >
+
+    <item android:id="@+id/loading_progress"
+          app:showAsAction="ifRoom"
+          android:title=""
+          />
+    <item android:id="@+id/action_share"
+        android:title="@string/action_share"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_view_in_browser"
+          android:title="@string/action_view_in_browser"
+          app:showAsAction="never"
+          />
+</menu>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="@dimen/cardview_default_radius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:src="@color/default_loading_color"
+            />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kangaroo Valley Safari"
+            android:textColor="#FFF"
+            android:textSize="26sp"
+            android:layout_alignBottom="@id/image"
+            android:padding="16dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:background="@drawable/gradient_background"
+            />
+
+        <me.yugy.cnbeta.widget.RelativeTimeTextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:textColor="#ffb1b1b1"
+            android:text="August 30"
+            android:padding="16dp"
+            />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:lineSpacingExtra="6dp"
+            android:maxLines="4"
+            android:ellipsize="end"
+            android:paddingLeft="16dp"
+            android:paddingRight="64dp"
+            android:paddingBottom="16dp"
+            android:text="Located two hours south of Sydney in the Southern Highlands of New South Waves, ..."
+            />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

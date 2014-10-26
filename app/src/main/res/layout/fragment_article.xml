@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <me.yugy.cnbeta.widget.NotifyScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarThumbVertical="@drawable/scrollbar"
+        android:overScrollMode="never"
+        android:fadingEdge="none"
+        >
+
+        <LinearLayout
+            android:id="@+id/article_container"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <View
+                android:id="@+id/article_title_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <me.yugy.cnbeta.widget.RelativeTimeTextView
+                android:id="@+id/time"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="12:30 PM"
+                android:textColor="#ff999999"
+                android:layout_marginLeft="32dp"
+                />
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                tools:text="I'll be in your neighborhood doing errands this weekend if you want to meet up for brunch. Lemme know."
+                android:textSize="16sp"
+                android:textIsSelectable="true"
+                android:lineSpacingExtra="6dp"
+                />
+
+        </LinearLayout>
+
+    </me.yugy.cnbeta.widget.NotifyScrollView>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Brunch thid weekend?"
+        android:textSize="26sp"
+        android:textColor="@android:color/white"
+        android:paddingLeft="56dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="32dp"
+        android:paddingTop="96dp"
+        android:maxLines="2"
+        android:background="@color/article_color"
+        />
+
+    <me.yugy.cnbeta.widget.FloatingActionButton
+        android:id="@+id/floating_button"
+        android:layout_width="73dp"
+        android:layout_height="73dp"
+        android:background="@drawable/floating_btn_background"
+        android:scaleType="fitCenter"
+        android:padding="22dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/ic_comment"/>
+
+</FrameLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="windows_background">#ffe7e7e7</color>
+    <color name="default_loading_color">#EEE</color>
+    <color name="dim_background">#77000000</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="menu_text_selected">#FFe91e63</color>
+
+    <color name="all_news_color">#ffe91e63</color>
+    <color name="all_news_color_dark">#ffd01d5f</color>
+
+    <color name="article_color">#ff313ba6</color>
+    <color name="article_color_dark">#ff242b8e</color>
+
+    <color name="comment_color">#009688</color>
+    <color name="comment_color_dark">#ff007c6f</color>
+
+</resources>

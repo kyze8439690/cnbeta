@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="me.yugy.cnbeta" >
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:name=".Application"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.ArticleActivity"
+                  android:label=""
+                  android:theme="@style/AppTheme.ArticleActivity"/>
+
+        <activity android:name=".ui.ShareActivity"
+                  android:theme="@style/AppTheme.TransparentAndDim"/>
+
+        <activity android:name=".ui.CommentsActivity"
+                  android:label="@string/comment_title"
+                  android:theme="@style/AppTheme.CommentActivity"/>
+        <activity android:name=".ui.ImageActivity"
+                  android:theme="@style/Transparent"
+                  />
+
+        <provider
+            android:authorities="me.yugy.cnbeta.provider"
+            android:name=".dao.DataProvider"
+            android:exported="false">
+            <grant-uri-permission android:pathPattern=".*"/>
+        </provider>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="5aadd9d4ef0bfd1fd797e15f0cbcf3cc74aa044a"/>
+    </application>
+
+</manifest>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+    <me.yugy.cnbeta.widget.RelativeTimeTextView
+        android:id="@+id/comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="1 min"
+        android:textColor="#ffbbbbbb"
+        android:textSize="12sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        />
+
+    <TextView
+        android:id="@+id/comment_first_letter"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="匿"
+        android:textColor="#AAA"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/comment_head_background"
+        />
+
+    <TextView
+        android:id="@+id/comment_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/comment_first_letter"
+        android:layout_toLeftOf="@id/comment_time"
+        android:layout_marginRight="8dp"
+        android:text="Brunch this weekend?"
+        android:textSize="16sp"
+        android:layout_marginLeft="16dp"
+        android:layout_alignTop="@id/comment_first_letter"
+        />
+
+    <TextView
+        android:id="@+id/comment_name_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/comment_content"
+        android:layout_below="@id/comment_content"
+        android:text="Ali Connors - I'll be in your neighborhood ..."
+        android:textSize="15sp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"/>
+
+    <View
+        android:layout_below="@id/comment_name_title"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@drawable/comment_list_divider"
+        android:layout_marginTop="32dp"
+        />
+
+</RelativeLayout>

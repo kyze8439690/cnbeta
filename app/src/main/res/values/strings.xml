@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">cnβ</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name="action_view_in_browser">View in browser</string>
+
+    <string name="just_now">刚刚</string>
+    <string name="refreshing">刷新中...</string>
+    <string name="last_update_prefix">上次刷新：%s</string>
+    <string name="refresh">Refresh</string>
+    <string name="comment_title">查看评论</string>
+
+    <string-array name="toolbar_spinner_entries">
+        <item>全部资讯"</item>
+        <item>精彩评论"</item>
+        <item>人气推荐"</item>
+        <item>实时新闻"</item>
+    </string-array>
+
+</resources>

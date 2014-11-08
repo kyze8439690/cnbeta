@@ -28,81 +28,28 @@ import me.yugy.cnbeta.model.Comments;
 /**
  * Created by yugy on 2014/9/6.
  */
-public class NewsCommentRequest extends Request<Comments> {
+public class NewsCommentRequest extends Request<Comment[]> {
 
-    private int mSid;
-    private int mPage;
-    private String mSn;
-    private Response.Listener<Comments> mListener;
+    private Response.Listener<Comment[]> mListener;
 
-    public NewsCommentRequest(int sid, int page, String sn, Response.Listener<Comments> listener, Response.ErrorListener errorListener) {
-        super(Method.POST, "http://www.cnbeta.com/cmt", errorListener);
-        mSid = sid;
-        mPage = page;
-        mSn = sn;
+    public NewsCommentRequest(String url, Response.Listener<Comment[]> listener, Response.ErrorListener errorListener) {
+        super(Method.GET, url, errorListener);
         mListener = listener;
     }
 
     @Override
-    protected Map<String, String> getParams() throws AuthFailureError {
-        try {
-            Map<String, String> params = new Hashtable<String, String>();
-            params.put("op", generateOp(mPage, mSid, mSn));
-            return params;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return super.getParams();
-        }
-    }
-
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> headers = new Hashtable<String, String>();
-        headers.put("X-Requested-With", "XMLHttpRequest");
-        headers.put("Referer", "http://www.cnbeta.com/articles/" + mSid + ".htm");
-        return headers;
-    }
-
-    @Override
-    protected Response<Comments> parseNetworkResponse(NetworkResponse response) {
+    protected Response<Comment[]> parseNetworkResponse(NetworkResponse response) {
         try {
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             JSONObject json = new JSONObject(jsonString);
             if(json.getString("status").equals("success")){
-                String commentString = new String(Base64.decode(json.getString("result"), Base64.NO_WRAP), "UTF-8");
-                JSONObject commentJson = new JSONObject(commentString);
-
-                JSONArray hotCommentIdJson = commentJson.getJSONArray("hotlist");
-                int hotCommentCount = hotCommentIdJson.length();
-                List<Integer> hotCommentIds = new ArrayList<Integer>();
-                for (int i = 0; i < hotCommentCount; i++) {
-                    hotCommentIds.add(hotCommentIdJson.getJSONObject(i).getInt("tid"));
+                JSONArray result = json.getJSONArray("result");
+                Comment[] comments = new Comment[result.length()];
+                for (int i = 0; i < result.length(); i++) {
+                    Comment comment = Comment.fromJson(result.getJSONObject(i));
+                    comments[i] = comment;
                 }
-
-                JSONObject commentStore = commentJson.optJSONObject("cmntstore");
-
-                if(commentStore != null) {
-                    List<Comment> commentList = new ArrayList<Comment>();
-                    List<Comment> hotCommentList = new ArrayList<Comment>();
-
-                    Iterator iterator = commentStore.keys();
-                    while (iterator.hasNext()) {
-                        String key = (String) iterator.next();
-                        JSONObject commentStoreJsonItem = commentStore.getJSONObject(key);
-                        Comment comment = Comment.fromJson(commentStoreJsonItem);
-                        commentList.add(comment);
-                        if (hotCommentIds.contains(Integer.valueOf(key))) {
-                            hotCommentList.add(comment);
-                        }
-                    }
-
-                    int totalCount = commentJson.getInt("comment_num");
-                    Comments comments = new Comments(commentList, hotCommentList, totalCount);
-                    return Response.success(comments, HttpHeaderParser.parseCacheHeaders(response));
-                }else{
-                    return Response.success(new Comments(new ArrayList<Comment>(), new ArrayList<Comment>(),
-                        0), HttpHeaderParser.parseCacheHeaders(response));
-                }
+                return Response.success(comments, HttpHeaderParser.parseCacheHeaders(response));
             }else{
                 return Response.error(new ParseError(new Exception("get comments failed")));
             }
@@ -116,12 +63,8 @@ public class NewsCommentRequest extends Request<Comments> {
     }
 
     @Override
-    protected void deliverResponse(Comments response) {
+    protected void deliverResponse(Comment[] response) {
         mListener.onResponse(response);
-    }
-
-    private static String generateOp(int page, int sid, String sn) throws UnsupportedEncodingException {
-        return URLEncoder.encode(Base64.encodeToString((page + "," + sid + "," + sn).getBytes("UTF-8"), Base64.NO_WRAP), "UTF-8");
     }
 
 }

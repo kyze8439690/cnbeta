@@ -45,10 +45,10 @@ public class RecommendNewsAdapter extends CursorAdapter2<RecommendNewsAdapter.Ba
         View view;
         switch (viewType){
             case News.TYPE_WITH_IMAGE:
-                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_news_card_with_image, viewGroup, false);
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_realtime_news_card_with_image, viewGroup, false);
                 return new WithImageViewHolder(view);
             case News.TYPE_ONLY_TEXT:
-                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_news_card_only_text, viewGroup, false);
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_realtime_news_card_only_text, viewGroup, false);
                 return new OnlyTextViewHolder(view);
         }
         return null;
@@ -74,7 +74,6 @@ public class RecommendNewsAdapter extends CursorAdapter2<RecommendNewsAdapter.Ba
 
         @InjectView(R.id.title) TextView title;
         @InjectView(R.id.time) RelativeTimeTextView time;
-        @InjectView(R.id.desc) TextView desc;
 
         private int sid;
 
@@ -91,8 +90,7 @@ public class RecommendNewsAdapter extends CursorAdapter2<RecommendNewsAdapter.Ba
             }else{
                 title.setTextColor(Color.parseColor("#ff4d6674"));
             }
-            title.setText(news.titleShow);
-            desc.setText(news.homeTextShowShort);
+            title.setText(news.title);
             time.setReferenceTime(news.time);
         }
 
@@ -107,7 +105,6 @@ public class RecommendNewsAdapter extends CursorAdapter2<RecommendNewsAdapter.Ba
         @InjectView(R.id.image) ImageView image;
         @InjectView(R.id.title) TextView title;
         @InjectView(R.id.time) RelativeTimeTextView time;
-        @InjectView(R.id.desc) TextView desc;
 
         private int sid;
 
@@ -128,14 +125,15 @@ public class RecommendNewsAdapter extends CursorAdapter2<RecommendNewsAdapter.Ba
                 image.setColorFilter(null);
                 title.setTextColor(Color.WHITE);
             }
-            title.setText(news.titleShow);
-            desc.setText(news.homeTextShowShort);
+            title.setText(news.title);
             time.setReferenceTime(news.time);
 
             image.setImageResource(R.color.default_loading_color);
 
-            String imageUrl = news.logo;
-            imageUrl = imageUrl.replaceAll("_180x132\\.(jpg|png)", "");
+            String imageUrl = news.thumb;
+
+//            imageUrl = imageUrl.replace("_100x100", "").replace("thumb/mini/", "")
+//                    .replace(".jpg.jpg", ".jpg").replace(".png.png", ".png").replace(".gif.gif", ".gif");
             ImageLoader.getInstance().displayImage(imageUrl, image);
         }
 

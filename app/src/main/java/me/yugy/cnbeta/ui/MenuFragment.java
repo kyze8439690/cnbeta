@@ -23,7 +23,6 @@ public class MenuFragment extends Fragment{
     public static final int TYPE_ALL_NEWS = 0;
     public static final int TYPE_HOT_COMMENTS = 1;
     public static final int TYPE_RECOMMEND = 2;
-    public static final int TYPE_REALTIME_NEWS = 3;
 
     private OnMenuSelectListener mListener;
     private MenuAdapter mAdapter;
@@ -65,9 +64,6 @@ public class MenuFragment extends Fragment{
                     break;
                 case 2:
                     mListener.onMenuSelect(TYPE_RECOMMEND);
-                    break;
-                case 3:
-                    mListener.onMenuSelect(TYPE_REALTIME_NEWS);
                     break;
             }
         }

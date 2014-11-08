@@ -9,7 +9,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +29,7 @@ import me.yugy.cnbeta.adapter.AllNewsAdapter;
 import me.yugy.cnbeta.dao.dbinfo.AllNewsDBInfo;
 import me.yugy.cnbeta.dao.datahelper.AllNewsDataHelper;
 import me.yugy.cnbeta.model.News;
-import me.yugy.cnbeta.vendor.CnBeta;
+import me.yugy.cnbeta.network.CnBeta;
 import me.yugy.cnbeta.widget.PauseOnScrollListener2;
 
 /**
@@ -114,7 +113,7 @@ public class AllNewsFragment extends Fragment implements LoaderManager.LoaderCal
         if(!mRefreshLayout.isRefreshing()){
             mRefreshLayout.setRefreshing(true);
         }
-        CnBeta.getNews(getActivity(), CnBeta.TYPE_ALL, 1, new Response.Listener<News[]>() {
+        CnBeta.getNews(getActivity(), CnBeta.TYPE_ALL, 0, new Response.Listener<News[]>() {
             @Override
             public void onResponse(final News[] response) {
                 if (response.length > 0) {

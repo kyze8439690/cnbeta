@@ -91,8 +91,8 @@ public class AllNewsAdapter extends CursorAdapter2<AllNewsAdapter.BaseViewHolder
             }else{
                 title.setTextColor(Color.parseColor("#ff4d6674"));
             }
-            title.setText(news.titleShow);
-            desc.setText(news.homeTextShowShort);
+            title.setText(news.title);
+            desc.setText(news.summary);
             time.setReferenceTime(news.time);
         }
 
@@ -128,14 +128,17 @@ public class AllNewsAdapter extends CursorAdapter2<AllNewsAdapter.BaseViewHolder
                 image.setColorFilter(null);
                 title.setTextColor(Color.WHITE);
             }
-            title.setText(news.titleShow);
-            desc.setText(news.homeTextShowShort);
+            title.setText(news.title);
+            desc.setText(news.summary);
             time.setReferenceTime(news.time);
 
             image.setImageResource(R.color.default_loading_color);
 
-            String imageUrl = news.logo;
-            imageUrl = imageUrl.replaceAll("_180x132\\.(jpg|png)", "");
+            String imageUrl = news.thumb;
+            if(!imageUrl.contains("undefined")) {
+                imageUrl = imageUrl.replace("_100x100", "").replace("thumb/mini/", "")
+                        .replace(".jpg.jpg", ".jpg").replace(".png.png", ".png").replace(".gif.gif", ".gif");
+            }
             ImageLoader.getInstance().displayImage(imageUrl, image);
         }
 

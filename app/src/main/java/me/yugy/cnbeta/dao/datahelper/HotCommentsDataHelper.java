@@ -37,9 +37,9 @@ public class HotCommentsDataHelper extends BaseDataHelper {
         ContentValues values = new ContentValues();
         values.put(HotCommentsDBInfo.SID, hotComment.sid);
         values.put(HotCommentsDBInfo.COMMENT, hotComment.comment);
-        values.put(HotCommentsDBInfo.AUTHOR, hotComment.author);
-        values.put(HotCommentsDBInfo.TITLE, hotComment.title);
-        values.put(HotCommentsDBInfo.TIME, hotComment.time);
+        values.put(HotCommentsDBInfo.AUTHOR, hotComment.username);
+        values.put(HotCommentsDBInfo.TITLE, hotComment.subject);
+        values.put(HotCommentsDBInfo.CID, hotComment.cid);
         return values;
     }
 

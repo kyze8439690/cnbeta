@@ -15,17 +15,18 @@ public class Comment {
     public String author;
     public long time;
     public String content;
-    public String location;
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
 
     public static Comment fromJson(JSONObject json) throws JSONException, ParseException {
         Comment comment = new Comment();
-        comment.author = json.getString("name");
-        String timeString = json.getString("date");
+        comment.author = json.getString("username");
+        if(comment.author.equals("")){
+            comment.author = "匿名人士";
+        }
+        String timeString = json.getString("created_time");
         comment.time = DATE_FORMAT.parse(timeString).getTime();
-        comment.content = json.getString("comment");
-        comment.location = json.getString("host_name");
+        comment.content = json.getString("content");
         return comment;
     }
 

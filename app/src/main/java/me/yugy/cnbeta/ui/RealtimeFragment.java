@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -30,7 +29,7 @@ import me.yugy.cnbeta.adapter.RealTimeNewsAdapter;
 import me.yugy.cnbeta.dao.datahelper.RealTimeNewsDataHelper;
 import me.yugy.cnbeta.dao.dbinfo.RealTimeNewsDBInfo;
 import me.yugy.cnbeta.model.RealTimeNews;
-import me.yugy.cnbeta.vendor.CnBeta;
+import me.yugy.cnbeta.network.CnBeta;
 import me.yugy.cnbeta.widget.PauseOnScrollListener2;
 
 /**
@@ -73,7 +72,9 @@ public class RealtimeFragment extends Fragment implements LoaderManager.LoaderCa
                 refresh();
             }
         });
-    }@Override
+    }
+
+    @Override
      public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(mDataHelper.getCount() == 0){

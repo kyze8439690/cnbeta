@@ -1,8 +1,6 @@
 package me.yugy.cnbeta.adapter;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,10 +58,10 @@ public class HotCommentsAdapter extends CursorAdapter2<HotCommentsAdapter.HotCom
 
         public void parse(HotComment hotComment){
             mSid = hotComment.sid;
-            firstLetter.setText(hotComment.author.substring(0, 1));
+            firstLetter.setText(hotComment.username.substring(0, 1));
             comment.setText(hotComment.comment);
-            nameAndTitle.setText(hotComment.author + "  — 《" + hotComment.title + "》");
-            time.setReferenceTime(hotComment.time);
+            nameAndTitle.setText(hotComment.username + "  — 《" + hotComment.subject + "》");
+            time.setText("");
         }
 
         @Override

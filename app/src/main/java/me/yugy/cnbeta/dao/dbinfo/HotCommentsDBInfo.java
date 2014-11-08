@@ -11,9 +11,9 @@ public class HotCommentsDBInfo {
 
     public static final String SID = "sid";
     public static final String COMMENT = "comment";
-    public static final String AUTHOR = "author";
-    public static final String TITLE = "title";
-    public static final String TIME = "time";
+    public static final String AUTHOR = "username";
+    public static final String TITLE = "subject";
+    public static final String CID = "cid";
 
 
     public static final SQLiteTable TABLE = new SQLiteTable(HotCommentsDataHelper.TABLE_NAME)
@@ -21,5 +21,5 @@ public class HotCommentsDBInfo {
             .addColumn(COMMENT, Column.DataType.TEXT)
             .addColumn(AUTHOR, Column.DataType.TEXT)
             .addColumn(TITLE, Column.DataType.TEXT)
-            .addColumn(TIME, Column.DataType.INTEGER);
+            .addColumn(CID, Column.DataType.INTEGER);
 }

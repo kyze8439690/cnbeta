@@ -33,7 +33,7 @@ public class RealTimeNews {
         RealTimeNews realTimeNews = new RealTimeNews();
 
         realTimeNews.sid = json.getInt("sid");
-        realTimeNews.title = json.getString("title");
+        realTimeNews.title = json.getString("subject");
         realTimeNews.homeTextShow = json.getString("hometext_show").replace("\\r\\n", "");
         realTimeNews.logo = json.getString("logo").replace(" ", "%20");
         String timeString = json.getString("time");

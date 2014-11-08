@@ -32,26 +32,14 @@ public class NewsRequest extends Request<News[]>{
     }
 
     @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> headers = new Hashtable<String, String>();
-        headers.put("X-Requested-With", "XMLHttpRequest");
-        headers.put("Referer", "http://www.cnbeta.com/");
-        headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        headers.put("Accept", "*/*");
-        return headers;
-    }
-
-    @Override
     protected Response<News[]> parseNetworkResponse(NetworkResponse response) {
         try {
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            jsonString = jsonString.replaceAll("jQuery[0-9]+_[0-9]+\\(", "");
-            jsonString = jsonString.substring(0, jsonString.length() - 1);
             JSONObject json = new JSONObject(jsonString);
             if(!json.getString("status").equals("success")){
                 return Response.error(new ParseError(new Exception("Get News failed.")));
             }else{
-                JSONArray array = json.getJSONObject("result").getJSONArray("list");
+                JSONArray array = json.getJSONArray("result");
                 News[] newses = new News[array.length()];
                 for (int i = 0; i < newses.length; i++) {
                     newses[i] = News.fromJson(array.getJSONObject(i));

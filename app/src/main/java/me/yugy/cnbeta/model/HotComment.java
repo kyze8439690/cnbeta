@@ -6,43 +6,38 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 /**
  * Created by yugy on 2014/9/7.
  */
 public class HotComment {
 
+    public int cid;
     public int sid;
     public String comment;
-    public String author;
-    public String title;
-    public long time;
-
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
+    public String username;
+    public String subject;
 
     public static HotComment fromJson(JSONObject json) throws JSONException, ParseException {
         HotComment hotComment = new HotComment();
-        hotComment.sid = json.getJSONObject("comment_show").getInt("sid");
-        hotComment.comment = json.getJSONObject("comment_show").getString("comment");
-        hotComment.author = json.getJSONObject("comment_show").getString("name");
-        if(hotComment.author.equals("")){
-            hotComment.author = "匿名人士";
+        hotComment.cid = json.getInt("cid");
+        hotComment.sid = json.getInt("sid");
+        hotComment.comment = json.getString("comment");
+        hotComment.username = json.getString("username");
+        if(hotComment.username.equals("")){
+            hotComment.username = "匿名人士";
         }
-        hotComment.title = json.getJSONObject("comment_show").getString("title_show");
-        String timeString = json.getString("time");
-        hotComment.time = DATE_FORMAT.parse(timeString).getTime();
+        hotComment.subject = json.getString("subject");
         return hotComment;
     }
 
     public static HotComment fromCursor(Cursor cursor) {
         HotComment hotComment = new HotComment();
+        hotComment.cid = cursor.getInt(cursor.getColumnIndex(HotCommentsDBInfo.CID));
         hotComment.sid = cursor.getInt(cursor.getColumnIndex(HotCommentsDBInfo.SID));
         hotComment.comment = cursor.getString(cursor.getColumnIndex(HotCommentsDBInfo.COMMENT));
-        hotComment.author = cursor.getString(cursor.getColumnIndex(HotCommentsDBInfo.AUTHOR));
-        hotComment.title = cursor.getString(cursor.getColumnIndex(HotCommentsDBInfo.TITLE));
-        hotComment.time = cursor.getLong(cursor.getColumnIndex(HotCommentsDBInfo.TIME));
+        hotComment.username = cursor.getString(cursor.getColumnIndex(HotCommentsDBInfo.AUTHOR));
+        hotComment.subject = cursor.getString(cursor.getColumnIndex(HotCommentsDBInfo.TITLE));
         return hotComment;
     }
 }

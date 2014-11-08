@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -20,41 +21,20 @@ import me.yugy.cnbeta.widget.RelativeTimeTextView;
  */
 public class CommentsAdapter extends BaseAdapter{
 
-    public static final int TYPE_ALL_COMMENTS = 0;
-    public static final int TYPE_HOT_COMMENTS = 1;
+    private Comment[] mComments;
 
-    private int mType;
-
-    private ArrayList<Comment> mComments;
-
-    public CommentsAdapter(Comments comments, int type){
-        mType = type;
-        mComments = new ArrayList<Comment>();
-        switch (type){
-            case TYPE_ALL_COMMENTS:
-                int count = comments.getComments().length;
-                for (int i = 0; i < count; i++) {
-                    mComments.add(comments.getComments()[i]);
-                }
-                break;
-            case TYPE_HOT_COMMENTS:
-                count = comments.getHotComments().length;
-                for (int i = 0; i < count; i++) {
-                    mComments.add(comments.getHotComments()[i]);
-                }
-                break;
-        }
-
+    public CommentsAdapter(Comment[] comments){
+        mComments = comments;
     }
 
     @Override
     public int getCount() {
-        return mComments.size();
+        return mComments.length;
     }
 
     @Override
     public Comment getItem(int position) {
-        return mComments.get(position);
+        return mComments[position];
     }
 
     @Override
@@ -77,21 +57,12 @@ public class CommentsAdapter extends BaseAdapter{
         return view;
     }
 
-    public void append(Comments comments){
-        switch (mType){
-            case TYPE_ALL_COMMENTS:
-                int count = comments.getComments().length;
-                for (int i = 0; i < count; i++) {
-                    mComments.add(comments.getComments()[i]);
-                }
-                break;
-            case TYPE_HOT_COMMENTS:
-                count = comments.getHotComments().length;
-                for (int i = 0; i < count; i++) {
-                    mComments.add(comments.getHotComments()[i]);
-                }
-                break;
-        }
+    public void append(Comment[] comments){
+        ArrayList<Comment> commentArrayList = new ArrayList<Comment>();
+        commentArrayList.addAll(Arrays.asList(mComments));
+        commentArrayList.addAll(Arrays.asList(comments));
+        mComments = commentArrayList.toArray(new Comment[commentArrayList.size()]);
+
         notifyDataSetChanged();
     }
 
@@ -101,7 +72,6 @@ public class CommentsAdapter extends BaseAdapter{
         @InjectView(R.id.comment_name) TextView mName;
         @InjectView(R.id.comment_content) TextView mContent;
         @InjectView(R.id.comment_time) RelativeTimeTextView mTime;
-        @InjectView(R.id.comment_location) TextView mLocation;
 
         public ViewHolder(View view){
             ButterKnife.inject(this, view);
@@ -112,7 +82,6 @@ public class CommentsAdapter extends BaseAdapter{
             mName.setText(comment.author);
             mContent.setText(comment.content);
             mTime.setReferenceTime(comment.time);
-            mLocation.setText(comment.location);
         }
 
     }

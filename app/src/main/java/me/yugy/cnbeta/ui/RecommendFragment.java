@@ -9,6 +9,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,10 +27,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.adapter.RecommendNewsAdapter;
-import me.yugy.cnbeta.dao.dbinfo.RecommendNewsDBInfo;
 import me.yugy.cnbeta.dao.datahelper.RecommendNewsDataHelper;
 import me.yugy.cnbeta.model.News;
-import me.yugy.cnbeta.vendor.CnBeta;
+import me.yugy.cnbeta.network.CnBeta;
 import me.yugy.cnbeta.widget.PauseOnScrollListener2;
 
 /**
@@ -62,7 +62,7 @@ public class RecommendFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnScrollListener(new PauseOnScrollListener2(ImageLoader.getInstance(), true, true));
         mRefreshLayout.setColorSchemeResources(R.color.all_news_color);
@@ -100,16 +100,14 @@ public class RecommendFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     public void onNewsSelect(int sid){
-
         ArticleActivity.launch(getActivity(), sid, ArticleFragment.NEWS_TYPE_RECOMMEND);
-
     }
 
     private void refresh() {
         if(!mRefreshLayout.isRefreshing()){
             mRefreshLayout.setRefreshing(true);
         }
-        CnBeta.getNews(getActivity(), CnBeta.TYPE_RECOMMEND, 1, new Response.Listener<News[]>() {
+        CnBeta.getNews(getActivity(), CnBeta.TYPE_RECOMMEND, 0, new Response.Listener<News[]>() {
             @Override
             public void onResponse(final News[] response) {
                 if (response.length > 0) {

@@ -20,9 +20,9 @@ public class News {
     public static final int TYPE_ONLY_TEXT = 1;
 
     public int sid;
-    public String titleShow;
-    public String homeTextShowShort;
-    public String logo;
+    public String title;
+    public String summary;
+    public String thumb;
     public long time;
     public int type;
     public boolean read = false;
@@ -33,15 +33,15 @@ public class News {
         News news = new News();
 
         news.sid = json.getInt("sid");
-        news.titleShow = json.getString("title_show");
-        news.homeTextShowShort = json.getString("hometext_show_short").replace("\\r\\n", "");
-        news.logo = json.getString("logo").replace(" ", "%20");
-        String timeString = json.getString("time");
+        news.title = json.getString("title");
+        news.summary = json.getString("summary").replace("\\r\\n", "");
+        news.thumb = json.getString("thumb").replace(" ", "%20");
+        String timeString = json.getString("pubtime");
         news.time = DATE_FORMAT.parse(timeString).getTime();
 
-        if(news.logo.contains("http://static.cnbetacdn.com/topics")){
+        if(news.thumb.contains("http://static.cnbetacdn.com/topics")){
             news.type = TYPE_ONLY_TEXT;
-            news.logo = "";
+            news.thumb = "";
         }else{
             news.type = TYPE_WITH_IMAGE;
         }
@@ -52,9 +52,9 @@ public class News {
     public static News fromCursor(Cursor cursor) {
         News news = new News();
         news.sid = cursor.getInt(cursor.getColumnIndex(AllNewsDBInfo.SID));
-        news.titleShow = cursor.getString(cursor.getColumnIndex(AllNewsDBInfo.TITLE_SHOW));
-        news.homeTextShowShort = cursor.getString(cursor.getColumnIndex(AllNewsDBInfo.HOMETEXT_SHOW_SHORT));
-        news.logo = cursor.getString(cursor.getColumnIndex(AllNewsDBInfo.LOGO));
+        news.title = cursor.getString(cursor.getColumnIndex(AllNewsDBInfo.TITLE_SHOW));
+        news.summary = cursor.getString(cursor.getColumnIndex(AllNewsDBInfo.HOMETEXT_SHOW_SHORT));
+        news.thumb = cursor.getString(cursor.getColumnIndex(AllNewsDBInfo.LOGO));
         news.time = cursor.getLong(cursor.getColumnIndex(AllNewsDBInfo.TIME));
         news.type = cursor.getInt(cursor.getColumnIndex(AllNewsDBInfo.TYPE));
         news.read = cursor.getInt(cursor.getColumnIndex(AllNewsDBInfo.READ)) == 1;
@@ -64,12 +64,12 @@ public class News {
     public static News fromRealTimeNews(RealTimeNews realTimeNews){
         News news = new News();
         news.sid = realTimeNews.sid;
-        news.titleShow = realTimeNews.title;
+        news.title = realTimeNews.title;
         news.read = realTimeNews.read;
         news.time = realTimeNews.time;
         news.type = realTimeNews.type;
-        news.logo = realTimeNews.logo;
-        news.homeTextShowShort = realTimeNews.homeTextShow;
+        news.thumb = realTimeNews.logo;
+        news.summary = realTimeNews.homeTextShow;
         return news;
     }
 }

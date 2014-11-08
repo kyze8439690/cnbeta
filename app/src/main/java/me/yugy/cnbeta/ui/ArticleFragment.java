@@ -46,7 +46,7 @@ import me.yugy.cnbeta.model.News;
 import me.yugy.cnbeta.model.NewsContent;
 import me.yugy.cnbeta.model.RealTimeNews;
 import me.yugy.cnbeta.utils.UIUtils;
-import me.yugy.cnbeta.vendor.CnBeta;
+import me.yugy.cnbeta.network.CnBeta;
 import me.yugy.cnbeta.widget.AlphaForegroundColorSpan;
 import me.yugy.cnbeta.widget.CircularProgressBar;
 import me.yugy.cnbeta.widget.FloatingActionButton;
@@ -112,8 +112,7 @@ public class ArticleFragment extends Fragment {
                 if(hotComment != null){
                     mNews = new News();
                     mNews.sid = sid;
-                    mNews.time = hotComment.time;
-                    mNews.titleShow = hotComment.title;
+                    mNews.title = hotComment.subject;
                 }
                 break;
             case NEWS_TYPE_RECOMMEND:
@@ -131,9 +130,9 @@ public class ArticleFragment extends Fragment {
                 break;
         }
 
-        mActionBarTitleSpannable = new SpannableString(mNews.titleShow);
+        mActionBarTitleSpannable = new SpannableString(mNews.title);
         mAlphaActionBarTitleColorSpan = new AlphaForegroundColorSpan(Color.WHITE);
-        mTitleSpannable = new SpannableString(mNews.titleShow);
+        mTitleSpannable = new SpannableString(mNews.title);
         mAlphaTitleColorSpan = new AlphaForegroundColorSpan(Color.WHITE);
 
         setHasOptionsMenu(true);
@@ -195,9 +194,13 @@ public class ArticleFragment extends Fragment {
 
         if(mNews != null){
             mTitle.setText(mTitleSpannable);
-            mTime.setReferenceTime(mNews.time);
-            if(mNews.homeTextShowShort != null) {
-                mDesc.setText(mNews.homeTextShowShort);
+            if(mNews.time != 0) {
+                mTime.setReferenceTime(mNews.time);
+            }else{
+                mTime.setText("");
+            }
+            if(mNews.summary != null) {
+                mDesc.setText(mNews.summary);
             }
         }
         mNewsContent = new NewsContentDataHelper().select(mNews.sid);
@@ -244,12 +247,12 @@ public class ArticleFragment extends Fragment {
     @OnClick(R.id.floating_button)
     void onFloatingButtonClick(){
         if(mNews != null && mNewsContent != null) {
-            CommentsActivity.launch(getActivity(), mNews.sid, mLoadFromDatabase ? null : mNewsContent.sn);
+            CommentsActivity.launch(getActivity(), mNews.sid);
         }
     }
 
     private void fetchData() {
-        CnBeta.getNewsContent(getActivity(), mNews.sid, new Response.Listener<NewsContent>() {
+        CnBeta.getNewsContent2(getActivity(), mNews.sid, new Response.Listener<NewsContent>() {
             @Override
             public void onResponse(final NewsContent response) {
                 Log.d(LOG_TAG, "get news content");
@@ -261,12 +264,12 @@ public class ArticleFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(error.getCause() instanceof TimeoutError){
+                if (error.getCause() instanceof TimeoutError) {
                     Toast.makeText(getActivity(), "网络超时", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                 }
-                if(mLoadingProgressBar != null){
+                if (mLoadingProgressBar != null) {
                     mLoadingProgressBar.progressiveStop();
                 }
             }
@@ -281,43 +284,86 @@ public class ArticleFragment extends Fragment {
         if(mContainer.getChildCount() > 3){
             mContainer.removeViews(3, mContainer.getChildCount() - 3);
         }
-        int count = Math.max(response.strings.length, response.images.length);
-        for (int i = 0; i < count; i++) {
-            //add image
-            if(i < response.images.length) {
-                final String imageUrl = response.images[i];
-                final SelectorImageView imageView = getNewImageView();
-                mContainer.addView(imageView);
-                ImageLoader.getInstance().displayImage(imageUrl, imageView, new SimpleImageLoadingListener(){
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                        super.onLoadingComplete(imageUri, view, loadedImage);
-                        imageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                int[] screenLocation = new int[2];
-                                v.getLocationOnScreen(screenLocation);
-                                ImageActivity.ImageDetail imageDetail = new ImageActivity.ImageDetail();
-                                imageDetail.imageUrl = imageUrl;
-                                imageDetail.left = screenLocation[0];
-                                imageDetail.top = screenLocation[1];
-                                imageDetail.width = v.getWidth();
-                                imageDetail.height = v.getHeight();
-                                imageDetail.title = mNews.titleShow;
-                                imageDetail.newsUrl = "http://www.cnbeta.com/articles/" + mNews.sid + ".htm";
-                                ImageActivity.launch(v.getContext(), imageDetail);
-                            }
-                        });
-                    }
-                });
-            }
+        if(response.strings.length > response.images.length) {
+            int count = Math.max(response.strings.length, response.images.length);
+            for (int i = 0; i < count; i++) {
+                //add image
+                if (i < response.images.length) {
+                    final String imageUrl = response.images[i];
+                    final SelectorImageView imageView = getNewImageView();
+                    mContainer.addView(imageView);
+                    ImageLoader.getInstance().displayImage(imageUrl, imageView, new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+                            super.onLoadingComplete(imageUri, view, loadedImage);
+                            imageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    int[] screenLocation = new int[2];
+                                    v.getLocationOnScreen(screenLocation);
+                                    ImageActivity.ImageDetail imageDetail = new ImageActivity.ImageDetail();
+                                    imageDetail.imageUrl = imageUrl;
+                                    imageDetail.left = screenLocation[0];
+                                    imageDetail.top = screenLocation[1];
+                                    imageDetail.width = v.getWidth();
+                                    imageDetail.height = v.getHeight();
+                                    imageDetail.title = mNews.title;
+                                    imageDetail.newsUrl = "http://www.cnbeta.com/articles/" + mNews.sid + ".htm";
+                                    ImageActivity.launch(v.getContext(), imageDetail);
+                                }
+                            });
+                        }
+                    });
+                }
 
-            //add text
-            if(i < response.strings.length) {
-                String textString = response.strings[i];
-                TextView textView = getNewTextView();
-                mContainer.addView(textView);
-                textView.setText(Html.fromHtml(textString));
+                //add text
+                if (i < response.strings.length) {
+                    String textString = response.strings[i];
+                    TextView textView = getNewTextView();
+                    mContainer.addView(textView);
+                    textView.setText(Html.fromHtml(textString));
+                }
+            }
+        }else{
+            int count = Math.max(response.strings.length, response.images.length);
+            for (int i = 0; i < count; i++) {
+                //add text
+                if (i < response.strings.length) {
+                    String textString = response.strings[i];
+                    TextView textView = getNewTextView();
+                    mContainer.addView(textView);
+                    textView.setText(Html.fromHtml(textString));
+                }
+
+                //add image
+                if (i < response.images.length) {
+                    final String imageUrl = response.images[i];
+                    final SelectorImageView imageView = getNewImageView();
+                    mContainer.addView(imageView);
+                    ImageLoader.getInstance().displayImage(imageUrl, imageView, new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+                            super.onLoadingComplete(imageUri, view, loadedImage);
+                            imageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    int[] screenLocation = new int[2];
+                                    v.getLocationOnScreen(screenLocation);
+                                    ImageActivity.ImageDetail imageDetail = new ImageActivity.ImageDetail();
+                                    imageDetail.imageUrl = imageUrl;
+                                    imageDetail.left = screenLocation[0];
+                                    imageDetail.top = screenLocation[1];
+                                    imageDetail.width = v.getWidth();
+                                    imageDetail.height = v.getHeight();
+                                    imageDetail.title = mNews.title;
+                                    imageDetail.newsUrl = "http://www.cnbeta.com/articles/" + mNews.sid + ".htm";
+                                    ImageActivity.launch(v.getContext(), imageDetail);
+                                }
+                            });
+                        }
+                    });
+                }
+
             }
         }
     }
@@ -334,10 +380,11 @@ public class ArticleFragment extends Fragment {
         inflater.inflate(R.menu.article, menu);
         if(!mLoadFromDatabase) {
             MenuItem item = menu.findItem(R.id.loading_progress);
-            mLoadingProgressBar = (CircularProgressBar) LayoutInflater.from(getActivity()).inflate(R.layout.view_article_loading_progress, null);
-            int size = UIUtils.dp2px(getActivity(), 24);
-            mLoadingProgressBar.setLayoutParams(new ViewGroup.LayoutParams(size, size));
-            MenuItemCompat.setActionView(item, mLoadingProgressBar);
+            View actionView = LayoutInflater.from(getActivity()).inflate(R.layout.view_article_loading_progress, null);
+            mLoadingProgressBar = (CircularProgressBar) actionView.findViewById(R.id.progress);
+            int size = UIUtils.dp2px(getActivity(), 48);
+            actionView.setLayoutParams(new ViewGroup.LayoutParams(size, size));
+            MenuItemCompat.setActionView(item, actionView);
             mLoadingProgressBar.setIndeterminate(true);
         }
     }
@@ -348,7 +395,7 @@ public class ArticleFragment extends Fragment {
             case R.id.action_share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, mNews.titleShow + " " + "http://www.cnbeta.com/articles/" + mNews.sid + ".htm");
+                intent.putExtra(Intent.EXTRA_TEXT, mNews.title + " " + "http://www.cnbeta.com/articles/" + mNews.sid + ".htm");
                 startActivity(Intent.createChooser(intent, getString(R.string.share)));
                 return true;
             case R.id.action_view_in_browser:

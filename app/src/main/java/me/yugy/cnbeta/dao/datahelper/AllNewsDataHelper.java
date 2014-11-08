@@ -38,9 +38,9 @@ public class AllNewsDataHelper extends BaseDataHelper {
     public static ContentValues getContentValues(News news){
         ContentValues values = new ContentValues();
         values.put(AllNewsDBInfo.SID, news.sid);
-        values.put(AllNewsDBInfo.TITLE_SHOW, news.titleShow);
-        values.put(AllNewsDBInfo.HOMETEXT_SHOW_SHORT, news.homeTextShowShort);
-        values.put(AllNewsDBInfo.LOGO, news.logo);
+        values.put(AllNewsDBInfo.TITLE_SHOW, news.title);
+        values.put(AllNewsDBInfo.HOMETEXT_SHOW_SHORT, news.summary);
+        values.put(AllNewsDBInfo.LOGO, news.thumb);
         values.put(AllNewsDBInfo.TIME, news.time);
         values.put(AllNewsDBInfo.TYPE, news.type);
         values.put(AllNewsDBInfo.READ, news.read ? 1 : 0);

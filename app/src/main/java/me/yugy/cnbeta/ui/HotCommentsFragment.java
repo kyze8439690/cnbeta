@@ -25,7 +25,7 @@ import me.yugy.cnbeta.adapter.HotCommentsAdapter;
 import me.yugy.cnbeta.dao.dbinfo.HotCommentsDBInfo;
 import me.yugy.cnbeta.dao.datahelper.HotCommentsDataHelper;
 import me.yugy.cnbeta.model.HotComment;
-import me.yugy.cnbeta.vendor.CnBeta;
+import me.yugy.cnbeta.network.CnBeta;
 
 /**
  * Created by yugy on 2014/9/6.
@@ -86,7 +86,7 @@ public class HotCommentsFragment extends Fragment implements LoaderManager.Loade
         if(!mRefreshLayout.isRefreshing()){
             mRefreshLayout.setRefreshing(true);
         }
-        CnBeta.getHotComments(getActivity(), 1, new Response.Listener<HotComment[]>() {
+        CnBeta.getHotComments(getActivity(), new Response.Listener<HotComment[]>() {
             @Override
             public void onResponse(final HotComment[] response) {
                 updateData(response);

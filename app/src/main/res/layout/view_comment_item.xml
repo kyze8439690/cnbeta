@@ -29,23 +29,13 @@
         android:textStyle="bold"
         android:layout_marginLeft="16dp"
         />
-
-    <TextView
-        android:id="@+id/comment_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/comment_name"
-        android:layout_below="@id/comment_name"
-        android:text="to Alex, Scott, Jennifer"
-        android:textColor="#ffbbbbbb"
-        android:layout_marginTop="8dp"/>
     
     <TextView
         android:id="@+id/comment_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/comment_name"
-        android:layout_below="@id/comment_location"
+        android:layout_below="@id/comment_name"
         android:layout_marginTop="16dp"
         android:text="Aw wang. Wish I could, but am outta town this weekend."
         android:textSize="16sp"

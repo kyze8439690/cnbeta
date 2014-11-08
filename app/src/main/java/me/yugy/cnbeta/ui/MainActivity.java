@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity implements MenuFragment.OnMe
             mType = 0;
             getSupportActionBar().setTitle(mTitle);
         }else{
-            mTitle = savedInstanceState.getString("title");
+            mTitle = savedInstanceState.getString("subject");
             mType = savedInstanceState.getInt("type");
         }
     }
@@ -90,7 +90,7 @@ public class MainActivity extends ActionBarActivity implements MenuFragment.OnMe
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("title", mTitle);
+        outState.putString("subject", mTitle);
         outState.putInt("type", mType);
     }
 
@@ -111,10 +111,6 @@ public class MainActivity extends ActionBarActivity implements MenuFragment.OnMe
                     break;
                 case MenuFragment.TYPE_RECOMMEND:
                     ft.replace(R.id.container, new RecommendFragment())
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    break;
-                case MenuFragment.TYPE_REALTIME_NEWS:
-                    ft.replace(R.id.container, new RealtimeFragment())
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     break;
             }

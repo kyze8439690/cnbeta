@@ -39,9 +39,9 @@ public class RecommendNewsDataHelper extends BaseDataHelper {
     public static ContentValues getContentValues(News news){
         ContentValues values = new ContentValues();
         values.put(RecommendNewsDBInfo.SID, news.sid);
-        values.put(RecommendNewsDBInfo.TITLE_SHOW, news.titleShow);
-        values.put(RecommendNewsDBInfo.HOMETEXT_SHOW_SHORT, news.homeTextShowShort);
-        values.put(RecommendNewsDBInfo.LOGO, news.logo);
+        values.put(RecommendNewsDBInfo.TITLE_SHOW, news.title);
+        values.put(RecommendNewsDBInfo.HOMETEXT_SHOW_SHORT, news.summary);
+        values.put(RecommendNewsDBInfo.LOGO, news.thumb);
         values.put(RecommendNewsDBInfo.TIME, news.time);
         values.put(RecommendNewsDBInfo.TYPE, news.type);
         values.put(RecommendNewsDBInfo.READ, news.read ? 1 : 0);

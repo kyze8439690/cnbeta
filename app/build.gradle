@@ -17,7 +17,7 @@ repositories {
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.0.1"
+    buildToolsVersion "21.1.0"
 
     defaultConfig {
         applicationId "me.yugy.cnbeta"
@@ -28,8 +28,8 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            runProguard true
+            proguardFiles 'proguard-rules.pro'
         }
     }
 }

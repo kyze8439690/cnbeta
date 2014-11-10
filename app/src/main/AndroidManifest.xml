@@ -40,6 +40,10 @@
                   android:theme="@style/AppTheme.Transparent"
                   android:label=""
                   />
+        <activity android:name=".ui.SettingsActivity"
+                  android:screenOrientation="portrait"
+                  android:label="@string/action_settings"
+                  />
 
         <provider
             android:authorities="me.yugy.cnbeta.provider"

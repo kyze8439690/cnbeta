@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/more"
+        >
+
+        <Preference android:title="@string/contact_me">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="mailto:me@yanghui.name?subject=From cnβ"/>
+        </Preference>
+
+        <Preference android:title="@string/about"
+                    android:key="about"
+                    />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

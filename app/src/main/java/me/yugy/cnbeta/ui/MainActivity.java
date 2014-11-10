@@ -84,7 +84,14 @@ public class MainActivity extends ActionBarActivity implements MenuFragment.OnMe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        if(mDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }else if(item.getItemId() == R.id.action_settings){
+            SettingsActivity.launch(this);
+            return true;
+        }else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

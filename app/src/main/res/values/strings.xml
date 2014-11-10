@@ -13,6 +13,11 @@
     <string name="comment_title">查看评论</string>
     <string name="download">下载</string>
     <string name="share">分享</string>
+    <string name="more">More</string>
+    <string name="contact_me">Contact me</string>
+    <string name="about">About...</string>
+    <string name="about_desc">This a third party client for http://www.cnbeta.com, which is an IT news publish website.</string>
+    <string name="got_it">Got it</string>
 
     <string-array name="toolbar_spinner_entries">
         <item>全部资讯"</item>

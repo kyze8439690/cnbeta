@@ -1,7 +1,6 @@
 package me.yugy.app.common;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.volley.Request;

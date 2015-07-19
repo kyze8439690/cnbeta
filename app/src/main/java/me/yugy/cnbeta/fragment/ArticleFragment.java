@@ -7,9 +7,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -48,8 +47,8 @@ import me.yugy.cnbeta.model.HotComment;
 import me.yugy.cnbeta.model.News;
 import me.yugy.cnbeta.model.NewsContent;
 import me.yugy.cnbeta.model.RealTimeNews;
-import me.yugy.cnbeta.utils.UIUtils;
 import me.yugy.cnbeta.network.CnBeta;
+import me.yugy.cnbeta.utils.UIUtils;
 import me.yugy.cnbeta.widget.AlphaForegroundColorSpan;
 import me.yugy.cnbeta.widget.CircularProgressBar;
 import me.yugy.cnbeta.widget.FloatingActionButton;
@@ -163,7 +162,7 @@ public class ArticleFragment extends BaseFragment {
                         titleHeight
                 ));
 
-                int actionbarHeight = ((ActionBarActivity)getActivity()).getSupportActionBar().getHeight();
+                int actionbarHeight = ((AppCompatActivity)getActivity()).getSupportActionBar().getHeight();
 
                 mTriggerDistance = titleHeight - actionbarHeight;
 
@@ -238,7 +237,7 @@ public class ArticleFragment extends BaseFragment {
     private void setActionBarTitleAlpha(float alpha){
         mAlphaActionBarTitleColorSpan.setAlpha(alpha);
         mActionBarTitleSpannable.setSpan(mAlphaActionBarTitleColorSpan, 0, mActionBarTitleSpannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(mActionBarTitleSpannable);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(mActionBarTitleSpannable);
     }
 
     private void setTitleAlpha(float alpha){

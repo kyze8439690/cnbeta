@@ -15,11 +15,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import me.yugy.app.common.view.CursorAdapter2;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.dao.dbinfo.AllNewsDBInfo;
 import me.yugy.cnbeta.model.News;
 import me.yugy.cnbeta.fragment.RecommendFragment;
-import me.yugy.cnbeta.view.CursorAdapter2;
 import me.yugy.cnbeta.widget.RelativeTimeTextView;
 
 /**

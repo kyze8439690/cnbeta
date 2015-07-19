@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import me.yugy.app.common.view.CursorAdapter2;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.model.HotComment;
 import me.yugy.cnbeta.fragment.HotCommentsFragment;
-import me.yugy.cnbeta.view.CursorAdapter2;
 import me.yugy.cnbeta.widget.RelativeTimeTextView;
 
 /**
@@ -31,8 +31,7 @@ public class HotCommentsAdapter extends CursorAdapter2<HotCommentsAdapter.HotCom
     @Override
     public HotCommentViewHolder newViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_hotcomments_item, parent, false);
-        HotCommentViewHolder holder = new HotCommentViewHolder(view);
-        return holder;
+        return new HotCommentViewHolder(view);
     }
 
     @Override

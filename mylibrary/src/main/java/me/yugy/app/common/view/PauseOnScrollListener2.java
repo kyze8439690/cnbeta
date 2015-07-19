@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.view;
+package me.yugy.app.common.view;
 
 import android.support.v7.widget.RecyclerView;
 

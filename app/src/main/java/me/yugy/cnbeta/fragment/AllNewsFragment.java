@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.yugy.app.common.core.BaseFragment;
+import me.yugy.app.common.view.DividerItemDecoration;
+import me.yugy.app.common.view.PauseOnScrollListener2;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.activity.ArticleActivity;
 import me.yugy.cnbeta.adapter.AllNewsAdapter;
@@ -31,8 +34,6 @@ import me.yugy.cnbeta.dao.dbinfo.AllNewsDBInfo;
 import me.yugy.cnbeta.dao.datahelper.AllNewsDataHelper;
 import me.yugy.cnbeta.model.News;
 import me.yugy.cnbeta.network.CnBeta;
-import me.yugy.cnbeta.view.DividerItemDecoration;
-import me.yugy.cnbeta.view.PauseOnScrollListener2;
 
 /**
  * Created by yugy on 14/10/19.
@@ -65,7 +66,10 @@ public class AllNewsFragment extends BaseFragment implements LoaderManager.Loade
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.news_list_divider)));
+        mRecyclerView.addItemDecoration(
+                new DividerItemDecoration(
+                        ResourcesCompat.getDrawable(
+                                getResources(), R.drawable.news_list_divider, getActivity().getTheme())));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(new PauseOnScrollListener2(ImageLoader.getInstance(), true, true));
         mRefreshLayout.setColorSchemeResources(R.color.all_news_color);

@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.yugy.app.common.core.BaseFragment;
+import me.yugy.app.common.view.PauseOnScrollListener2;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.activity.ArticleActivity;
 import me.yugy.cnbeta.adapter.RealTimeNewsAdapter;
@@ -31,7 +32,6 @@ import me.yugy.cnbeta.dao.datahelper.RealTimeNewsDataHelper;
 import me.yugy.cnbeta.dao.dbinfo.RealTimeNewsDBInfo;
 import me.yugy.cnbeta.model.RealTimeNews;
 import me.yugy.cnbeta.network.CnBeta;
-import me.yugy.cnbeta.view.PauseOnScrollListener2;
 
 /**
  * Created by yugy on 14/10/24.
@@ -65,7 +65,7 @@ public class RealtimeFragment extends BaseFragment implements LoaderManager.Load
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setOnScrollListener(new PauseOnScrollListener2(ImageLoader.getInstance(), true, true));
+        mRecyclerView.addOnScrollListener(new PauseOnScrollListener2(ImageLoader.getInstance(), true, true));
         mRefreshLayout.setColorSchemeResources(R.color.all_news_color);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

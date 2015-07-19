@@ -1,7 +1,7 @@
-package me.yugy.cnbeta.view;
+package me.yugy.app.common.view;
 
 import android.graphics.Color;
-import android.os.Parcel;
+import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
 
@@ -14,7 +14,7 @@ public class AlphaForegroundColorSpan extends ForegroundColorSpan {
     }
 
     @Override
-    public void updateDrawState(TextPaint ds) {
+    public void updateDrawState(@NonNull TextPaint ds) {
         ds.setColor(getAlphaColor());
     }
 
@@ -28,6 +28,10 @@ public class AlphaForegroundColorSpan extends ForegroundColorSpan {
 
     private int getAlphaColor() {
         int foregroundColor = getForegroundColor();
-        return Color.argb((int) (mAlpha * 255), Color.red(foregroundColor), Color.green(foregroundColor), Color.blue(foregroundColor));
+        return Color.argb(
+                (int) (mAlpha * 255),
+                Color.red(foregroundColor),
+                Color.green(foregroundColor),
+                Color.blue(foregroundColor));
     }
 }

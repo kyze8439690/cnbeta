@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import me.yugy.app.common.BaseFragment;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.adapter.CommentsAdapter;
 import me.yugy.cnbeta.model.Comment;
@@ -24,7 +25,7 @@ import me.yugy.cnbeta.widget.CircularProgressBar;
 /**
  * Created by yugy on 2014/9/6.
  */
-public class CommentsFragment extends Fragment{
+public class CommentsFragment extends BaseFragment {
 
     @InjectView(R.id.list) ListView mListView;
     @InjectView(R.id.loding_progress) CircularProgressBar mLoadingProgressBar;

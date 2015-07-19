@@ -14,6 +14,7 @@ import com.crashlytics.android.Crashlytics;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import me.yugy.app.common.BaseActivity;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.fragment.AllNewsFragment;
 import me.yugy.cnbeta.fragment.HotCommentsFragment;
@@ -21,7 +22,7 @@ import me.yugy.cnbeta.fragment.MenuFragment;
 import me.yugy.cnbeta.fragment.RecommendFragment;
 
 
-public class MainActivity extends ActionBarActivity implements MenuFragment.OnMenuSelectListener {
+public class MainActivity extends BaseActivity implements MenuFragment.OnMenuSelectListener {
 
     @InjectView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
 

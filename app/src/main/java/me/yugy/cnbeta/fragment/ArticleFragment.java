@@ -35,6 +35,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import me.yugy.app.common.BaseFragment;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.activity.CommentsActivity;
 import me.yugy.cnbeta.activity.ImageActivity;
@@ -59,7 +60,7 @@ import me.yugy.cnbeta.widget.SelectorImageView;
 /**
  * Created by yugy on 2014/8/31.
  */
-public class ArticleFragment extends Fragment {
+public class ArticleFragment extends BaseFragment {
 
     private static final String LOG_TAG = ArticleFragment.class.getName();
     private News mNews;

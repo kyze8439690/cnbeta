@@ -7,13 +7,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
+import me.yugy.app.common.BaseActivity;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.fragment.ArticleFragment;
 
 /**
  * Created by yugy on 14/10/25.
  */
-public class ArticleActivity extends ActionBarActivity{
+public class ArticleActivity extends BaseActivity{
 
     public static void launch(Context context, int sid, int type){
         Intent intent = new Intent(context, ArticleActivity.class);

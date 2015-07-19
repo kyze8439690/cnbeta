@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import me.yugy.app.common.BaseFragment;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.activity.ArticleActivity;
 import me.yugy.cnbeta.adapter.RecommendNewsAdapter;
@@ -35,7 +36,7 @@ import me.yugy.cnbeta.widget.PauseOnScrollListener2;
 /**
  * Created by yugy on 14/10/24.
  */
-public class RecommendFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class RecommendFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout mRefreshLayout;
     @InjectView(R.id.list) RecyclerView mRecyclerView;

@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import butterknife.ButterKnife;
+import me.yugy.app.common.BaseActivity;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.network.Volley;
 import me.yugy.cnbeta.fragment.CommentsFragment;
@@ -15,7 +16,7 @@ import me.yugy.cnbeta.fragment.CommentsFragment;
 /**
  * Created by gzyanghui on 2014/9/5.
  */
-public class CommentsActivity extends ActionBarActivity{
+public class CommentsActivity extends BaseActivity {
 
     public static void launch(Context context, int sid){
         Intent intent = new Intent(context, CommentsActivity.class);

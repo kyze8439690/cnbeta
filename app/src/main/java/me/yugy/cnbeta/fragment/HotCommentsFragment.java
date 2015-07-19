@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import me.yugy.app.common.BaseFragment;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.activity.ArticleActivity;
 import me.yugy.cnbeta.adapter.HotCommentsAdapter;
@@ -31,7 +32,7 @@ import me.yugy.cnbeta.network.CnBeta;
 /**
  * Created by yugy on 2014/9/6.
  */
-public class HotCommentsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class HotCommentsFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private HotCommentsAdapter mAdapter;
     private HotCommentsDataHelper mDataHelper;

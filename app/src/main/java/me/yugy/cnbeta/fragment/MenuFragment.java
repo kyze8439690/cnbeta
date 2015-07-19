@@ -12,13 +12,14 @@ import android.widget.ListView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
+import me.yugy.app.common.BaseFragment;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.adapter.MenuAdapter;
 
 /**
  * Created by yugy on 2014/8/30.
  */
-public class MenuFragment extends Fragment{
+public class MenuFragment extends BaseFragment {
 
     public static final int TYPE_ALL_NEWS = 0;
     public static final int TYPE_HOT_COMMENTS = 1;

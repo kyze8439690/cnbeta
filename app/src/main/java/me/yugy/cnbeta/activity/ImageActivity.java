@@ -44,6 +44,7 @@ import java.io.IOException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import me.yugy.app.common.BaseActivity;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.utils.FileUtils;
 import me.yugy.cnbeta.widget.CircularProgressDrawable;
@@ -52,7 +53,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 /**
  * Created by yugy on 14/10/25.
  */
-public class ImageActivity extends ActionBarActivity{
+public class ImageActivity extends BaseActivity {
 
     public static void launch(Context context, ImageDetail imageDetail){
         Intent intent = new Intent(context, ImageActivity.class);

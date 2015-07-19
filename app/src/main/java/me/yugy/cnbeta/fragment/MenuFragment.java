@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;

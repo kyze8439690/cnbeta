@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -26,6 +25,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.yugy.cnbeta.R;
+import me.yugy.cnbeta.activity.ArticleActivity;
 import me.yugy.cnbeta.adapter.RecommendNewsAdapter;
 import me.yugy.cnbeta.dao.datahelper.RecommendNewsDataHelper;
 import me.yugy.cnbeta.model.News;

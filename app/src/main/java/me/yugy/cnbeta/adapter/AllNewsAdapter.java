@@ -18,7 +18,7 @@ import butterknife.InjectView;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.dao.dbinfo.AllNewsDBInfo;
 import me.yugy.cnbeta.model.News;
-import me.yugy.cnbeta.ui.AllNewsFragment;
+import me.yugy.cnbeta.fragment.AllNewsFragment;
 import me.yugy.cnbeta.widget.CursorAdapter2;
 import me.yugy.cnbeta.widget.RelativeTimeTextView;
 

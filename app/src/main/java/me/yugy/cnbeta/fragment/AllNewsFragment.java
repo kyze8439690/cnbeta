@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,31 +25,32 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.yugy.cnbeta.R;
-import me.yugy.cnbeta.adapter.RealTimeNewsAdapter;
-import me.yugy.cnbeta.dao.datahelper.RealTimeNewsDataHelper;
-import me.yugy.cnbeta.dao.dbinfo.RealTimeNewsDBInfo;
-import me.yugy.cnbeta.model.RealTimeNews;
+import me.yugy.cnbeta.activity.ArticleActivity;
+import me.yugy.cnbeta.adapter.AllNewsAdapter;
+import me.yugy.cnbeta.dao.dbinfo.AllNewsDBInfo;
+import me.yugy.cnbeta.dao.datahelper.AllNewsDataHelper;
+import me.yugy.cnbeta.model.News;
 import me.yugy.cnbeta.network.CnBeta;
 import me.yugy.cnbeta.widget.PauseOnScrollListener2;
 
 /**
- * Created by yugy on 14/10/24.
+ * Created by yugy on 14/10/19.
  */
-public class RealtimeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class AllNewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     @InjectView(R.id.swipe_refresh_layout) SwipeRefreshLayout mRefreshLayout;
     @InjectView(R.id.list) RecyclerView mRecyclerView;
 
-    private RealTimeNewsDataHelper mDataHelper;
-    private RealTimeNewsAdapter mAdapter;
+    private AllNewsAdapter mAdapter;
+    private AllNewsDataHelper mDataHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mAdapter = new RealTimeNewsAdapter(this);
-        mDataHelper = new RealTimeNewsDataHelper();
-        getActivity().getSupportLoaderManager().initLoader(3, null, this);
+        mAdapter = new AllNewsAdapter(this);
+        mDataHelper = new AllNewsDataHelper();
+        getActivity().getSupportLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class RealtimeFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnScrollListener(new PauseOnScrollListener2(ImageLoader.getInstance(), true, true));
         mRefreshLayout.setColorSchemeResources(R.color.all_news_color);
@@ -78,6 +79,7 @@ public class RealtimeFragment extends Fragment implements LoaderManager.LoaderCa
      public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(mDataHelper.getCount() == 0){
+//            ((MainActivity)getActivity()).mRefreshButton.setRefresh(true);
             refresh();
         }
     }
@@ -94,22 +96,27 @@ public class RealtimeFragment extends Fragment implements LoaderManager.LoaderCa
             case R.id.action_refresh:
                 refresh();
                 return true;
+            case R.id.action_settings:
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     public void onNewsSelect(int sid){
-        ArticleActivity.launch(getActivity(), sid, ArticleFragment.NEWS_TYPE_REALTIME);
+
+        ArticleActivity.launch(getActivity(), sid, ArticleFragment.NEWS_TYPE_ALL_NEWS);
+
     }
 
     private void refresh() {
         if(!mRefreshLayout.isRefreshing()){
             mRefreshLayout.setRefreshing(true);
         }
-        CnBeta.getRealTimeNews(getActivity(), new Response.Listener<RealTimeNews[]>() {
+        CnBeta.getNews(getActivity(), CnBeta.TYPE_ALL, 0, new Response.Listener<News[]>() {
             @Override
-            public void onResponse(final RealTimeNews[] response) {
+            public void onResponse(final News[] response) {
                 if (response.length > 0) {
                     mDataHelper.bulkInsert(response);
                 }
@@ -131,7 +138,7 @@ public class RealtimeFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return mDataHelper.getCursorLoader(RealTimeNewsDBInfo.TIME + " DESC");
+        return mDataHelper.getCursorLoader(AllNewsDBInfo.SID + " DESC");
     }
 
     @Override

@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import me.yugy.cnbeta.ui.CommentsFragment;
+import me.yugy.cnbeta.fragment.CommentsFragment;
 
 /**
  * Created by yugy on 2014/9/6.

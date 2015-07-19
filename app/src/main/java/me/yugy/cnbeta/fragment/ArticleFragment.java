@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -36,6 +36,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import me.yugy.cnbeta.R;
+import me.yugy.cnbeta.activity.CommentsActivity;
+import me.yugy.cnbeta.activity.ImageActivity;
 import me.yugy.cnbeta.dao.datahelper.AllNewsDataHelper;
 import me.yugy.cnbeta.dao.datahelper.HotCommentsDataHelper;
 import me.yugy.cnbeta.dao.datahelper.NewsContentDataHelper;

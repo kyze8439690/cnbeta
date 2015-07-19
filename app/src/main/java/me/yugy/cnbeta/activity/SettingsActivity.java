@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;

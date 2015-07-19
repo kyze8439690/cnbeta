@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,8 +19,6 @@ import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.adapter.CommentsAdapter;
 import me.yugy.cnbeta.model.Comment;
 import me.yugy.cnbeta.network.CnBeta;
-import me.yugy.cnbeta.utils.UIUtils;
-import me.yugy.cnbeta.utils.VersionUtils;
 import me.yugy.cnbeta.widget.CircularProgressBar;
 
 /**

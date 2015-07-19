@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,6 +15,10 @@ import com.crashlytics.android.Crashlytics;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.yugy.cnbeta.R;
+import me.yugy.cnbeta.fragment.AllNewsFragment;
+import me.yugy.cnbeta.fragment.HotCommentsFragment;
+import me.yugy.cnbeta.fragment.MenuFragment;
+import me.yugy.cnbeta.fragment.RecommendFragment;
 
 
 public class MainActivity extends ActionBarActivity implements MenuFragment.OnMenuSelectListener {

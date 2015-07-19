@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/menu"
-        android:name="me.yugy.cnbeta.ui.MenuFragment"
+        android:name="me.yugy.cnbeta.fragment.MenuFragment"
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"

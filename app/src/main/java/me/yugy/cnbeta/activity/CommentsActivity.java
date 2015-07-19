@@ -1,29 +1,16 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.activity;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import com.android.volley.Response;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import me.yugy.cnbeta.R;
-import me.yugy.cnbeta.adapter.CommentsAdapter;
-import me.yugy.cnbeta.adapter.CommentsPagerAdapter;
-import me.yugy.cnbeta.model.Comment;
-import me.yugy.cnbeta.model.Comments;
-import me.yugy.cnbeta.model.NewsContent;
 import me.yugy.cnbeta.network.Volley;
-import me.yugy.cnbeta.network.CnBeta;
-import me.yugy.cnbeta.widget.PagerSlidingTabStrip;
+import me.yugy.cnbeta.fragment.CommentsFragment;
 
 /**
  * Created by gzyanghui on 2014/9/5.

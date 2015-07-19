@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import me.yugy.cnbeta.R;
+import me.yugy.cnbeta.fragment.ArticleFragment;
 
 /**
  * Created by yugy on 14/10/25.

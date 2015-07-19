@@ -1,6 +1,5 @@
-package me.yugy.cnbeta.ui;
+package me.yugy.cnbeta.activity;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.Menu;
@@ -42,7 +39,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import butterknife.ButterKnife;

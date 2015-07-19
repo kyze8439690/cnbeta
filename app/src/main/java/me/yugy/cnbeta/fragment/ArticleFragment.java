@@ -34,7 +34,9 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import me.yugy.app.common.BaseFragment;
+import me.yugy.app.common.core.BaseFragment;
+import me.yugy.app.common.utils.UIUtils;
+import me.yugy.app.common.widget.SelectorImageView;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.activity.CommentsActivity;
 import me.yugy.cnbeta.activity.ImageActivity;
@@ -48,13 +50,11 @@ import me.yugy.cnbeta.model.News;
 import me.yugy.cnbeta.model.NewsContent;
 import me.yugy.cnbeta.model.RealTimeNews;
 import me.yugy.cnbeta.network.CnBeta;
-import me.yugy.cnbeta.utils.UIUtils;
-import me.yugy.cnbeta.widget.AlphaForegroundColorSpan;
+import me.yugy.cnbeta.view.AlphaForegroundColorSpan;
 import me.yugy.cnbeta.widget.CircularProgressBar;
 import me.yugy.cnbeta.widget.FloatingActionButton;
 import me.yugy.cnbeta.widget.NotifyScrollView;
 import me.yugy.cnbeta.widget.RelativeTimeTextView;
-import me.yugy.cnbeta.widget.SelectorImageView;
 
 /**
  * Created by yugy on 2014/8/31.
@@ -384,7 +384,7 @@ public class ArticleFragment extends BaseFragment {
             MenuItem item = menu.findItem(R.id.loading_progress);
             View actionView = LayoutInflater.from(getActivity()).inflate(R.layout.view_article_loading_progress, null);
             mLoadingProgressBar = (CircularProgressBar) actionView.findViewById(R.id.progress);
-            int size = UIUtils.dp2px(getActivity(), 48);
+            int size = UIUtils.dp(getActivity(), 48);
             actionView.setLayoutParams(new ViewGroup.LayoutParams(size, size));
             MenuItemCompat.setActionView(item, actionView);
             mLoadingProgressBar.setIndeterminate(true);
@@ -415,7 +415,9 @@ public class ArticleFragment extends BaseFragment {
     }
 
     private SelectorImageView getNewImageView(){
-        return (SelectorImageView) LayoutInflater.from(getActivity()).inflate(
+        SelectorImageView image = (SelectorImageView) LayoutInflater.from(getActivity()).inflate(
                 R.layout.view_article_image_piece, mContainer, false);
+        image.setSelectorDrawable(R.drawable.selector);
+        return image;
     }
 }

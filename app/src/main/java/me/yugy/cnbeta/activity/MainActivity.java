@@ -13,7 +13,7 @@ import com.crashlytics.android.Crashlytics;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import me.yugy.app.common.BaseActivity;
+import me.yugy.app.common.core.BaseActivity;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.fragment.AllNewsFragment;
 import me.yugy.cnbeta.fragment.HotCommentsFragment;

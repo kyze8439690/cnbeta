@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.utils;
+package me.yugy.app.common.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by yugy on 14/10/26.
- */
 public class FileUtils {
 
     public static void copy(File src, File dst) throws IOException {

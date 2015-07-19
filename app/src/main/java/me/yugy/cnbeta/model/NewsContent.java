@@ -4,8 +4,8 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import me.yugy.app.common.utils.TextUtils;
 import me.yugy.cnbeta.dao.dbinfo.NewsContentDBInfo;
-import me.yugy.cnbeta.utils.TextUtils;
 
 /**
  * Created by yugy on 2014/8/31.

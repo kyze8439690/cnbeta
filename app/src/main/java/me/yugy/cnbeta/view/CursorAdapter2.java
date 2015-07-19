@@ -1,4 +1,4 @@
-package me.yugy.cnbeta.widget;
+package me.yugy.cnbeta.view;
 
 import android.content.Context;
 import android.database.ContentObserver;

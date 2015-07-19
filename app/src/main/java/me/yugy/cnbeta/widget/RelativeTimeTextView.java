@@ -9,8 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import me.yugy.cnbeta.utils.TextUtils;
-
+import me.yugy.app.common.utils.TextUtils;
 
 /**
  * A {@code TextView} that, given a reference time, renders that time as a time period relative to the current time.

@@ -12,7 +12,7 @@ import butterknife.InjectView;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.model.HotComment;
 import me.yugy.cnbeta.fragment.HotCommentsFragment;
-import me.yugy.cnbeta.widget.CursorAdapter2;
+import me.yugy.cnbeta.view.CursorAdapter2;
 import me.yugy.cnbeta.widget.RelativeTimeTextView;
 
 /**

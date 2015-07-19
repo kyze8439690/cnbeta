@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import me.yugy.app.common.BaseActivity;
+import me.yugy.app.common.core.BaseActivity;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.fragment.ArticleFragment;
 

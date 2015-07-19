@@ -4,13 +4,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
+import me.yugy.app.common.utils.TextUtils;
 import me.yugy.cnbeta.Application;
 import me.yugy.cnbeta.dao.BaseDataHelper;
 import me.yugy.cnbeta.dao.DataProvider;
 import me.yugy.cnbeta.dao.dbinfo.AllNewsDBInfo;
 import me.yugy.cnbeta.dao.dbinfo.NewsContentDBInfo;
 import me.yugy.cnbeta.model.NewsContent;
-import me.yugy.cnbeta.utils.TextUtils;
 
 /**
  * Created by gzyanghui on 2014/9/5.

@@ -43,9 +43,9 @@ import java.io.IOException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import me.yugy.app.common.BaseActivity;
+import me.yugy.app.common.core.BaseActivity;
+import me.yugy.app.common.utils.FileUtils;
 import me.yugy.cnbeta.R;
-import me.yugy.cnbeta.utils.FileUtils;
 import me.yugy.cnbeta.widget.CircularProgressDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -264,10 +264,12 @@ public class ImageActivity extends BaseActivity {
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
                             ImageActivity.super.finish();
+                            overridePendingTransition(0, 0);
                         }
                     });
         }else{
             super.finish();
+            overridePendingTransition(0, 0);
         }
     }
 

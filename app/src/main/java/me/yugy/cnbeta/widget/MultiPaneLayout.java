@@ -17,9 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nineoldandroids.view.ViewHelper;
-
-import me.yugy.cnbeta.utils.MathUtils;
+import me.yugy.app.common.utils.MathUtils;
 
 /**
  * Created by yugy on 14/10/19.

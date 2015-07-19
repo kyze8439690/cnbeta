@@ -1,4 +1,4 @@
-package me.yugy.app.common;
+package me.yugy.app.common.core;
 
 import android.support.v4.app.Fragment;
 

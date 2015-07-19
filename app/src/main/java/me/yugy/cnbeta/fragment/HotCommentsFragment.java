@@ -3,7 +3,6 @@ package me.yugy.cnbeta.fragment;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,7 +19,7 @@ import com.android.volley.VolleyError;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import me.yugy.app.common.BaseFragment;
+import me.yugy.app.common.core.BaseFragment;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.activity.ArticleActivity;
 import me.yugy.cnbeta.adapter.HotCommentsAdapter;

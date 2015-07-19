@@ -1,4 +1,4 @@
-package me.yugy.app.common;
+package me.yugy.app.common.core;
 
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;

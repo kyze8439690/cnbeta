@@ -1,8 +1,8 @@
 package me.yugy.cnbeta.dao.dbinfo;
 
+import me.yugy.app.common.database.Column;
+import me.yugy.app.common.database.SQLiteTable;
 import me.yugy.cnbeta.dao.datahelper.NewsContentDataHelper;
-import me.yugy.cnbeta.utils.database.Column;
-import me.yugy.cnbeta.utils.database.SQLiteTable;
 
 /**
  * Created by gzyanghui on 2014/9/5.

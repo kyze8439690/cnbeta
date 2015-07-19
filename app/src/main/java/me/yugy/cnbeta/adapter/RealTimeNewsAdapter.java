@@ -19,7 +19,7 @@ import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.dao.dbinfo.RealTimeNewsDBInfo;
 import me.yugy.cnbeta.model.RealTimeNews;
 import me.yugy.cnbeta.fragment.RealtimeFragment;
-import me.yugy.cnbeta.widget.CursorAdapter2;
+import me.yugy.cnbeta.view.CursorAdapter2;
 import me.yugy.cnbeta.widget.RelativeTimeTextView;
 
 /**

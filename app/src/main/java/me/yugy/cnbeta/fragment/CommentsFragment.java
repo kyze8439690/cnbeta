@@ -2,7 +2,6 @@ package me.yugy.cnbeta.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import com.android.volley.VolleyError;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import me.yugy.app.common.BaseFragment;
+import me.yugy.app.common.core.BaseFragment;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.adapter.CommentsAdapter;
 import me.yugy.cnbeta.model.Comment;

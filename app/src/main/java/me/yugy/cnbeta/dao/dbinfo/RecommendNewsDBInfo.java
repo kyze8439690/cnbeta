@@ -2,9 +2,9 @@ package me.yugy.cnbeta.dao.dbinfo;
 
 import android.provider.BaseColumns;
 
+import me.yugy.app.common.database.Column;
+import me.yugy.app.common.database.SQLiteTable;
 import me.yugy.cnbeta.dao.datahelper.RecommendNewsDataHelper;
-import me.yugy.cnbeta.utils.database.Column;
-import me.yugy.cnbeta.utils.database.SQLiteTable;
 
 /**
  * Created by yugy on 2014/7/3.

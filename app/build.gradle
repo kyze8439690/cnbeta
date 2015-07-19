@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.16.0'
     }
 }
 apply plugin: 'com.android.application'
@@ -16,19 +16,19 @@ repositories {
 
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.0"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "me.yugy.cnbeta"
         minSdkVersion 10
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
         release {
-            runProguard true
+            minifyEnabled true
             proguardFiles 'proguard-rules.pro'
         }
     }
@@ -37,11 +37,11 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':volley')
-    compile 'com.android.support:appcompat-v7:21.0.0'
-    compile 'com.android.support:cardview-v7:21.0.0'
-    compile 'com.android.support:recyclerview-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.jakewharton:butterknife:5.1.2'
-    compile 'com.crashlytics.android:crashlytics:1.+'
+    compile 'com.crashlytics.android:crashlytics:1.1.13'
     compile 'org.jsoup:jsoup:1.7.3'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'

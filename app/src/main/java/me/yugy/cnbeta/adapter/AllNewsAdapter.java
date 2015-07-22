@@ -107,7 +107,6 @@ public class AllNewsAdapter extends CursorAdapter2<AllNewsAdapter.BaseViewHolder
         @InjectView(R.id.image) ImageView image;
         @InjectView(R.id.title) TextView title;
         @InjectView(R.id.time) RelativeTimeTextView time;
-        @InjectView(R.id.desc) TextView desc;
 
         private int sid;
 
@@ -129,7 +128,6 @@ public class AllNewsAdapter extends CursorAdapter2<AllNewsAdapter.BaseViewHolder
                 title.setTextColor(Color.WHITE);
             }
             title.setText(news.title);
-            desc.setText(news.summary);
             time.setReferenceTime(news.time);
 
             image.setImageResource(R.color.default_loading_color);

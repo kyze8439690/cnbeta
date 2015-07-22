@@ -53,7 +53,7 @@ import me.yugy.cnbeta.model.RealTimeNews;
 import me.yugy.cnbeta.network.CnBeta;
 import me.yugy.cnbeta.widget.CircularProgressBar;
 import me.yugy.cnbeta.widget.FloatingActionButton;
-import me.yugy.cnbeta.widget.NotifyScrollView;
+import me.yugy.app.common.widget.NotifyScrollView;
 import me.yugy.cnbeta.widget.RelativeTimeTextView;
 
 /**
@@ -102,6 +102,7 @@ public class ArticleFragment extends BaseFragment {
 
         int sid = getArguments().getInt("sid");
         int type = getArguments().getInt("type");
+
         switch (type){
             case NEWS_TYPE_ALL_NEWS:
                 mNews = new AllNewsDataHelper().select(sid);

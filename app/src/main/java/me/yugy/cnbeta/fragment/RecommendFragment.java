@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -24,6 +27,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.yugy.app.common.core.BaseFragment;
+import me.yugy.app.common.view.DividerItemDecoration;
 import me.yugy.app.common.view.PauseOnScrollListener2;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.activity.ArticleActivity;
@@ -56,13 +60,17 @@ public class RecommendFragment extends BaseFragment implements LoaderManager.Loa
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
         ButterKnife.inject(this, view);
+        mRecyclerView.setPadding(0, 0, 0, 0);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(
+//                ResourcesCompat.getDrawable(getResources(), R.drawable.news_list_divider,
+//                        getActivity().getTheme())));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(new PauseOnScrollListener2(ImageLoader.getInstance(), true, true));
         mRefreshLayout.setColorSchemeResources(R.color.all_news_color);

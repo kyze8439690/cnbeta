@@ -1,13 +1,11 @@
 package me.yugy.cnbeta.activity;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Gravity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -17,17 +15,15 @@ import me.yugy.app.common.core.BaseActivity;
 import me.yugy.cnbeta.R;
 import me.yugy.cnbeta.fragment.AllNewsFragment;
 import me.yugy.cnbeta.fragment.HotCommentsFragment;
-import me.yugy.cnbeta.fragment.MenuFragment;
 import me.yugy.cnbeta.fragment.RecommendFragment;
+import me.yugy.cnbeta.widget.TitleFlipperView;
 
 
-public class MainActivity extends BaseActivity implements MenuFragment.OnMenuSelectListener {
+public class MainActivity extends BaseActivity {
 
-    @InjectView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-
-    private ActionBarDrawerToggle mDrawerToggle;
-    private String mTitle;
-    private int mType;
+    @InjectView(R.id.pager) ViewPager mPager;
+    @InjectView(R.id.toolbar) Toolbar mToolbar;
+    @InjectView(R.id.title_flipper) TitleFlipperView mTitleFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,61 +32,16 @@ public class MainActivity extends BaseActivity implements MenuFragment.OnMenuSel
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, 0, 0){
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle(R.string.app_name);
-            }
+        setSupportActionBar(mToolbar);
 
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                getSupportActionBar().setTitle(mTitle);
-            }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new AllNewsFragment())
-                    .commit();
-            mTitle = getResources().getStringArray(R.array.toolbar_spinner_entries)[0];
-            mType = 0;
-            getSupportActionBar().setTitle(mTitle);
-        }else{
-            mTitle = savedInstanceState.getString("subject");
-            mType = savedInstanceState.getInt("type");
-        }
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        mPager.setAdapter(new MainFragmentAdapter());
+        mPager.setOffscreenPageLimit(3);
+        mTitleFlipper.setViewPager(mPager);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(mDrawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }else if(item.getItemId() == R.id.action_settings){
+        if(item.getItemId() == R.id.action_settings){
             SettingsActivity.launch(this);
             return true;
         }else {
@@ -98,35 +49,42 @@ public class MainActivity extends BaseActivity implements MenuFragment.OnMenuSel
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("subject", mTitle);
-        outState.putInt("type", mType);
-    }
-
-    @Override
-    public void onMenuSelect(int type) {
-        if(mType != type) {
-            mType = type;
-            mTitle = getResources().getStringArray(R.array.toolbar_spinner_entries)[type];
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            switch (type) {
-                case MenuFragment.TYPE_ALL_NEWS:
-                    ft.replace(R.id.container, new AllNewsFragment())
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    break;
-                case MenuFragment.TYPE_HOT_COMMENTS:
-                    ft.replace(R.id.container, new HotCommentsFragment())
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    break;
-                case MenuFragment.TYPE_RECOMMEND:
-                    ft.replace(R.id.container, new RecommendFragment())
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    break;
-            }
-            ft.commit();
+    private class MainFragmentAdapter extends FragmentPagerAdapter {
+        public MainFragmentAdapter() {
+            super(MainActivity.this.getSupportFragmentManager());
         }
-        mDrawerLayout.closeDrawer(Gravity.LEFT);
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new AllNewsFragment();
+                case 1:
+                    return new RecommendFragment();
+                case 2:
+                    return new HotCommentsFragment();
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getString(R.string.all_news);
+                case 1:
+                    return getString(R.string.recommend_news);
+                case 2:
+                    return getString(R.string.hot_comments);
+                default:
+                    return null;
+            }
+        }
     }
 }

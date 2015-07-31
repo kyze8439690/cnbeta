@@ -13,7 +13,7 @@ import me.yugy.cnbeta.network.Volley;
 import me.yugy.cnbeta.fragment.CommentsFragment;
 
 /**
- * Created by gzyanghui on 2014/9/5.
+ * Created by yugy on 2014/9/5.
  */
 public class CommentsActivity extends BaseActivity {
 

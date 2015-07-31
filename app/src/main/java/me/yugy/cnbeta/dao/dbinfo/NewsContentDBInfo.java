@@ -5,7 +5,7 @@ import me.yugy.app.common.database.SQLiteTable;
 import me.yugy.cnbeta.dao.datahelper.NewsContentDataHelper;
 
 /**
- * Created by gzyanghui on 2014/9/5.
+ * Created by yugy on 2014/9/5.
  */
 public class NewsContentDBInfo {
 

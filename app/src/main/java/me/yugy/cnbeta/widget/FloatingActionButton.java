@@ -11,7 +11,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /**
- * Created by gzyanghui on 2014/9/4.
+ * Created by yugy on 2014/9/4.
  */
 public class FloatingActionButton extends ImageButton {
     public FloatingActionButton(Context context) {

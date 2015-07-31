@@ -13,7 +13,7 @@ import me.yugy.cnbeta.dao.dbinfo.NewsContentDBInfo;
 import me.yugy.cnbeta.model.NewsContent;
 
 /**
- * Created by gzyanghui on 2014/9/5.
+ * Created by yugy on 2014/9/5.
  */
 public class NewsContentDataHelper extends BaseDataHelper {
 
